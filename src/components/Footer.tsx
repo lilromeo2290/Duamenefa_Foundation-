@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 
 const quickLinks: { label: string; page: PageName }[] = [
+  { label: 'About Us', page: 'about' },
   { label: 'Who We Are', page: 'about' },
   { label: 'Forms', page: 'forms' },
   { label: 'Newsletters', page: 'newsletters' },
@@ -114,7 +115,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
-                <li key={link.page}>
+                <li key={link.label}>
                   <button
                     onClick={() => navigateTo(link.page)}
                     className="text-white/70 hover:text-[#D4AF37] text-sm transition-colors duration-200 flex items-center gap-2"
