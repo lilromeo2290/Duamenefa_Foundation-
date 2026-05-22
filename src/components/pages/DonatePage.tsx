@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import {
   Heart,
-  Child,
+  Baby,
   ShieldCheck,
   GraduationCap,
   HandHeart,
@@ -30,14 +30,14 @@ const donationAmounts = [25, 50, 100, 250, 500];
 
 const impactItems = [
   { amount: 25, icon: <BookOpen className="h-5 w-5" />, description: 'Provides school supplies for one child for an entire year', color: 'text-[#4C9A2A]' },
-  { amount: 50, icon: <Child className="h-5 w-5" />, description: 'Covers counseling sessions for a child rescued from abuse', color: 'text-[#0B3C5D]' },
+  { amount: 50, icon: <Baby className="h-5 w-5" />, description: 'Covers counseling sessions for a child rescued from abuse', color: 'text-[#0B3C5D]' },
   { amount: 100, icon: <ShieldCheck className="h-5 w-5" />, description: 'Funds a community mediation session for conflict resolution', color: 'text-[#6B4F3A]' },
   { amount: 250, icon: <GraduationCap className="h-5 w-5" />, description: 'Sponsors vocational training for one liberated individual', color: 'text-[#D4AF37]' },
   { amount: 500, icon: <HandHeart className="h-5 w-5" />, description: 'Supports a full peace intervention in a conflict community', color: 'text-[#4C9A2A]' },
 ];
 
 const donationCategories = [
-  { icon: <Child className="h-6 w-6" />, title: 'Sponsor a Child', description: 'Provide education, meals, and protection for a vulnerable child', color: 'bg-[#0B3C5D]' },
+  { icon: <Baby className="h-6 w-6" />, title: 'Sponsor a Child', description: 'Provide education, meals, and protection for a vulnerable child', color: 'bg-[#0B3C5D]' },
   { icon: <ShieldCheck className="h-6 w-6" />, title: 'Support Peace Campaigns', description: 'Fund community mediation and peace-building initiatives', color: 'bg-[#D4AF37]' },
   { icon: <GraduationCap className="h-6 w-6" />, title: 'Fund Education', description: 'Provide scholarships and learning materials for students', color: 'bg-[#4C9A2A]' },
   { icon: <Heart className="h-6 w-6" />, title: 'Support Rehabilitation', description: 'Help liberated individuals rebuild their lives with dignity', color: 'bg-[#6B4F3A]' },

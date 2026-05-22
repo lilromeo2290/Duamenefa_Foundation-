@@ -19,7 +19,7 @@ import {
   Megaphone,
   Languages,
   ShieldCheck,
-  Child,
+  Baby,
   Users,
   Radio,
   Building,
@@ -43,7 +43,7 @@ const skills = [
 
 const interestAreas = [
   { id: 'peace', label: 'Peace Building', icon: <ShieldCheck className="h-4 w-4" /> },
-  { id: 'child', label: 'Child Advocacy', icon: <Child className="h-4 w-4" /> },
+  { id: 'child', label: 'Child Advocacy', icon: <Baby className="h-4 w-4" /> },
   { id: 'education', label: 'Education', icon: <GraduationCap className="h-4 w-4" /> },
   { id: 'outreach', label: 'Community Outreach', icon: <Users className="h-4 w-4" /> },
   { id: 'media', label: 'Media & Broadcasting', icon: <Radio className="h-4 w-4" /> },
