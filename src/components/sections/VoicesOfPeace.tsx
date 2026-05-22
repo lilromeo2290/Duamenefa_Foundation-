@@ -24,9 +24,12 @@ const testimonials = [
 ];
 
 const radioPrograms = [
-  { title: "Peace & Reconciliation Hour", station: "Fafaa 100.3 FM", day: "Sunday", time: "7:00 - 10:00 PM" },
-  { title: "Justice & Human Rights", station: "Justice FM 98.5", day: "Tuesday", time: "11:00 AM - 2:00 PM" },
-  { title: "Community Dialogue", station: "Swiss FM 93.7", day: "Thursday", time: "11:00 AM - 2:00 PM" },
+  { title: "Who is a Christian (Amekae nye Kristotor)", station: "Fafaa 100.3 FM", time: "Sundays 5:00AM - 6:00AM" },
+  { title: "Peace & Reconciliation Hour (Duamenefa)", station: "Fafaa 100.3 FM", time: "Sundays 7:00PM - 10:00PM" },
+  { title: "Book Reading", station: "Fafaa 100.3 FM", time: "Mondays 8:30PM - 9:30PM" },
+  { title: "Intercession Prayer", station: "Fafaa 100.3 FM", time: "1st & 3rd Mondays 10:00PM - 1:00AM" },
+  { title: "Senior Citizens Corner (Tsitsawofegbe)", station: "Fafaa 100.3 FM", time: "Fridays 8:00PM - 9:30PM" },
+  { title: "Peaceful Home (Afeamenefa)", station: "Fafaa 100.3 FM", time: "Saturdays 7:00PM - 10:00PM" },
 ];
 
 export default function VoicesOfPeace() {
@@ -112,7 +115,7 @@ export default function VoicesOfPeace() {
                   {isPlaying ? 'Now Playing' : 'Listen Live'}
                 </p>
                 <p className="text-white/50 text-xs">
-                  Fafaa 100.3 FM — Peace & Reconciliation Hour
+                  Fafaa 100.3 FM — Peace & Reconciliation Hour (Duamenefa)
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -134,7 +137,7 @@ export default function VoicesOfPeace() {
                   <div>
                     <p className="text-sm font-medium">{program.title}</p>
                     <p className="text-xs text-white/50">
-                      {program.station} • {program.day} {program.time}
+                      {program.station} • {program.time}
                     </p>
                   </div>
                   <Play className="h-4 w-4 text-[#D4AF37]" />
