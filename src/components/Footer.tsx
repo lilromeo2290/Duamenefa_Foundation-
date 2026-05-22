@@ -19,11 +19,10 @@ import {
 
 const quickLinks: { label: string; page: PageName }[] = [
   { label: 'About Us', page: 'about' },
-  { label: 'Our Programs', page: 'programs' },
-  { label: 'Success Stories', page: 'stories' },
-  { label: 'Media Center', page: 'media' },
-  { label: 'Volunteer', page: 'volunteer' },
-  { label: 'Latest News', page: 'news' },
+  { label: 'Forms', page: 'forms' },
+  { label: 'Newsletters', page: 'newsletters' },
+  { label: 'Reporters', page: 'reporters' },
+  { label: 'Activities', page: 'activities' },
   { label: 'Contact Us', page: 'contact' },
 ];
 
@@ -44,7 +43,7 @@ export default function Footer() {
             </p>
           </div>
           <Button
-            onClick={() => navigateTo('donate')}
+            onClick={() => navigateTo('forms')}
             className="bg-[#0B3C5D] hover:bg-[#0a2e47] text-white font-semibold px-8 py-3 text-lg shrink-0"
           >
             <Heart className="h-5 w-5 mr-2" />

@@ -7,14 +7,12 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/s
 import { Menu, Heart, Phone } from 'lucide-react';
 
 const navItems: { label: string; page: PageName }[] = [
-  { label: 'Home', page: 'home' },
-  { label: 'About', page: 'about' },
-  { label: 'Programs', page: 'programs' },
-  { label: 'Media', page: 'media' },
-  { label: 'Stories', page: 'stories' },
-  { label: 'Volunteer', page: 'volunteer' },
-  { label: 'News', page: 'news' },
-  { label: 'Contact', page: 'contact' },
+  { label: 'About Us', page: 'about' },
+  { label: 'Forms', page: 'forms' },
+  { label: 'Newsletters', page: 'newsletters' },
+  { label: 'Reporters', page: 'reporters' },
+  { label: 'Activities', page: 'activities' },
+  { label: 'Contact Us', page: 'contact' },
 ];
 
 export default function Navigation() {
@@ -105,7 +103,7 @@ export default function Navigation() {
           {/* CTA + Mobile */}
           <div className="flex items-center gap-3">
             <Button
-              onClick={() => handleNav('donate')}
+              onClick={() => handleNav('forms')}
               className="hidden md:flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-5"
             >
               <Heart className="h-4 w-4" />
@@ -159,7 +157,7 @@ export default function Navigation() {
                   </div>
                   <div className="p-6 border-t border-white/10">
                     <Button
-                      onClick={() => handleNav('donate')}
+                      onClick={() => handleNav('forms')}
                       className="w-full bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold"
                     >
                       <Heart className="h-4 w-4 mr-2" />

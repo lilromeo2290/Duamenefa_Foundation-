@@ -8,13 +8,17 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import HomePage from '@/components/pages/HomePage';
 import AboutPage from '@/components/pages/AboutPage';
+import FormsPage from '@/components/pages/FormsPage';
+import NewslettersPage from '@/components/pages/NewslettersPage';
+import ReportersPage from '@/components/pages/ReportersPage';
+import ActivitiesPage from '@/components/pages/ActivitiesPage';
+import ContactPage from '@/components/pages/ContactPage';
 import ProgramsPage from '@/components/pages/ProgramsPage';
 import MediaPage from '@/components/pages/MediaPage';
 import StoriesPage from '@/components/pages/StoriesPage';
 import DonatePage from '@/components/pages/DonatePage';
 import VolunteerPage from '@/components/pages/VolunteerPage';
 import NewsPage from '@/components/pages/NewsPage';
-import ContactPage from '@/components/pages/ContactPage';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function PageContent() {
@@ -23,13 +27,17 @@ function PageContent() {
   const pages: Record<string, React.ReactNode> = {
     home: <HomePage />,
     about: <AboutPage />,
+    forms: <FormsPage />,
+    newsletters: <NewslettersPage />,
+    reporters: <ReportersPage />,
+    activities: <ActivitiesPage />,
+    contact: <ContactPage />,
     programs: <ProgramsPage />,
     media: <MediaPage />,
     stories: <StoriesPage />,
     donate: <DonatePage />,
     volunteer: <VolunteerPage />,
     news: <NewsPage />,
-    contact: <ContactPage />,
   };
 
   return (

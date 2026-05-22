@@ -5,13 +5,17 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 export type PageName =
   | 'home'
   | 'about'
+  | 'forms'
+  | 'newsletters'
+  | 'reporters'
+  | 'activities'
+  | 'contact'
   | 'programs'
   | 'media'
   | 'stories'
   | 'donate'
   | 'volunteer'
-  | 'news'
-  | 'contact';
+  | 'news';
 
 interface PageContextType {
   currentPage: PageName;
