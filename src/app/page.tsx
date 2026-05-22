@@ -17,6 +17,9 @@ import CosthetaPage from '@/components/pages/CosthetaPage';
 import NewslettersPage from '@/components/pages/NewslettersPage';
 import ReportersPage from '@/components/pages/ReportersPage';
 import ActivitiesPage from '@/components/pages/ActivitiesPage';
+import RegionalTournamentsPage from '@/components/pages/RegionalTournamentsPage';
+import TrokosiPage from '@/components/pages/TrokosiPage';
+import VocationalSchoolPage from '@/components/pages/VocationalSchoolPage';
 import ContactPage from '@/components/pages/ContactPage';
 import ProgramsPage from '@/components/pages/ProgramsPage';
 import MediaPage from '@/components/pages/MediaPage';
@@ -41,6 +44,9 @@ function PageContent() {
     newsletters: <NewslettersPage />,
     reporters: <ReportersPage />,
     activities: <ActivitiesPage />,
+    tournaments: <RegionalTournamentsPage />,
+    trokosi: <TrokosiPage />,
+    vocationalschool: <VocationalSchoolPage />,
     contact: <ContactPage />,
     programs: <ProgramsPage />,
     media: <MediaPage />,

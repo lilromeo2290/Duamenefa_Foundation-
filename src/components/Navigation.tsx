@@ -29,7 +29,12 @@ const navItems: NavItem[] = [
   },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
-  { label: 'Activities', page: 'activities' },
+  { label: 'Activities', page: 'activities', children: [
+      { label: 'Regional Tournaments', page: 'tournaments' },
+      { label: 'Trokosi', page: 'trokosi' },
+      { label: 'Vocational School', page: 'vocationalschool' },
+    ],
+  },
   { label: 'Contact Us', page: 'contact' },
 ];
 
