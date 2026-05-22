@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Heart,
   Eye,
@@ -19,16 +18,12 @@ import {
   Radio,
   Quote,
   Award,
-  ArrowRight,
   MapPin,
   Unlock,
   ShieldCheck,
   GraduationCap,
-  Wrench,
-  MessageCircle,
   Sparkles,
   Baby,
-  Stethoscope,
   Trophy,
   BookOpen,
   Globe,
@@ -37,7 +32,6 @@ import {
   Accessibility,
   Gamepad2,
   Hospital,
-  Stethoscope as Medical,
   ChevronLeft,
   ChevronRight,
   CheckCircle,
@@ -46,6 +40,17 @@ import {
   Megaphone,
   Calendar,
   Clock,
+  FileText,
+  HelpCircle,
+  Landmark,
+  Gavel,
+  Cross,
+  Microscope,
+  Handshake,
+  Stethoscope,
+  Building2,
+  Lightbulb,
+  BookMarked,
 } from 'lucide-react';
 
 const coreValues = [
@@ -95,9 +100,10 @@ const operations = [
     id: 'tournament',
     icon: <Trophy className="h-6 w-6" />,
     title: 'Duamenefa Regional Tournament',
-    description: 'Uncovering the hidden talents of the youth through sports. Since 2017, the Duamenefa Super Gala and Marathon has grown from 46 teams to 115 football clubs in 2023, earning the title "The Olympics of the Volta Region." Over 30,000 spectators and 100+ chiefs attended the grand finale. The tournament is on the national sports calendar as a Regional Tournament by the National Sports Authority.',
+    subtitle: 'Uncovering the hidden talents of the youth through sports',
+    description: 'The Duamenefa Foundation in collaboration with its radio the Fafaa 100.3 FM and several other stations throughout the Volta Region, each year since 2017, broadcast live, a large football tournament aptly named, The Duamenefa Super Gala and Marathon. The first year, 46 teams and 71 athletes registered to compete. It was such a huge success, that in 2018, 77 football clubs and 77 athletes competed. The Regional Director of Sports declared his unwavering support and put the Duamenefa Super Gala and Marathon on the national sports calendar as a Regional Tournament. In 2019, dubbed "The Olympics of the Volta Region," 104 football clubs registered. Over 30,000 spectators, more than 100 chiefs, and many pastors attended the grand finale. In 2023, 115 football clubs competed, and in 2024, 38 clubs under 17, 10 volleyball teams, 60 marathon athletes, and six women\'s tug of "peace" teams competed.',
     stats: [
-      { label: 'Football Clubs (2023)', value: '115' },
+      { label: 'Clubs (2023)', value: '115' },
       { label: 'Youth Participants', value: '3,200+' },
       { label: 'Spectators at Finale', value: '30,000+' },
     ],
@@ -108,37 +114,68 @@ const operations = [
     id: 'education',
     icon: <GraduationCap className="h-6 w-6" />,
     title: 'Educational Support',
-    description: 'The Costheta Educational Support Fund helps brilliant students who are stifled in their education due to lack of funds. Each year, 20+ students entering universities receive one-time gifts for food, accommodations, and books. In 2025, 22 students were awarded, many receiving laptop computers. Thus far, 102 students have been awarded since inception. Duamenefa has also partnered with Rutgers University, New Jersey, USA to provide scholarships for master\'s and PhD programs.',
+    subtitle: 'The Costheta Educational Support Fund',
+    description: 'Many brilliant students with good characters are stifled in their education due to the lack of funds. The Costheta Educational Support fund helps 20 such students each year who are entering the universities to get a bit of help with a one-time gift for the extras needed for college life; food, accommodations, books, etc. In 2025, 22 students were awarded with many receiving gifts of laptop computers and more. Thus far 102 students have been awarded since its inception.',
     stats: [
       { label: 'Students Awarded', value: '102' },
+      { label: 'Awards in 2025', value: '22' },
       { label: 'Laptops Donated', value: '22+' },
-      { label: 'University Partners', value: '1 (Rutgers)' },
     ],
     image: '/children-education.jpg',
     color: 'bg-[#4C9A2A]',
   },
   {
+    id: 'study-abroad',
+    icon: <Globe className="h-6 w-6" />,
+    title: 'Duamenefa Educational Study Abroad',
+    subtitle: 'International academic opportunities',
+    description: 'Duamenefa Foundation and Rutgers University, New Jersey, USA have partnered to provide various scholarships for those eligible Duamenefa members or their wards who have obtained their first degree, and are seeking further education to master\'s or PhD. This partnership opens doors for Ghanaian scholars to access world-class education and return to contribute to their communities.',
+    stats: [
+      { label: 'University Partner', value: 'Rutgers' },
+      { label: 'Programs', value: 'MSc & PhD' },
+      { label: 'Location', value: 'USA' },
+    ],
+    image: '/duamenafa-27.jpg',
+    color: 'bg-[#0B3C5D]',
+  },
+  {
     id: 'single-parents',
     icon: <HeartHandshake className="h-6 w-6" />,
     title: 'Single Parents Empowerment',
-    description: 'Whether single due to death of a spouse, abandonment, divorce, or sin, the Duamenefa Foundation in collaboration with Treasure of His Eyes (UK-based NGO) supplies vocationally-trained single parents with equipment to become financially self-sufficient. Over 105 single parents have received equipment. The Skills Empowerment Training program includes Batik/Tie and Dye, Tailoring, Catering, Bead Making, Costume, Farming, Broadcast Journalism, and Liquid Soap Making.',
+    subtitle: 'Restoring hope and self-sufficiency',
+    description: 'Whether single due to the death of a spouse, abandonment, divorce or sin, this situation should not be a lifelong handicap for these families. Through the collaboration with Treasure of His Eyes, an NGO based in the UK, the Duamenefa Foundation is helping to supply vocationally-trained single parents with equipment and the help needed to grow and become financially sound and self-sufficient. This program has successfully enabled people to move forward, some now having apprentices working under them, multiplying the business and helping their children have the opportunity of education, life\'s necessities and a good home environment. Over 105 single parents have received equipment to empower them to success.',
     stats: [
       { label: 'Parents Empowered', value: '105+' },
-      { label: 'Training Participants (2023)', value: '376' },
-      { label: 'Skills Taught', value: '8+' },
+      { label: 'UK Partner', value: 'Treasure of His Eyes' },
+      { label: 'Self-Sufficient', value: 'Growing' },
     ],
     image: '/women-empowerment.jpg',
     color: 'bg-[#D4AF37]',
   },
   {
+    id: 'skills',
+    icon: <BookMarked className="h-6 w-6" />,
+    title: 'Skills Empowerment Training',
+    subtitle: 'Three-day intensive skills program',
+    description: 'Fafaa 100.3 FM and its NGO, the Duamenefa Foundation collaborated with Treasure of His Eyes, a UK based NGO under Country Director, Pastor Adefunke Adeoye, for its first three-day skills empowerment program in various skills training such as: Batik/Tie and Dye, Tailoring, Catering, Bead Making, Costume, Farming tips, Introduction to Broadcast Journalism and Liquid Soap Making. In the first Skills Empowerment held in March 2023, 376 participants from various Municipalities and Districts (Ketu North, Keta, Akatsi South, Ketu South and Akatsi North) participated in the program.',
+    stats: [
+      { label: 'Participants (2023)', value: '376' },
+      { label: 'Skills Taught', value: '8+' },
+      { label: 'Districts Covered', value: '5' },
+    ],
+    image: '/vocational-training.jpg',
+    color: 'bg-[#6B4F3A]',
+  },
+  {
     id: 'disabled',
     icon: <Accessibility className="h-6 w-6" />,
     title: 'Disabled Outreach',
-    description: 'Reaching out to over 1,200 disabled individuals and their caregivers in 2023, the intercessors of the land visit, pray for, and survey their needs. They are included in the single parents workshops for training and equipment giving. The Foundation continues to learn from their associations what is needed to help them live fuller, more dignified lives.',
+    subtitle: 'Reaching the most vulnerable',
+    description: 'Reaching out to over 1,200 disabled and their caregivers in 2023 and visiting them to find out how we can help them in their situations, the intercessors of the land go out to pray for them and survey their needs. They are included in the single parents, the workshops for training and the giving of equipment. Much more is coming as the Foundation learns from their associations what is needed to help.',
     stats: [
       { label: 'Disabled Reached', value: '1,200+' },
-      { label: 'Caregivers Supported', value: '600+' },
-      { label: 'Districts Covered', value: '5+' },
+      { label: 'Year of Outreach', value: '2023' },
+      { label: 'Included In', value: 'All Programs' },
     ],
     image: '/community-outreach.jpg',
     color: 'bg-[#6B4F3A]',
@@ -147,7 +184,8 @@ const operations = [
     id: 'jail',
     icon: <Church className="h-6 w-6" />,
     title: 'Jail Ministration',
-    description: 'Each week, inmates of three local jails receive fresh drinking water and the Good News of Jesus Christ. Over the past five years, many souls have been born again. Bibles are distributed twice a year to each cell for study and sharing. A feast with gifts is held for the inmates at the Yuletide, bringing hope and dignity to those who are often forgotten by society.',
+    subtitle: 'Bringing hope to the forgotten',
+    description: 'Each week, inmates of three local jails receive fresh drinking water and the Good News of Jesus Christ. Over the past five years, many souls have been born again. Bibles are distributed twice a year or as needed to each cell for study and sharing the Good News. A nice feast with gifts is held for the inmates at the Yuletide.',
     stats: [
       { label: 'Jails Served', value: '3' },
       { label: 'Years Running', value: '5+' },
@@ -157,10 +195,25 @@ const operations = [
     color: 'bg-[#0B3C5D]',
   },
   {
+    id: 'fun-games',
+    icon: <Gamepad2 className="h-6 w-6" />,
+    title: 'Fun Games',
+    subtitle: 'Building community spirit across 550 communities',
+    description: 'In most of the 550 communities in our catchment area, Duamenefa Foundation sponsors fun games which bring the community together for peaceful, competitive and fun social interaction. Youth and adults alike compete in various activities including; singing, games, races, reciting and talent competitions broadcast on our radio station; Fafaa 100.3 FM. This secures a strong community spirit where people are willing to work together for their betterment.',
+    stats: [
+      { label: 'Communities', value: '550' },
+      { label: 'Activities', value: 'Singing, Games, Races' },
+      { label: 'Broadcast On', value: 'Fafaa 100.3 FM' },
+    ],
+    image: '/duamenafa-196.jpg',
+    color: 'bg-[#4C9A2A]',
+  },
+  {
     id: 'hospital',
     icon: <Hospital className="h-6 w-6" />,
     title: 'Hospital Outreaches',
-    description: 'From prayer support to practical assistance, the Duamenefa Foundation serves six hospitals and two orphanages. One partner adopted the children\'s ward at Keta Municipal Hospital, providing renovation, equipment, and supplies. The men\'s ward has also been adopted. Each quarter the greatest need is identified, projects started and completed. The Foundation now serves six hospitals and two orphanages during the yuletide season.',
+    subtitle: 'Healing body and soul',
+    description: 'From prayer support and encouragement to helping the sick in the area hospitals, Duamenefa Foundation, through generous gifts of its partners, is now providing much needed assistance in making our hospitals the best. During the feeding of the entire population of two hospitals, one of our partners chose to adopt the children\'s ward at the Keta Municipal Hospital, providing renovation, equipment and supplies. Each quarter the greatest need within the ward is agreed upon, the project started and completed to the glory of God. The men\'s ward has also been adopted and work will begin soon. Duamenefa now serves six hospitals and two orphanages during the yuletide.',
     stats: [
       { label: 'Hospitals Served', value: '6' },
       { label: 'Orphanages Served', value: '2' },
@@ -168,6 +221,20 @@ const operations = [
     ],
     image: '/duamenafa-10.jpg',
     color: 'bg-[#4C9A2A]',
+  },
+  {
+    id: 'medical',
+    icon: <Stethoscope className="h-6 w-6" />,
+    title: 'Providing for the Sick & Injured',
+    subtitle: 'Fulfilling the commandment to love our neighbors',
+    description: 'Duamenefa Foundation has many requests for help coming in, but when the pictures arrive and the stories are told, God directs our Foundation to help. It is a commandment of God to love our neighbors and Duamenefa Foundation intends to fulfill all righteousness. The Foundation responds to individual medical needs, providing assistance for treatment, medication, and care for those who cannot afford it.',
+    stats: [
+      { label: 'Requests Handled', value: 'Ongoing' },
+      { label: 'Approach', value: 'Compassionate' },
+      { label: 'Guided By', value: 'Faith' },
+    ],
+    image: '/duamenafa-4.jpg',
+    color: 'bg-[#6B4F3A]',
   },
 ];
 
@@ -185,7 +252,7 @@ const conflictTypes = [
   {
     icon: <ShieldCheck className="h-5 w-5" />,
     title: 'Child Rights Advocacy',
-    description: 'Intervention for the total release of Trokosis and advocating for the protection of children from spiritual manipulation, abuse, and exploitation.',
+    description: 'Intervention for the total release of Trokosis and advocating for the protection of children from spiritual manipulation, abuse, and exploitation. Education and vocational training for released Trokosis and orphans.',
   },
   {
     icon: <Eye className="h-5 w-5" />,
@@ -194,26 +261,90 @@ const conflictTypes = [
   },
 ];
 
+const broadObjectives = [
+  {
+    icon: <Microscope className="h-5 w-5" />,
+    text: 'Investigate the petitions received and publicly engage the perpetrators and stakeholders on its radio (Fafaa 100.3 FM) to unravel the mysteries behind the invocation of the wrath of the gods upon families.',
+  },
+  {
+    icon: <Shield className="h-5 w-5" />,
+    text: 'Ensure that the stakeholders compel the perpetrators of these diabolical practices or crimes to reverse the invocations and save the families from spiritual death penalties.',
+  },
+  {
+    icon: <Baby className="h-5 w-5" />,
+    text: 'Investigate petitions received on issues of demand by traditional deity practitioners to offer human beings, especially young females, as servitude to the gods (Trokosi).',
+  },
+  {
+    icon: <Eye className="h-5 w-5" />,
+    text: 'Investigate petitions on issues of false prophecies and revelations by false prophets who play on the psyche of innocent members of a particular church, extract money, set families apart and render their victims traumatized.',
+  },
+];
+
+const supplementaryObjectives = [
+  'Seek the traditionalist perspective on the subject matter, its advantages (if any) and its disadvantages to the society by means of interviewing key traditional rulers',
+  'Seek the opinion of the worshipers of the deities who permit the act of the invocation of the wrath of the gods',
+  'Seek the opinion of the Christian community about the biblical perspective on this matter',
+  'Seek the opinion of the representative of the Ghana Bar Association on the matter',
+  'Seek the opinion of the Keta Municipal Assembly as to what informed their decision to promulgate the bye-law prohibiting invocation of the wrath of the gods',
+  'Seek the position of the law courts on the provisions of the aforementioned bye-law',
+  'Seek the opinion of the Islamic Community on the provisions of the Quran on the subject matter',
+];
+
+const keyQuestions = [
+  'How do we resolve the lacuna in the 1992 Constitution of the Republic of Ghana on spiritual matters?',
+  'Why did the Keta Municipal Assembly promulgate a bye-law prohibiting the act of invocation of the wrath of the gods and prescribed a penalty?',
+  'Does the Assembly know that the gods begin their operations by killing innocent and very important personalities of the culprit\'s family?',
+  'Why do the gods allow the culprit to live to the detriment of innocent people?',
+  'Is there an alternative means that the same gods will prefer to save the lives of innocent persons?',
+  'Are the practitioners and their gods aware of the constitutional provision on the subject matter?',
+  'Is this act not an infringement on the fundamental human rights of innocent citizens who have to pay with their lives for crimes they knew nothing about?',
+  'What is the correlation between the Keta Municipal Assembly\'s bye-law and the Constitution of Ghana?',
+  'Are Christians possible culprits in terms of invocation of the wrath of the gods?',
+  'What is the Christians\' position on the provisions of the constitution of Ghana on the above subject matter?',
+  'What are the consequences of false prophesies and falsifications of prophetic revelations?',
+  'What is the relationship between customary law, traditional practices, Islamic law, Biblical and Christian injunctions and the Constitution and the laws of Ghana?',
+];
+
+const stakeholderInstitutions = [
+  'Office of The Regional Minister',
+  'Offices of the Members of Parliaments, Volta Region',
+  'Offices of the District and Municipal Chief Executives',
+  'Offices of The Traditional Councils',
+  'The Ghana Bar Association (Regional Chapter)',
+  'Commission on Human Right and Administrative Justice (CHRAJ)',
+  'The Ghana Psychic and Traditional Council, Volta Regional Chapter',
+  'The Trorxovi Regional Council',
+  'The Sofia Movement Council',
+  'The Regional Police Command, Volta Region',
+  'The Ewe land Local Council of Churches',
+  'The Moslem Community',
+  'The Market Women Associations',
+  'The Ghana Private Road Transport Union of the TUC',
+  'The Ghana Information Service',
+  'The National Commission for Civic Education (NCCE)',
+  'The Ghana Education Service',
+];
+
 const milestoneItems = [
   {
     period: 'Short-Term (5-10 Years)',
     goals: [
       'Investigate and intervene in petitions of human right abuses where spiritual powers are used to incapacitate innocent people',
-      'Register over 40,000 members who will promote peaceful coexistence through research, investigation, and interventions into spiritual matters',
-      'Institute Regional Football and Marathon Annual Events to unearth hidden talents and keep youth productively engaged',
-      'Institute community fun clubs with periodic games competitions across 550 communities',
-      'Formal collaboration and exchange of letters among all stakeholders',
-      'Link with Christian NGOs in the diaspora to participate in this vision',
-      'Institute community leaders to report activities to the Foundation head office',
-      'Link with NGOs to support single parents who lost spouses through invocation of the wrath of the gods',
-      'Periodic training activities within and outside Ghana for selected members',
+      'Register as many as 40,000 members who will promote and champion peaceful coexistence of people through research, investigation and interventions into spiritual matters',
+      'Institute Regional Football and Marathon Annual Events where the hidden talents of the youth will be unearthed thereby creating a congenial platform for marketing same',
+      'Institute community fun clubs for the Duamenefa foundation where there will be periodic fun club games competition of all age groups within the 550 communities',
+      'Formal collaboration and exchange of letters among the stakeholders',
+      'Link with other Christian NGO\'s in the diaspora to participate in this vision and win the suffering souls for the kingdom',
+      'To institute community leaders of the project who will report the activities of their various communities to the head office of the Foundation',
+      'To link with an NGO to support single parents who lost their husbands/wives through the invocations of the wrath of the gods or divorcees',
+      'Periodic training activities within and outside Ghana for selected members of the Foundation',
     ],
   },
   {
     period: 'Long-Term (10-20 Years)',
     goals: [
-      'Champion the establishment of a Vocational School to train and empower the vulnerable',
-      'Celebrate and give awards to communities who record zero violations in the three thematic areas',
+      'The Duamenefa Foundation shall champion the establishment of a Vocational School to train and empower the vulnerable',
+      'The Duamenefa Foundation shall celebrate and give awards to communities who recorded zero violations of the aforementioned three thematic areas mentioned above',
     ],
   },
 ];
@@ -317,7 +448,7 @@ export default function AboutPage() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <span className="inline-block bg-[#D4AF37]/20 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-            About Us
+            About Us — The Concept Note
           </span>
           <h1 className="font-heading font-bold text-4xl md:text-5xl mb-4">
             Duamenefa — <span className="text-[#D4AF37]">&ldquo;Let Us Co-Exist in Peace&rdquo;</span>
@@ -342,21 +473,24 @@ export default function AboutPage() {
               </h2>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
                 The Duamenefa Foundation is a Non-Governmental Organization (NGO) with a membership of
-                over <strong>47,758</strong> as of 3rd July 2025, who have committed themselves to promoting
-                peace and reconciliation in our various communities. Registration is ongoing. The word
-                &ldquo;Duamenefa&rdquo; in the Ewe language literally means <strong>&ldquo;LET US CO-EXIST IN PEACE&rdquo;</strong>.
+                over <strong>47,758</strong> (Forty-seven Thousand, Seven hundred-fifty-eight) as of 3rd July 2025, who have committed
+                themselves to promoting peace and reconciliation in our various communities. Registration is
+                ongoing. The word &ldquo;Duamenefa&rdquo; in the Ewe language literally means <strong>&ldquo;LET US CO-EXIST IN PEACE&rdquo;</strong>.
               </p>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                The name was birthed as a result of an ongoing intervention radio program which airs on
-                <strong> Fafaa 100.3 FM</strong> and is broadcast live on <strong>Justice FM 98.5</strong> in
-                Tamale, <strong>Swiss FM 93.7</strong> in Ho, and <strong>Messiah TV – Amos 17</strong>. The
-                program is also streamed live on fafaafm.radiostream321.com and on Facebook live pages.
+                The name was birthed as a result of an ongoing intervention radio program which airs every
+                Sunday 7:00pm &ndash; 10:00pm, Tuesday 11:00am &ndash; 2:00pm and Thursday 11:00am &ndash; 2:00pm on
+                <strong> Fafaa 100.3 FM</strong> and is streamed live on fafaafm.radiostream321.com, and on Facebook
+                live pages: Fafaa100.3fm and Duamenefa Foundation as well as Ketaman Emmanuel Evortepe pages.
+                In addition, the programs are broadcast live on <strong>Justice FM 98.5</strong> in Tamale,
+                <strong> Swiss FM 93.7</strong> in Ho, and <strong>Messiah TV &ndash; Amos 17</strong>.
               </p>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                The Duamenefa program has succeeded in resolving over <strong>610</strong> hitherto antagonistic
+                The &ldquo;Duamenefa&rdquo; program has succeeded in resolving over <strong>610</strong> hitherto antagonistic
                 spiritual and diabolical conflicts. Our foundation has over <strong>47,758 certified members
                 (volunteers)</strong> made up of chiefs, opinion leaders, and the general public, with daily
-                registration of membership due to the high level of interest the program generates.
+                registration of membership due to the high level of interest the program generates. It is
+                estimated that membership will double in the next two years.
               </p>
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center p-3 bg-[#0B3C5D]/5 rounded-lg">
@@ -399,8 +533,8 @@ export default function AboutPage() {
             </h2>
             <p className="text-[#6B4F3A] max-w-3xl mx-auto">
               The Duamenefa program has succeeded in resolving over 610 antagonistic spiritual and diabolical
-              conflicts ranging from invocation of the wrath of the gods, using human beings as servitude to
-              the gods (Trokosi), and falsification of prophecies by false prophets.
+              conflicts. These are issues of spiritual and diabolical connotations which our traditional courts
+              and the law enforcement agencies are not clothed with jurisdiction to handle.
             </p>
           </motion.div>
 
@@ -444,24 +578,27 @@ export default function AboutPage() {
                 Why <span className="text-[#D4AF37]">Duamenefa</span> Exists
               </h2>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                There have been irresistible calls for the investigation of some of the religious and cultural
-                practices and beliefs of our people. Some of these practices have been encouraged, while others
-                remain not well understood. The Duamenefa Foundation undertakes investigation into these practices
-                to encourage those that move us forward as a people and discourage those that do not promote the
-                common good.
+                There have been some irresistible calls into the investigation of some of the religious and cultural
+                practices and beliefs of our people. Some of the practices and beliefs have been encouraged and some
+                are still not well understood, therefore, the Duamenefa Foundation is undertaking investigation into
+                some of these practices and beliefs so as to know more about them, to encourage those that will move
+                us forward as a people and to discourage those that will not promote the common good.
               </p>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                Many believe that strange deaths in the community are due to fetish attacks — that prominent
-                people in some families die because a member of the family has wronged another person who then
-                sought the intervention of a fetish or god. In some cases, the perpetrator also dies, and the
-                practitioners of the fetish then take away all the possessions of the deceased. This belief is
-                so entrenched that the <strong>Keta Municipal Assembly</strong> was compelled to enact
-                Bye-Law number 3.6 of 2006 under the title &ldquo;Cursing and invoking of the wrath of gods.&rdquo;
+                Some of these practices and beliefs have to do with the belief of most people that strange deaths
+                in the community are due to fetish attacks and that prominent people in some families die because
+                a member of the family has wronged some other person and that the person who has been wronged has
+                sought the intervention of a fetish or a god and the result is that very prominent people in the
+                family of the perpetrator die one after the other. In some of the cases, the perpetrator also dies
+                eventually and following his death the practitioners of the fetish or the god then proceed to take
+                away all the possessions of the deceased perpetrator.
               </p>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                Another topical practice is the offering of young people, mainly girls and young women, as
-                compensation to the gods. The Duamenefa Foundation seeks to bring all these issues to the fore
-                so that we as a people can deal with them dispassionately.
+                This belief has been entrenched in the community so much so that the <strong>Keta Municipal
+                Assembly</strong> in the Volta Region of the Republic of Ghana was compelled to enact Bye-Law
+                number 3.6 of 2006. Another topical practice has been the offering of young people mainly girls
+                and young women as compensation to the gods. The Duamenefa Foundation therefore seeks to bring
+                all these issues to the fore so that we as a people can deal with them dispassionately.
               </p>
             </motion.div>
 
@@ -476,14 +613,17 @@ export default function AboutPage() {
                   <h3 className="font-heading font-bold text-xl mb-4 text-[#D4AF37]">
                     Keta Municipal Assembly Bye-Law 3.6 of 2006
                   </h3>
+                  <p className="text-white/80 leading-relaxed italic text-sm mb-2">
+                    &ldquo;Cursing and invoking of the wrath of gods&rdquo;
+                  </p>
                   <p className="text-white/80 leading-relaxed italic text-sm mb-4">
                     &ldquo;Any person or group of persons who curse by the gods or invokes the wrath of gods
                     in one way or the other on another person or group of persons shall be guilty of an offence
-                    punishable by a fine not less than GH₵20 or more than GH₵50 in addition to two crates of
+                    punishable by a fine not less than GH&#8373;20 or more than GH&#8373;50 in addition to two crates of
                     schnapps, one gallon of Akpeteshie (local gin), two sheep and one goat.&rdquo;
                   </p>
                   <p className="text-white/60 text-xs">
-                    This bye-law raises significant legal and social questions that the Duamenefa Foundation seeks to address.
+                    The above bye-law raises a lot of legal and social issues. The Duamenefa Foundation seeks to address these questions.
                   </p>
                 </CardContent>
               </Card>
@@ -523,8 +663,34 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Methodology */}
+      {/* Purpose / Aim */}
       <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div {...fadeInUp} className="max-w-4xl mx-auto text-center">
+            <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+              Purpose / Aim
+            </span>
+            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-6">
+              Our <span className="text-[#D4AF37]">Purpose</span>
+            </h2>
+            <Card className="border-0 shadow-lg bg-[#0B3C5D] text-white">
+              <CardContent className="p-8 md:p-10">
+                <div className="w-16 h-16 rounded-full bg-[#D4AF37]/20 flex items-center justify-center mx-auto mb-6">
+                  <Target className="h-8 w-8 text-[#D4AF37]" />
+                </div>
+                <p className="text-white/90 leading-relaxed text-lg md:text-xl font-heading">
+                  The goal of the Duamenefa Foundation is to promote best practices in our various
+                  communities through the understanding of our various traditional, religious and
+                  cultural practices and beliefs.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Methodology */}
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div className="text-center mb-12" {...fadeInUp}>
             <span className="inline-block bg-[#4C9A2A]/10 text-[#4C9A2A] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
@@ -535,7 +701,8 @@ export default function AboutPage() {
             </h2>
             <p className="text-[#6B4F3A] max-w-3xl mx-auto">
               The Duamenefa Foundation receives written petitions for investigation and intervention from victims
-              who have been traumatized, sick, or have lost innocent family members due to spiritual and diabolical attacks.
+              who have been traumatized, sick or people who lost innocent family members due to spiritual and
+              diabolical attacks.
             </p>
           </motion.div>
 
@@ -544,37 +711,37 @@ export default function AboutPage() {
               {
                 step: '01',
                 title: 'Receive Petitions',
-                description: 'Written petitions are received from victims of spiritual and diabolical attacks. Copies are directed to relevant stakeholders including traditional rulers, Ghana Police Force, CHRAJ, NCCE, and the Department of Social Welfare.',
+                description: 'Written petitions are received from victims. Copies of petitions are directed to relevant stakeholders: (a) The traditional rulers (b) The Ghana Police Force (c) The Commission for Human Right and Administrative Justice (CHRAJ) (d) The National Commission for Civic Education (NCCE) (e) The Department of Social Welfare and other relevant stakeholders.',
                 icon: <FileText className="h-6 w-6" />,
               },
               {
                 step: '02',
                 title: 'Investigate',
-                description: 'Duamenefa Foundation delegates its journalist from Fafaa 100.3 FM to investigate the veracity of the petitions through on-the-ground research and interviews with all parties involved.',
+                description: 'The Duamenefa Foundation delegates its journalist from Fafaa 100.3 FM to investigate the veracity of the petitions through on-the-ground research and interviews with all parties involved.',
                 icon: <Eye className="h-6 w-6" />,
               },
               {
                 step: '03',
                 title: 'On-Air Interrogation',
-                description: 'An on-air interrogation of the suspected perpetrators and victims is conducted on Fafaa 100.3 FM, with ongoing education through key resource persons from statutory state organizations.',
+                description: 'An on-air interrogation of the suspected perpetrators of the diabolical and spiritual crimes and the victims is conducted on Fafaa 100.3 FM. There is also ongoing education on the matter through the participation of key resource persons from the statutory state organizations.',
                 icon: <Radio className="h-6 w-6" />,
               },
               {
                 step: '04',
                 title: 'Community Arbitration',
-                description: 'Spiritual attacks are reversed through community traditional arbitrations where all stakeholders gather to resolve the matters through the same processes used to inflict the harm.',
+                description: 'In most cases, the spiritual attacks are reversed through community traditional arbitrations where all stakeholders gather to arbitrate and resolve the spiritual matters through the same processes that were used to inflict the harm and suffering on the victims.',
                 icon: <Users className="h-6 w-6" />,
               },
               {
                 step: '05',
                 title: 'Live Broadcast',
-                description: 'All interventions and arbitrations are broadcast live on Fafaa 100.3 FM, Justice FM 98.5, Swiss FM 93.7, Messiah TV, and streamed live on all social media platforms.',
+                description: 'There is a live broadcast of the interventions of arbitrations on Fafaa 100.3 FM, Justice FM 98.5 Tamale, Swiss FM 93.7-Ho and Messiah TV on Amos 17. Live streaming on fafaafm.radiostream321.com, and live on Facebook pages with live video coverage.',
                 icon: <Megaphone className="h-6 w-6" />,
               },
               {
                 step: '06',
                 title: 'Restoration & Forgiveness',
-                description: 'Perpetrators are forgiven to "go and sin no more" and many end up accepting the Lord Jesus Christ as their personal Savior. Over 22 pastors from the "Intercessors of the Land" continuously intercede through prayer.',
+                description: 'The perpetrators are forgiven to "go and sin no more" and many of them end up accepting the Lord Jesus Christ as their personal Savior. Over 22 committed pastors from different denominations constitute "Intercessors of the Land" who continuously intercede through prayer programs on Fafaa 100.3 FM.',
                 icon: <Church className="h-6 w-6" />,
               },
             ].map((step, index) => (
@@ -606,6 +773,201 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
+
+          <motion.div {...fadeInUp} className="mt-8">
+            <Card className="border-0 shadow-md bg-[#0B3C5D]/5">
+              <CardContent className="p-6">
+                <p className="text-[#6B4F3A] leading-relaxed text-sm">
+                  The Duamenefa Foundation collaborates with its radio station Fafaa 100.3 which resonates on
+                  the maxim <strong>&ldquo;Information for Intervention&rdquo;</strong> through collaboration
+                  with the aforementioned stakeholders to fashion out modalities to always salvage the situation.
+                  This is because the practices and beliefs show there have been innocent victims in families and
+                  communities who suffer as they lose breadwinners and prominent citizens. The young women who are
+                  offered in servitude to the gods are denied basic education and other relevant social amenities in
+                  violation of their fundamental human rights. As society is constantly changing, we need to take a
+                  second look at these practices of our forefathers and modify them to suit present day needs and
+                  circumstances.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Objectives */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12" {...fadeInUp}>
+            <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+              Our Objectives
+            </span>
+            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
+              Broad <span className="text-[#D4AF37]">Objectives</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            {broadObjectives.map((obj, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+              >
+                <Card className="h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-[#0B3C5D] text-white flex items-center justify-center shrink-0">
+                        {obj.icon}
+                      </div>
+                      <p className="text-[#6B4F3A] leading-relaxed text-sm">{obj.text}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div {...fadeInUp}>
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <h3 className="font-heading font-bold text-xl text-[#0B3C5D] mb-2">
+                  Supplementary Objectives
+                </h3>
+                <p className="text-[#6B4F3A] text-sm mb-6">
+                  These broad objectives are underpinned by the following supplementary objectives:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {supplementaryObjectives.map((obj, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <CheckCircle className="h-4 w-4 text-[#4C9A2A] shrink-0 mt-0.5" />
+                      <span className="text-[#6B4F3A] text-sm leading-relaxed">{obj}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Key Questions */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12" {...fadeInUp}>
+            <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+              <HelpCircle className="h-4 w-4 inline mr-1" />
+              Critical Questions
+            </span>
+            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
+              Imperative <span className="text-[#D4AF37]">Questions</span>
+            </h2>
+            <p className="text-[#6B4F3A] max-w-3xl mx-auto">
+              In line with the objectives, the following questions become very imperative and the program seeks
+              to find an answer to all the relevant questions.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {keyQuestions.map((question, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+              >
+                <Card className="h-full border-0 shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="font-heading font-bold text-[#D4AF37] text-sm shrink-0">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <p className="text-[#6B4F3A] text-sm leading-relaxed">{question}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Scope of Organisation / Stakeholders Conference */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12" {...fadeInUp}>
+            <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+              <Landmark className="h-4 w-4 inline mr-1" />
+              Scope of Organisation
+            </span>
+            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
+              Stakeholders&apos; <span className="text-[#D4AF37]">Conference</span>
+            </h2>
+            <p className="text-[#6B4F3A] max-w-3xl mx-auto">
+              The Duamenefa Foundation would embark on an opinion poll to be conducted within the Volta Region
+              to seek the opinion of the general public on the need to embark on an advocacy project to enable
+              the various communities to enact a bye-law through the various district and municipal assemblies,
+              since the Constitution of the Republic of Ghana is silent on spiritual matters.
+            </p>
+          </motion.div>
+
+          <motion.div {...fadeInUp}>
+            <Card className="border-0 shadow-lg mb-8">
+              <CardContent className="p-6 md:p-8">
+                <h3 className="font-heading font-bold text-lg text-[#0B3C5D] mb-4">
+                  Conference Theme
+                </h3>
+                <div className="bg-[#0B3C5D] text-white p-4 rounded-lg mb-6">
+                  <p className="font-heading font-semibold text-center leading-relaxed">
+                    &ldquo;How do we eradicate the act of invocation of the wrath of gods, offering of human
+                    beings as servitude to the gods and false prophecies and false prophetic revelations&rdquo;
+                  </p>
+                </div>
+                <p className="text-[#6B4F3A] text-sm mb-4">
+                  The Duamenefa Foundation under the auspices of Fafaa 100.3 FM in collaboration with other
+                  relevant media networks would organize a stakeholders&apos; conference of all opinion leaders
+                  of the Ewe speaking community where representatives of the following institutions and
+                  associations shall make presentations:
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {stakeholderInstitutions.map((inst, index) => (
+              <motion.div
+                key={inst}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+              >
+                <div className="w-full rounded-lg bg-white shadow-sm flex items-center justify-center text-[#0B3C5D]/70 font-heading font-medium text-xs border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-md transition-all p-3 h-14 text-center">
+                  {inst}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div {...fadeInUp} className="mt-8">
+            <Card className="border-0 shadow-md bg-[#4C9A2A]/5">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <Globe className="h-5 w-5 text-[#4C9A2A]" />
+                  <h4 className="font-heading font-semibold text-[#0B3C5D]">Live Online Coverage</h4>
+                </div>
+                <p className="text-[#6B4F3A] text-sm leading-relaxed">
+                  The program shall also be carried out live on the internet at{' '}
+                  <a href="https://fafaafmonline.com" className="text-[#0B3C5D] underline font-medium" target="_blank" rel="noopener noreferrer">fafaafmonline.com</a>
+                  {' '}and{' '}
+                  <a href="https://duamenefafoundation.org" className="text-[#0B3C5D] underline font-medium" target="_blank" rel="noopener noreferrer">duamenefafoundation.org</a>
+                  {' '}and other social media platforms.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
@@ -615,13 +977,15 @@ export default function AboutPage() {
           <motion.div className="text-center mb-12" {...fadeInUp}>
             <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
               <Radio className="h-4 w-4 inline mr-1" />
-              On Air
+              Duration of Activities
             </span>
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
               Broadcast <span className="text-[#D4AF37]">Schedule</span>
             </h2>
             <p className="text-[#6B4F3A] max-w-2xl mx-auto">
-              The Duamenefa program runs three times a week on Fafaa 100.3 FM and is simulcast across multiple stations.
+              The Duamenefa Foundation under the auspices of its radio the Fafaa 100.3 FM is conducting
+              investigations and broadcasting for the purposes of interventions into the numerous petitions
+              being received daily.
             </p>
           </motion.div>
 
@@ -638,7 +1002,7 @@ export default function AboutPage() {
                   <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-3">
                       <Badge className={schedule.type === 'TV' ? 'bg-purple-600 text-white' : 'bg-[#0B3C5D] text-white'}>
-                        {schedule.type === 'TV' ? '📺 TV' : '📻 Radio'}
+                        {schedule.type === 'TV' ? 'TV' : 'Radio'}
                       </Badge>
                       {schedule.station === 'Fafaa 100.3 FM' && (
                         <span className="flex items-center gap-1 text-red-500 text-xs font-bold">
@@ -665,11 +1029,57 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
+
+          <motion.div {...fadeInUp} className="mt-8">
+            <Card className="border-0 shadow-md bg-[#0B3C5D]/5">
+              <CardContent className="p-6">
+                <p className="text-[#6B4F3A] leading-relaxed text-sm">
+                  On a day of community public arbitration, the Duamenefa Foundation, under the auspices of
+                  Fafaa 100.3 FM, collaborates with chiefs who are vested with the constitutional mandate to
+                  go into traditional and spiritual arbitrations and other relevant stakeholders to resolve
+                  and reverse diverse spiritual attacks on innocent citizens. Such arbitrations are aired live
+                  for the whole day on the day and time set aside for such public events on the airwaves of
+                  Fafaa 100.3 FM.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Significance of the Program */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div {...fadeInUp} className="max-w-4xl mx-auto">
+            <span className="inline-block bg-[#4C9A2A]/10 text-[#4C9A2A] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+              <Lightbulb className="h-4 w-4 inline mr-1" />
+              Significance
+            </span>
+            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-6">
+              Significance of the <span className="text-[#D4AF37]">Program</span>
+            </h2>
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <p className="text-[#6B4F3A] leading-relaxed mb-4">
+                  The forum shall be used to educate the general public on the consequences of the aforementioned
+                  practices and beliefs from the perspective of the 1992 Constitution and the laws of the Republic
+                  of Ghana. Significantly, the fallout of the program will be a greater understanding of the
+                  practices and beliefs of our people and how the encouragement of the positives and abolishing
+                  of the negatives can propel us forward massively as a people.
+                </p>
+                <p className="text-[#6B4F3A] leading-relaxed font-medium">
+                  The abilities and capabilities of the people are unleashed towards the greater good upon the
+                  fuller understanding that the key to a greater and a prosperous future of our Volta Region
+                  is deep inside each and every one of us.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div {...fadeInUp}>
@@ -724,7 +1134,7 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div className="text-center mb-12" {...fadeInUp}>
             <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
@@ -764,20 +1174,20 @@ export default function AboutPage() {
       </section>
 
       {/* Duamenefa Operations */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div className="text-center mb-12" {...fadeInUp}>
             <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
               <Heart className="h-4 w-4 inline mr-1" />
-              Our Work
+              Duamenefa Operations
             </span>
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
-              Duamenefa <span className="text-[#D4AF37]">Operations</span>
+              Intervention for <span className="text-[#D4AF37]">Our Youth &amp; Community</span>
             </h2>
             <p className="text-[#6B4F3A] max-w-3xl mx-auto">
-              From uncovering hidden youth talent through sports to empowering single parents and reaching
-              out to the disabled — the Duamenefa Foundation is actively transforming communities across
-              the Volta Region of Ghana.
+              The youth are the future of our mother Ghana and it is imperative that we get involved in
+              helping to secure a good future for them. Duamenefa Foundation has thus involved itself in
+              several areas targeting the growth and wellbeing of the youth and the broader community.
             </p>
           </motion.div>
 
@@ -788,7 +1198,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                transition={{ duration: 0.5, delay: index * 0.06 }}
               >
                 <Card className="border-0 shadow-lg overflow-hidden">
                   <div className="grid grid-cols-1 lg:grid-cols-5">
@@ -796,12 +1206,12 @@ export default function AboutPage() {
                       <img
                         src={op.image}
                         alt={op.title}
-                        className="w-full h-full object-cover brightness-110"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0B3C5D]/15 to-transparent" />
                     </div>
                     <CardContent className="p-6 md:p-8 lg:col-span-3">
-                      <div className="flex items-center gap-3 mb-4">
+                      <div className="flex items-center gap-3 mb-2">
                         <div className={`w-10 h-10 rounded-lg ${op.color} text-white flex items-center justify-center`}>
                           {op.icon}
                         </div>
@@ -809,6 +1219,11 @@ export default function AboutPage() {
                           {op.title}
                         </h3>
                       </div>
+                      {op.subtitle && (
+                        <p className="text-[#D4AF37] text-sm font-medium mb-3 italic">
+                          {op.subtitle}
+                        </p>
+                      )}
                       <p className="text-[#6B4F3A] leading-relaxed text-sm mb-5">
                         {op.description}
                       </p>
@@ -863,8 +1278,8 @@ export default function AboutPage() {
                   <p className="text-white/60 text-sm">Pastors / Intercessors</p>
                 </div>
                 <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <p className="font-heading font-bold text-[#D4AF37] text-2xl">Many</p>
-                  <p className="text-white/60 text-sm">Souls Won for Christ</p>
+                  <p className="font-heading font-bold text-[#D4AF37] text-2xl">610+</p>
+                  <p className="text-white/60 text-sm">Conflicts Resolved</p>
                 </div>
               </div>
             </motion.div>
@@ -891,69 +1306,6 @@ export default function AboutPage() {
                     <p className="text-white/60 text-sm">Executive President, Duamenefa Foundation</p>
                     <p className="text-white/40 text-xs">CEO, Fafaa 100.3 FM</p>
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Fun Games & Community */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="text-center mb-12" {...fadeInUp}>
-            <span className="inline-block bg-[#4C9A2A]/10 text-[#4C9A2A] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-              <Gamepad2 className="h-4 w-4 inline mr-1" />
-              Community Engagement
-            </span>
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
-              Fun Games &amp; <span className="text-[#D4AF37]">Community Spirit</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <motion.div {...fadeInUp}>
-              <Card className="h-full border-0 shadow-lg">
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-xl bg-[#4C9A2A]/10 flex items-center justify-center mb-4">
-                    <Gamepad2 className="h-6 w-6 text-[#4C9A2A]" />
-                  </div>
-                  <h3 className="font-heading font-bold text-xl text-[#0B3C5D] mb-3">
-                    Community Fun Games
-                  </h3>
-                  <p className="text-[#6B4F3A] leading-relaxed">
-                    In most of the 550 communities in our catchment area, Duamenefa Foundation sponsors
-                    fun games which bring the community together for peaceful, competitive, and fun social
-                    interaction. Youth and adults alike compete in singing, games, races, reciting, and
-                    talent competitions broadcast on Fafaa 100.3 FM. This secures a strong community spirit
-                    where people are willing to work together for their betterment.
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <Card className="h-full border-0 shadow-lg">
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-xl bg-[#0B3C5D]/10 flex items-center justify-center mb-4">
-                    <Hospital className="h-6 w-6 text-[#0B3C5D]" />
-                  </div>
-                  <h3 className="font-heading font-bold text-xl text-[#0B3C5D] mb-3">
-                    Providing for the Sick &amp; Injured
-                  </h3>
-                  <p className="text-[#6B4F3A] leading-relaxed">
-                    Duamenefa Foundation has many requests for help coming in, and when the pictures arrive
-                    and the stories are told, God directs our Foundation to help. It is a commandment of God
-                    to love our neighbors, and Duamenefa Foundation intends to fulfill all righteousness.
-                    During the feeding of entire hospital populations, partners have adopted wards providing
-                    renovation, equipment, and supplies. The Foundation now serves six hospitals and two
-                    orphanages during the yuletide.
-                  </p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -1012,14 +1364,15 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div className="text-center mb-12" {...fadeInUp}>
             <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+              <Handshake className="h-4 w-4 inline mr-1" />
               Partnerships
             </span>
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
-              Our <span className="text-[#D4AF37]">Stakeholders</span>
+              Our <span className="text-[#D4AF37]">Partners</span>
             </h2>
             <p className="text-[#6B4F3A] max-w-3xl mx-auto">
-              The Duamenefa Foundation collabor with a wide range of stakeholders to achieve its mission of
-              peace, justice, and community transformation.
+              The Duamenefa Foundation collaborates with a wide range of stakeholders to achieve its
+              mission of peace, justice, and community transformation.
             </p>
           </motion.div>
 
@@ -1073,11 +1426,11 @@ export default function AboutPage() {
               Support the <span className="text-[#D4AF37]">Mission</span>
             </h2>
             <p className="text-white/70 text-lg mb-6 max-w-2xl mx-auto">
-              Fafaa 100.3 FM solicits sponsorship from well-meaning international charitable organizations,
+              Fafaa 100.3 FM shall solicit sponsorship from well-meaning international charitable organizations,
               Ghanaians, Churches, the Business Community, NGOs, and the International Community.
             </p>
             <p className="text-white/50 text-sm mb-8">
-              &ldquo;Information for Intervention&rdquo; — Fafaa 100.3 FM
+              &ldquo;Information for Intervention&rdquo; &mdash; Fafaa 100.3 FM
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
