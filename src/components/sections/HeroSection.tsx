@@ -65,13 +65,13 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: 'easeInOut' }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-110"
           style={{ backgroundImage: `url('${sliderImages[currentSlide].src}')` }}
         />
       </AnimatePresence>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0B3C5D]/90 via-[#0B3C5D]/75 to-[#0B3C5D]/55" />
+      {/* Overlay - lighter for brighter images */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0B3C5D]/65 via-[#0B3C5D]/40 to-[#0B3C5D]/25" />
 
       {/* Decorative Elements */}
       <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-[#D4AF37]/10 blur-3xl" />
@@ -83,14 +83,14 @@ export default function HeroSection() {
         className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 flex items-center justify-center transition-all duration-300 group"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="h-6 w-6 text-white group-hover:text-[#D4AF37] transition-colors" />
+        <ChevronLeft className="h-6 w-6 text-white group-hover:text-[#D4AF37] transition-colors drop-shadow-lg" />
       </button>
       <button
         onClick={nextSlide}
         className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 flex items-center justify-center transition-all duration-300 group"
         aria-label="Next slide"
       >
-        <ChevronRight className="h-6 w-6 text-white group-hover:text-[#D4AF37] transition-colors" />
+        <ChevronRight className="h-6 w-6 text-white group-hover:text-[#D4AF37] transition-colors drop-shadow-lg" />
       </button>
 
       {/* Slider Dots */}
@@ -116,7 +116,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <span className="inline-block bg-[#D4AF37]/20 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-6 border border-[#D4AF37]/30">
+          <span className="inline-block bg-[#D4AF37]/30 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-6 border border-[#D4AF37]/40 backdrop-blur-sm drop-shadow-lg">
             ★ Promoting Peace &amp; Human Dignity Since Inception
           </span>
         </motion.div>
@@ -125,7 +125,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight"
+          className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
         >
           LET US{' '}
           <span className="text-[#D4AF37]">CO-EXIST</span>
@@ -137,7 +137,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
         >
           Promoting Peace, Justice, Reconciliation, and Human Dignity Across Communities.
           Together, we can transform lives and build a harmonious society.
@@ -161,7 +161,7 @@ export default function HeroSection() {
             onClick={() => navigateTo('volunteer')}
             size="lg"
             variant="outline"
-            className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
+            className="border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-8 py-6 text-lg"
           >
             <Users className="h-5 w-5 mr-2" />
             Become a Volunteer
@@ -170,7 +170,7 @@ export default function HeroSection() {
             onClick={() => navigateTo('media')}
             size="lg"
             variant="ghost"
-            className="text-white/80 hover:text-white hover:bg-white/10 px-8 py-6 text-lg"
+            className="text-white/90 hover:text-white hover:bg-white/15 backdrop-blur-sm px-8 py-6 text-lg"
           >
             <Play className="h-5 w-5 mr-2" />
             Watch Live Programs

@@ -190,7 +190,7 @@ export default function StoriesPage() {
                       <img
                         src={story.image}
                         alt={story.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover brightness-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/40 to-transparent" />
                       <div className="absolute top-4 left-4">

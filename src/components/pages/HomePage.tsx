@@ -157,15 +157,15 @@ function AboutImageSlider() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full h-80 md:h-96 object-cover"
+          className="w-full h-80 md:h-96 object-cover brightness-110"
         />
       </AnimatePresence>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/30 to-transparent" />
       <div className="absolute bottom-6 left-6 right-6 text-white">
-        <p className="font-heading font-semibold text-lg">
+        <p className="font-heading font-semibold text-lg drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
           Over 47,758 Lives Impacted
         </p>
-        <p className="text-white/80 text-sm">
+        <p className="text-white/90 text-sm drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
           Across Ghana and West Africa
         </p>
       </div>
@@ -240,7 +240,7 @@ function GallerySlider() {
                 <img
                   src={image.src}
                   alt={image.caption}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover brightness-105 group-hover:scale-110 group-hover:brightness-110 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/80 via-[#0B3C5D]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -407,9 +407,9 @@ export default function HomePage() {
                     <img
                       src={cause.image}
                       alt={cause.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover brightness-105 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <div className="absolute top-4 left-4">
                       <div className={`${cause.color} text-white p-2 rounded-lg`}>
                         {cause.icon}
@@ -552,7 +552,7 @@ export default function HomePage() {
                     <img
                       src={index === 0 ? '/reconciliation.jpg' : index === 1 ? '/vocational-training.jpg' : '/community-outreach.jpg'}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover brightness-105 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500"
                     />
                   </div>
                   <CardContent className="p-5">
@@ -644,7 +644,7 @@ export default function HomePage() {
                   <img
                     src="/radio-broadcast.jpg"
                     alt="Live broadcast"
-                    className="absolute inset-0 w-full h-full object-cover opacity-50"
+                    className="absolute inset-0 w-full h-full object-cover opacity-60 brightness-110"
                   />
                   <div className="relative z-10 text-center">
                     <div className="w-16 h-16 rounded-full bg-[#D4AF37] flex items-center justify-center mx-auto mb-2 cursor-pointer hover:bg-[#c9a22e] transition-colors">

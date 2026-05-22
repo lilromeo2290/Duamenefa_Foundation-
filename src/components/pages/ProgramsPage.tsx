@@ -297,9 +297,9 @@ export default function ProgramsPage() {
                       <img
                         src={program.image}
                         alt={program.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover brightness-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#0B3C5D]/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#0B3C5D]/15 to-transparent" />
                     </div>
                     <CardContent className="p-8 md:p-10">
                       <div className="flex items-center gap-3 mb-4">

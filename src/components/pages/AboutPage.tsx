@@ -159,9 +159,9 @@ export default function AboutPage() {
                 <img
                   src="/duamenafa-176.jpg"
                   alt="Duamenefa Foundation radio broadcast"
-                  className="w-full h-80 md:h-[450px] object-cover"
+                  className="w-full h-80 md:h-[450px] object-cover brightness-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/25 to-transparent" />
               </div>
             </motion.div>
           </div>
