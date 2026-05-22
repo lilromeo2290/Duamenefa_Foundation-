@@ -337,7 +337,7 @@ export default function VolunteerFormPage() {
                 <CardContent className="p-6">
                   <Globe className="h-8 w-8 text-[#0B3C5D] mx-auto mb-3" />
                   <p className="text-[#6B4F3A] text-sm mb-1">Ghana Registration</p>
-                  <p className="font-heading font-bold text-3xl text-[#0B3C5D]">Gh&#8373;22</p>
+                  <p className="font-heading font-bold text-3xl text-[#0B3C5D]">Gh&#8373;50</p>
                 </CardContent>
               </Card>
               <Card className="border-0 shadow-lg text-center">
