@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Executives', page: 'executives' },
       { label: 'Associates', page: 'associates' },
-      { label: 'Reporters', page: 'reporters' },
+      { label: 'Community Reporters / Leaders', page: 'reporters' },
     ],
   },
   { label: 'Forms', page: 'forms', children: [

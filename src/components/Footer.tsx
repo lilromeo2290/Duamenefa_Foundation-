@@ -22,7 +22,7 @@ const quickLinks: { label: string; page: PageName }[] = [
   { label: 'Who We Are', page: 'whowear' },
   { label: 'Executives', page: 'executives' },
   { label: 'Associates', page: 'associates' },
-  { label: 'Reporters', page: 'reporters' },
+  { label: 'Community Reporters / Leaders', page: 'reporters' },
   { label: 'Forms', page: 'forms' },
   { label: 'Volunteer Membership Form', page: 'volunteerform' },
   { label: 'Costheta Education Support Fund', page: 'costheta' },
