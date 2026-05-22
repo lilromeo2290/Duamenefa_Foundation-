@@ -7,7 +7,12 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/s
 import { Menu, Heart, Phone } from 'lucide-react';
 
 const navItems: { label: string; page: PageName }[] = [
-  { label: 'About Us', page: 'about' },
+  { label: 'Who We Are', page: 'about' },
+  { label: 'Forms', page: 'forms' },
+  { label: 'Newsletters', page: 'newsletters' },
+  { label: 'Reporters', page: 'reporters' },
+  { label: 'Activities', page: 'activities' },
+  { label: 'Contact Us', page: 'contact' },
 ];
 
 export default function Navigation() {
