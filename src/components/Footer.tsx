@@ -213,7 +213,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/50">
           <p>&copy; 2026 Duamenefa Foundation. All Rights Reserved.</p>
-          <p>Registered NGO | Ghana</p>
+          <p>Powered and Developed by Clipe233 Engineers</p>
         </div>
       </div>
     </footer>
