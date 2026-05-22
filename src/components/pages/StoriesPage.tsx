@@ -41,7 +41,7 @@ const stories: Story[] = [
     icon: <Unlock className="h-5 w-5" />,
     title: 'From Bondage to Freedom',
     subtitle: 'A Liberated Trokosi Woman\'s Journey',
-    image: '/women-empowerment.jpg',
+    image: '/duamenafa-4.jpg',
     before: 'Held in shrine servitude for over 15 years, denied basic human rights, education, and freedom of movement. Subjected to spiritual manipulation and forced labor.',
     after: 'Liberated through Duamenefa\'s advocacy program, received vocational training in tailoring, now runs her own business and mentors other liberated women in the community.',
     impact: [
@@ -58,7 +58,7 @@ const stories: Story[] = [
     icon: <Handshake className="h-5 w-5" />,
     title: 'When Enemies Became Brothers',
     subtitle: 'Community Peace Intervention in a Land Dispute',
-    image: '/reconciliation.jpg',
+    image: '/duamenafa-27.jpg',
     before: 'Two communities in the Volta Region were locked in a violent land dispute spanning three decades. Lives were lost, properties destroyed, and generations grew up in fear and hatred.',
     after: 'Through Duamenefa\'s mediation program, both communities agreed to a peace dialogue. A landmark agreement was reached, boundaries were amicably settled, and a joint development committee was formed.',
     impact: [
@@ -75,7 +75,7 @@ const stories: Story[] = [
     icon: <GraduationCap className="h-5 w-5" />,
     title: 'Skills That Transform Lives',
     subtitle: 'Youth Empowerment Through Vocational Training',
-    image: '/vocational-training.jpg',
+    image: '/duamenafa-10.jpg',
     before: 'Unemployed and without prospects, many young people in rural communities were vulnerable to exploitation and radicalization. Limited access to education and skills training perpetuated the cycle of poverty.',
     after: 'Enrolled in Duamenefa\'s vocational training program, learned ICT and business management skills. Now employed at a local tech firm and supports his siblings\' education.',
     impact: [
@@ -109,7 +109,7 @@ const stories: Story[] = [
     icon: <Home className="h-5 w-5" />,
     title: 'A Family Restored',
     subtitle: 'Reconciled Family After Spiritual Conflict',
-    image: '/community-outreach.jpg',
+    image: '/duamenafa-176.jpg',
     before: 'A family was torn apart when a spiritual leader declared a curse on the household. Siblings stopped speaking, parents were estranged from children, and the family business collapsed.',
     after: 'Duamenefa\'s spiritual conflict resolution team facilitated dialogue, addressed the false prophecy, and brought the family together. They now run a joint family enterprise.',
     impact: [
@@ -126,7 +126,7 @@ const stories: Story[] = [
     icon: <Users className="h-5 w-5" />,
     title: 'Strength in Unity',
     subtitle: 'Women\'s Cooperative Success Story',
-    image: '/women-empowerment.jpg',
+    image: '/duamenafa-196.jpg',
     before: 'Widowed and single mothers in the community struggled to provide for their families. Without support networks or financial resources, they faced daily hardship and social stigma.',
     after: 'Formed a women\'s cooperative through Duamenefa\'s empowerment program, received micro-enterprise training and startup capital. The cooperative now has 45 members and runs multiple successful businesses.',
     impact: [

@@ -157,7 +157,7 @@ export default function AboutPage() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="/radio-broadcast.jpg"
+                  src="/duamenafa-176.jpg"
                   alt="Duamenefa Foundation radio broadcast"
                   className="w-full h-80 md:h-[450px] object-cover"
                 />

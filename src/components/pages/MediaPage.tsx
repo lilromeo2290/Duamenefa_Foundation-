@@ -48,14 +48,14 @@ const podcasts = [
 ];
 
 const photos = [
-  { src: '/hero-peace.jpg', caption: 'Community peacebuilding gathering' },
-  { src: '/children-education.jpg', caption: 'Children in our education program' },
-  { src: '/women-empowerment.jpg', caption: 'Women empowerment workshop' },
+  { src: '/duamenefa-4.jpg', caption: 'Community leaders united for peace' },
+  { src: '/duamenafa-10.jpg', caption: 'Duamenefa outreach in rural communities' },
+  { src: '/duamenafa-27.jpg', caption: 'Peace and reconciliation dialogue' },
+  { src: '/duamenafa-176.jpg', caption: 'Transforming lives through advocacy' },
+  { src: '/duamenafa-196.jpg', caption: 'Campaign for human rights and dignity' },
+  { src: '/duamenafa-198.jpg', caption: 'Our dedicated volunteers at work' },
+  { src: '/marathon-13.jpg', caption: 'Annual peace marathon for unity' },
   { src: '/radio-broadcast.jpg', caption: 'Live radio broadcast session' },
-  { src: '/reconciliation.jpg', caption: 'Community reconciliation event' },
-  { src: '/vocational-training.jpg', caption: 'Vocational skills training' },
-  { src: '/community-outreach.jpg', caption: 'Outreach program in rural community' },
-  { src: '/women-empowerment.jpg', caption: 'Cooperative meeting' },
 ];
 
 const fadeInUp = {
