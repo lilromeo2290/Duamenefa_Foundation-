@@ -26,6 +26,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Executives', page: 'executives' },
       { label: 'Associates', page: 'associates' },
+      { label: 'Reporters', page: 'reporters' },
     ],
   },
   { label: 'Forms', page: 'forms', children: [
@@ -34,7 +35,6 @@ const navItems: NavItem[] = [
     ],
   },
   { label: 'Newsletters', page: 'newsletters' },
-  { label: 'Reporters', page: 'reporters' },
   { label: 'Activities', page: 'activities', children: [
       { label: 'Regional Tournaments', page: 'tournaments', children: [
           { label: '2015', page: 'tournament2015' },
