@@ -324,7 +324,7 @@ export default function ContactPage() {
                     Get quick responses via WhatsApp for urgent inquiries and information.
                   </p>
                   <a
-                    href="https://wa.me/233242313766"
+                    href="https://wa.me/233247124917"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
