@@ -659,13 +659,15 @@ export default function HomePage() {
                   <span>Swiss FM 93.7 — Thursdays 11 AM-2 PM</span>
                 </div>
               </div>
-              <Button
-                onClick={() => navigateTo('about')}
-                className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold"
+              <a
+                href="https://fafaafm.radiostream321.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-4 py-2 rounded-md transition-colors"
               >
-                <Play className="h-4 w-4 mr-2" />
-                Visit Media Center
-              </Button>
+                <Radio className="h-4 w-4" />
+                Online Radio
+              </a>
             </motion.div>
 
             <motion.div
