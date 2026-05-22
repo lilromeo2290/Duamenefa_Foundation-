@@ -68,9 +68,9 @@ export default function Navigation() {
             className="flex items-center gap-3 group"
           >
             <img
-              src="/logo.png"
+              src="/logo.jpg"
               alt="Duamenefa Foundation Logo"
-              className="h-10 md:h-12 w-auto object-contain"
+              className="h-10 md:h-12 w-auto object-contain rounded"
             />
             <div className="hidden sm:block">
               <h1 className="text-white font-heading font-bold text-lg leading-tight group-hover:text-[#D4AF37] transition-colors">
@@ -130,9 +130,9 @@ export default function Navigation() {
                   <div className="p-6 border-b border-white/10">
                     <div className="flex items-center gap-3">
                       <img
-                        src="/logo.png"
+                        src="/logo.jpg"
                         alt="Duamenefa Foundation Logo"
-                        className="h-10 w-auto object-contain"
+                        className="h-10 w-auto object-contain rounded"
                       />
                       <div>
                         <h2 className="text-white font-heading font-bold text-lg">

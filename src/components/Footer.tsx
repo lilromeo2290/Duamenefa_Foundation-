@@ -60,9 +60,9 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/logo.png"
+                src="/logo.jpg"
                 alt="Duamenefa Foundation Logo"
-                className="h-10 w-auto object-contain"
+                className="h-10 w-auto object-contain rounded"
               />
               <div>
                 <h3 className="font-heading font-bold text-lg text-[#D4AF37]">
