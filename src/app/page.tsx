@@ -12,6 +12,8 @@ import WhoWeArePage from '@/components/pages/WhoWeArePage';
 import ExecutivesPage from '@/components/pages/ExecutivesPage';
 import AssociatesPage from '@/components/pages/AssociatesPage';
 import FormsPage from '@/components/pages/FormsPage';
+import VolunteerFormPage from '@/components/pages/VolunteerFormPage';
+import CosthetaPage from '@/components/pages/CosthetaPage';
 import NewslettersPage from '@/components/pages/NewslettersPage';
 import ReportersPage from '@/components/pages/ReportersPage';
 import ActivitiesPage from '@/components/pages/ActivitiesPage';
@@ -34,6 +36,8 @@ function PageContent() {
     executives: <ExecutivesPage />,
     associates: <AssociatesPage />,
     forms: <FormsPage />,
+    volunteerform: <VolunteerFormPage />,
+    costheta: <CosthetaPage />,
     newsletters: <NewslettersPage />,
     reporters: <ReportersPage />,
     activities: <ActivitiesPage />,

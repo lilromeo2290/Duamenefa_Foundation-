@@ -9,6 +9,8 @@ export type PageName =
   | 'executives'
   | 'associates'
   | 'forms'
+  | 'volunteerform'
+  | 'costheta'
   | 'newsletters'
   | 'reporters'
   | 'activities'

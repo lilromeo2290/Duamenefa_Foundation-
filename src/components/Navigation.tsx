@@ -22,7 +22,11 @@ const navItems: NavItem[] = [
       { label: 'Associates', page: 'associates' },
     ],
   },
-  { label: 'Forms', page: 'forms' },
+  { label: 'Forms', page: 'forms', children: [
+      { label: 'Volunteer Membership Form', page: 'volunteerform' },
+      { label: 'Costheta Education Support Fund', page: 'costheta' },
+    ],
+  },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
   { label: 'Activities', page: 'activities' },
@@ -159,7 +163,7 @@ export default function Navigation() {
                   </button>
                   {/* Dropdown */}
                   <div
-                    className={`absolute top-full left-0 mt-1 w-48 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-200 ${
+                    className={`absolute top-full left-0 mt-1 w-64 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-200 ${
                       openDropdown === item.label
                         ? 'opacity-100 visible translate-y-0'
                         : 'opacity-0 invisible -translate-y-2'

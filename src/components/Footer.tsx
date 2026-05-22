@@ -23,6 +23,8 @@ const quickLinks: { label: string; page: PageName }[] = [
   { label: 'Executives', page: 'executives' },
   { label: 'Associates', page: 'associates' },
   { label: 'Forms', page: 'forms' },
+  { label: 'Volunteer Membership Form', page: 'volunteerform' },
+  { label: 'Costheta Education Support Fund', page: 'costheta' },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
   { label: 'Activities', page: 'activities' },
