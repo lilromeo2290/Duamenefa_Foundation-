@@ -338,17 +338,16 @@ export default function HomePage() {
                 <span className="text-[#D4AF37]">Transforming Lives</span>
               </h2>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                Duamenefa Foundation is a Ghana-based non-governmental organization
-                committed to promoting peace, reconciliation, and human dignity. The
-                name &ldquo;Duamenefa&rdquo; means &ldquo;Let Us Co-Exist in Peace&rdquo; in the Ewe
-                language — a powerful reminder of our core mission.
+                Duamenefa Foundation is a Ghana-based Non-Governmental Organization (NGO)
+                with a membership of over 47,758 as of July 2025, committed to promoting
+                peace and reconciliation. The name &ldquo;Duamenefa&rdquo; means &ldquo;Let Us Co-Exist
+                in Peace&rdquo; in the Ewe language — a powerful reminder of our core mission.
               </p>
               <p className="text-[#6B4F3A] leading-relaxed mb-6">
-                Through radio intervention programs, community mediation, advocacy
-                campaigns, and vocational training, we have reached over 47,758
-                community members and resolved more than 610 conflicts. Our work
-                continues to transform lives and build bridges across divided
-                communities.
+                Through radio intervention programs on Fafaa 100.3 FM, Justice FM 98.5,
+                Swiss FM 93.7, and Messiah TV, community mediation, advocacy campaigns,
+                and vocational training, we have resolved over 610 spiritual and diabolical
+                conflicts and transformed thousands of lives across 550 communities.
               </p>
               <Button
                 onClick={() => navigateTo('about')}
@@ -424,7 +423,7 @@ export default function HomePage() {
                       {cause.description}
                     </p>
                     <button
-                      onClick={() => navigateTo('programs')}
+                      onClick={() => navigateTo('about')}
                       className="text-[#D4AF37] font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all"
                     >
                       Learn More <ArrowRight className="h-3 w-3" />
@@ -529,11 +528,11 @@ export default function HomePage() {
               </h2>
             </div>
             <Button
-              onClick={() => navigateTo('news')}
+              onClick={() => navigateTo('about')}
               variant="outline"
               className="hidden md:flex border-[#0B3C5D] text-[#0B3C5D] hover:bg-[#0B3C5D] hover:text-white"
             >
-              View All News
+              Learn More
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </motion.div>
@@ -582,11 +581,11 @@ export default function HomePage() {
 
           <div className="mt-8 text-center md:hidden">
             <Button
-              onClick={() => navigateTo('news')}
+              onClick={() => navigateTo('about')}
               variant="outline"
               className="border-[#0B3C5D] text-[#0B3C5D]"
             >
-              View All News
+              Learn More
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </div>
@@ -624,7 +623,7 @@ export default function HomePage() {
                 </div>
               </div>
               <Button
-                onClick={() => navigateTo('media')}
+                onClick={() => navigateTo('about')}
                 className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold"
               >
                 <Play className="h-4 w-4 mr-2" />
@@ -703,21 +702,21 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
-                onClick={() => navigateTo('donate')}
+                onClick={() => navigateTo('about')}
                 size="lg"
                 className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg"
               >
                 <HandHeart className="h-5 w-5 mr-2" />
-                Donate Now
+                Support Our Mission
               </Button>
               <Button
-                onClick={() => navigateTo('volunteer')}
+                onClick={() => navigateTo('about')}
                 size="lg"
                 variant="outline"
                 className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
               >
                 <Users className="h-5 w-5 mr-2" />
-                Become a Volunteer
+                Our Operations
               </Button>
             </div>
           </motion.div>

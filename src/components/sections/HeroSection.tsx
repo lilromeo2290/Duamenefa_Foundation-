@@ -150,30 +150,21 @@ export default function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Button
-            onClick={() => navigateTo('donate')}
+            onClick={() => navigateTo('about')}
             size="lg"
             className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg"
           >
             <Heart className="h-5 w-5 mr-2" />
-            Donate Now
+            Learn About Us
           </Button>
           <Button
-            onClick={() => navigateTo('volunteer')}
+            onClick={() => navigateTo('about')}
             size="lg"
             variant="outline"
             className="border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-8 py-6 text-lg"
           >
             <Users className="h-5 w-5 mr-2" />
-            Become a Volunteer
-          </Button>
-          <Button
-            onClick={() => navigateTo('media')}
-            size="lg"
-            variant="ghost"
-            className="text-white/90 hover:text-white hover:bg-white/15 backdrop-blur-sm px-8 py-6 text-lg"
-          >
-            <Play className="h-5 w-5 mr-2" />
-            Watch Live Programs
+            Our Operations
           </Button>
         </motion.div>
 
