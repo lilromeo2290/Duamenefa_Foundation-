@@ -20,6 +20,8 @@ import {
   Instagram,
   Globe,
   CheckCircle,
+  Building,
+  FileText,
 } from 'lucide-react';
 
 const fadeInUp = {
@@ -44,10 +46,11 @@ export default function ContactPage() {
       <section className="relative py-16 md:py-24 bg-[#0B3C5D] text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/3 w-96 h-96 rounded-full bg-[#D4AF37] blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full bg-[#4C9A2A] blur-3xl" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <span className="inline-block bg-[#D4AF37]/20 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-            📬 Get in Touch
+            Get in Touch
           </span>
           <h1 className="font-heading font-bold text-4xl md:text-5xl mb-4">
             Contact <span className="text-[#D4AF37]">Us</span>
@@ -59,9 +62,130 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Content */}
+      {/* Contact Addresses & Form */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Two Address Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Ghana Address */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card className="border-0 shadow-lg h-full">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-full bg-[#D4AF37]/10 flex items-center justify-center">
+                      <Building className="h-6 w-6 text-[#D4AF37]" />
+                    </div>
+                    <div>
+                      <h2 className="font-heading font-bold text-xl text-[#0B3C5D]">
+                        Ghana Office
+                      </h2>
+                      <p className="text-[#6B4F3A] text-sm">Duamenefa Foundation</p>
+                    </div>
+                  </div>
+                  <div className="space-y-5">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-[#0B3C5D] font-medium text-sm">Address</p>
+                        <p className="text-[#6B4F3A] text-sm">
+                          FAFAA 100.3 FM Premises<br />
+                          PO BOX DZ125<br />
+                          Dzodze, Volta Region
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Mail className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-[#0B3C5D] font-medium text-sm">Email</p>
+                        <a
+                          href="mailto:duamenefafoundation@yahoo.com"
+                          className="text-[#D4AF37] text-sm hover:underline"
+                        >
+                          duamenefafoundation@yahoo.com
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Phone className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-[#0B3C5D] font-medium text-sm">Phone</p>
+                        <a
+                          href="tel:+233242313766"
+                          className="text-[#6B4F3A] text-sm hover:text-[#D4AF37]"
+                        >
+                          +233 242 313 766
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* U.S. Address */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Card className="border-0 shadow-lg h-full">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-full bg-[#0B3C5D]/10 flex items-center justify-center">
+                      <Globe className="h-6 w-6 text-[#0B3C5D]" />
+                    </div>
+                    <div>
+                      <h2 className="font-heading font-bold text-xl text-[#0B3C5D]">
+                        U.S. Office
+                      </h2>
+                      <p className="text-[#6B4F3A] text-sm">Duamenefa Foundation</p>
+                    </div>
+                  </div>
+                  <div className="space-y-5">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 text-[#0B3C5D] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-[#0B3C5D] font-medium text-sm">Address</p>
+                        <p className="text-[#6B4F3A] text-sm">
+                          Duamenefa Foundation<br />
+                          PO BOX 2717<br />
+                          Albertville, Alabama, USA
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Phone className="h-5 w-5 text-[#0B3C5D] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-[#0B3C5D] font-medium text-sm">Phone</p>
+                        <a
+                          href="tel:+12033051152"
+                          className="text-[#6B4F3A] text-sm hover:text-[#D4AF37]"
+                        >
+                          +1 203 305 1152
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <FileText className="h-5 w-5 text-[#0B3C5D] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-[#0B3C5D] font-medium text-sm">Tax ID</p>
+                        <p className="text-[#6B4F3A] text-sm">83-1336344</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Contact Form & Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Contact Form */}
             <div className="lg:col-span-2">
@@ -153,9 +277,9 @@ export default function ContactPage() {
               </motion.div>
             </div>
 
-            {/* Contact Info Sidebar */}
+            {/* Sidebar */}
             <div className="space-y-6">
-              {/* Office Info */}
+              {/* Working Hours */}
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -165,40 +289,21 @@ export default function ContactPage() {
                 <Card className="border-0 shadow-lg">
                   <CardContent className="p-6">
                     <h3 className="font-heading font-bold text-lg text-[#0B3C5D] mb-4">
-                      Office Information
+                      Working Hours
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="flex items-start gap-3">
-                        <MapPin className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                        <Clock className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-[#0B3C5D] font-medium text-sm">Address</p>
-                          <p className="text-[#6B4F3A] text-sm">
-                            Volta Region, Ghana, West Africa
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <Phone className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[#0B3C5D] font-medium text-sm">Phone</p>
-                          <p className="text-[#6B4F3A] text-sm">+233 XX XXX XXXX</p>
-                          <p className="text-[#6B4F3A] text-sm">+233 XX XXX XXXX</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <Mail className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[#0B3C5D] font-medium text-sm">Email</p>
-                          <p className="text-[#6B4F3A] text-sm">info@duamenefa.org</p>
-                          <p className="text-[#6B4F3A] text-sm">support@duamenefa.org</p>
+                          <p className="text-[#6B4F3A] text-sm">Monday - Friday</p>
+                          <p className="text-[#0B3C5D] font-medium text-sm">8:00 AM - 5:00 PM</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <Clock className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-[#0B3C5D] font-medium text-sm">Working Hours</p>
-                          <p className="text-[#6B4F3A] text-sm">Mon - Fri: 8:00 AM - 5:00 PM</p>
-                          <p className="text-[#6B4F3A] text-sm">Sat: 9:00 AM - 1:00 PM</p>
+                          <p className="text-[#6B4F3A] text-sm">Saturday</p>
+                          <p className="text-[#0B3C5D] font-medium text-sm">9:00 AM - 1:00 PM</p>
                         </div>
                       </div>
                     </div>
@@ -219,7 +324,7 @@ export default function ContactPage() {
                     Get quick responses via WhatsApp for urgent inquiries and information.
                   </p>
                   <a
-                    href="https://wa.me/233XXXXXXXXX"
+                    href="https://wa.me/233242313766"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -278,7 +383,7 @@ export default function ContactPage() {
                     Duamenefa Foundation
                   </h3>
                   <p className="text-[#6B4F3A]/50 text-sm">
-                    Volta Region, Ghana, West Africa
+                    Dzodze, Volta Region, Ghana &amp; Albertville, Alabama, USA
                   </p>
                   <p className="text-[#6B4F3A]/40 text-xs mt-2">
                     Interactive map requires Google Maps API key

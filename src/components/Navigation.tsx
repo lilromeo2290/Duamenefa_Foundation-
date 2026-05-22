@@ -104,9 +104,9 @@ export default function Navigation() {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <Phone className="h-3 w-3" />
-              +233 XX XXX XXXX
+              +233 242 313 766
             </span>
-            <span>info@duamenefa.org</span>
+            <span>duamenefafoundation@yahoo.com</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[#D4AF37] font-medium">Duamenefa — &quot;Let Us Co-Exist in Peace&quot;</span>

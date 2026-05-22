@@ -143,15 +143,15 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>Volta Region, Ghana, West Africa</span>
+                <span>FAFAA 100.3 FM Premises, PO BOX DZ125, Dzodze, Volta Region</span>
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Phone className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>+233 XX XXX XXXX</span>
+                <span>+233 242 313 766</span>
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Mail className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>info@duamenefa.org</span>
+                <span>duamenefafoundation@yahoo.com</span>
               </li>
             </ul>
           </div>
