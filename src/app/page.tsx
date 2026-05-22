@@ -18,6 +18,12 @@ import NewslettersPage from '@/components/pages/NewslettersPage';
 import ReportersPage from '@/components/pages/ReportersPage';
 import ActivitiesPage from '@/components/pages/ActivitiesPage';
 import RegionalTournamentsPage from '@/components/pages/RegionalTournamentsPage';
+import Tournament2015Page from '@/components/pages/Tournament2015Page';
+import Tournament2017Page from '@/components/pages/Tournament2017Page';
+import Tournament2018Page from '@/components/pages/Tournament2018Page';
+import Tournament2019Page from '@/components/pages/Tournament2019Page';
+import Tournament2023Page from '@/components/pages/Tournament2023Page';
+import Tournament2024Page from '@/components/pages/Tournament2024Page';
 import TrokosiPage from '@/components/pages/TrokosiPage';
 import VocationalSchoolPage from '@/components/pages/VocationalSchoolPage';
 import ContactPage from '@/components/pages/ContactPage';
@@ -45,6 +51,12 @@ function PageContent() {
     reporters: <ReportersPage />,
     activities: <ActivitiesPage />,
     tournaments: <RegionalTournamentsPage />,
+    tournament2015: <Tournament2015Page />,
+    tournament2017: <Tournament2017Page />,
+    tournament2018: <Tournament2018Page />,
+    tournament2019: <Tournament2019Page />,
+    tournament2023: <Tournament2023Page />,
+    tournament2024: <Tournament2024Page />,
     trokosi: <TrokosiPage />,
     vocationalschool: <VocationalSchoolPage />,
     contact: <ContactPage />,

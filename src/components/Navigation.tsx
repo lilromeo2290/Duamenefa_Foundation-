@@ -4,12 +4,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePage, PageName } from '@/context/PageContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { Menu, Heart, Phone, ChevronDown } from 'lucide-react';
+import { Menu, Heart, Phone, ChevronDown, ChevronRight } from 'lucide-react';
+
+interface SubNavItem {
+  label: string;
+  page: PageName;
+  children?: SubNavItem[];
+}
 
 interface NavItem {
   label: string;
   page: PageName;
-  children?: { label: string; page: PageName }[];
+  children?: SubNavItem[];
 }
 
 const navItems: NavItem[] = [
@@ -30,7 +36,15 @@ const navItems: NavItem[] = [
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
   { label: 'Activities', page: 'activities', children: [
-      { label: 'Regional Tournaments', page: 'tournaments' },
+      { label: 'Regional Tournaments', page: 'tournaments', children: [
+          { label: '2015', page: 'tournament2015' },
+          { label: '2017', page: 'tournament2017' },
+          { label: '2018', page: 'tournament2018' },
+          { label: '2019', page: 'tournament2019' },
+          { label: '2023', page: 'tournament2023' },
+          { label: '2024', page: 'tournament2024' },
+        ],
+      },
       { label: 'Trokosi', page: 'trokosi' },
       { label: 'Vocational School', page: 'vocationalschool' },
     ],
@@ -43,8 +57,11 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSubMenu, setMobileSubMenu] = useState<string | null>(null);
+  const [mobileSubSubMenu, setMobileSubSubMenu] = useState<string | null>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openSubDropdown, setOpenSubDropdown] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const subDropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,6 +75,7 @@ export default function Navigation() {
   useEffect(() => {
     const handleClickOutside = () => {
       setOpenDropdown(null);
+      setOpenSubDropdown(null);
     };
     if (openDropdown) {
       document.addEventListener('click', handleClickOutside);
@@ -69,7 +87,9 @@ export default function Navigation() {
     navigateTo(page);
     setMobileOpen(false);
     setMobileSubMenu(null);
+    setMobileSubSubMenu(null);
     setOpenDropdown(null);
+    setOpenSubDropdown(null);
   };
 
   const handleDropdownEnter = (label: string) => {
@@ -82,12 +102,26 @@ export default function Navigation() {
   const handleDropdownLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setOpenDropdown(null);
+      setOpenSubDropdown(null);
+    }, 250);
+  };
+
+  const handleSubDropdownEnter = (label: string) => {
+    if (subDropdownTimeoutRef.current) {
+      clearTimeout(subDropdownTimeoutRef.current);
+    }
+    setOpenSubDropdown(label);
+  };
+
+  const handleSubDropdownLeave = () => {
+    subDropdownTimeoutRef.current = setTimeout(() => {
+      setOpenSubDropdown(null);
     }, 200);
   };
 
-  const isSubActive = (item: NavItem) => {
+  const isSubActive = (item: NavItem | SubNavItem) => {
     if (!item.children) return currentPage === item.page;
-    return currentPage === item.page || item.children.some((c) => c.page === currentPage);
+    return currentPage === item.page || item.children.some((c) => isSubActive(c));
   };
 
   return (
@@ -166,27 +200,72 @@ export default function Navigation() {
                       <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#D4AF37] rounded-full" />
                     )}
                   </button>
-                  {/* Dropdown */}
+                  {/* First-level Dropdown */}
                   <div
-                    className={`absolute top-full left-0 mt-1 w-64 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-200 ${
+                    className={`absolute top-full left-0 mt-1 w-64 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-visible transition-all duration-200 ${
                       openDropdown === item.label
                         ? 'opacity-100 visible translate-y-0'
                         : 'opacity-0 invisible -translate-y-2'
                     }`}
                   >
-                    {item.children.map((child) => (
-                      <button
-                        key={child.page}
-                        onClick={() => handleNav(child.page)}
-                        className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                          currentPage === child.page
-                            ? 'text-[#D4AF37] bg-[#D4AF37]/10'
-                            : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5'
-                        }`}
-                      >
-                        {child.label}
-                      </button>
-                    ))}
+                    {item.children.map((child) =>
+                      child.children ? (
+                        /* Child with nested submenu (e.g. Regional Tournaments) */
+                        <div
+                          key={child.page}
+                          className="relative"
+                          onMouseEnter={() => handleSubDropdownEnter(child.label)}
+                          onMouseLeave={handleSubDropdownLeave}
+                        >
+                          <button
+                            onClick={() => handleNav(child.page)}
+                            className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center justify-between ${
+                              isSubActive(child)
+                                ? 'text-[#D4AF37] bg-[#D4AF37]/10'
+                                : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5'
+                            }`}
+                          >
+                            {child.label}
+                            <ChevronRight className="h-3.5 w-3.5" />
+                          </button>
+                          {/* Second-level Dropdown (flyout) */}
+                          <div
+                            className={`absolute top-0 left-full ml-1 w-40 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-200 ${
+                              openSubDropdown === child.label
+                                ? 'opacity-100 visible translate-x-0'
+                                : 'opacity-0 invisible -translate-x-2'
+                            }`}
+                          >
+                            {child.children.map((grandchild) => (
+                              <button
+                                key={grandchild.page}
+                                onClick={() => handleNav(grandchild.page)}
+                                className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                                  currentPage === grandchild.page
+                                    ? 'text-[#D4AF37] bg-[#D4AF37]/10'
+                                    : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5'
+                                }`}
+                              >
+                                {grandchild.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        /* Regular child item */
+                        <button
+                          key={child.page}
+                          onClick={() => handleNav(child.page)}
+                          className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 first:rounded-t-lg last:rounded-b-lg ${
+                            currentPage === child.page
+                              ? 'text-[#D4AF37] bg-[#D4AF37]/10'
+                              : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5'
+                          }`}
+                        >
+                          {child.label}
+                        </button>
+                      )
+                    )}
                   </div>
                 </div>
               ) : (
@@ -274,23 +353,70 @@ export default function Navigation() {
                           <div
                             className={`overflow-hidden transition-all duration-300 ${
                               mobileSubMenu === item.label
-                                ? 'max-h-40 opacity-100'
+                                ? 'max-h-[500px] opacity-100'
                                 : 'max-h-0 opacity-0'
                             }`}
                           >
-                            {item.children.map((child) => (
-                              <button
-                                key={child.page}
-                                onClick={() => handleNav(child.page)}
-                                className={`w-full text-left pl-10 pr-6 py-2.5 text-sm font-medium transition-all duration-200 ${
-                                  currentPage === child.page
-                                    ? 'text-[#D4AF37] bg-[#D4AF37]/5'
-                                    : 'text-white/60 hover:text-[#D4AF37] hover:bg-white/5'
-                                }`}
-                              >
-                                {child.label}
-                              </button>
-                            ))}
+                            {item.children.map((child) =>
+                              child.children ? (
+                                /* Mobile: child with nested submenu */
+                                <div key={child.page}>
+                                  <button
+                                    onClick={() =>
+                                      setMobileSubSubMenu(
+                                        mobileSubSubMenu === child.label ? null : child.label
+                                      )
+                                    }
+                                    className={`w-full text-left pl-10 pr-6 py-2.5 text-sm font-medium transition-all duration-200 flex items-center justify-between ${
+                                      isSubActive(child)
+                                        ? 'text-[#D4AF37] bg-[#D4AF37]/5'
+                                        : 'text-white/60 hover:text-[#D4AF37] hover:bg-white/5'
+                                    }`}
+                                  >
+                                    {child.label}
+                                    <ChevronDown
+                                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                                        mobileSubSubMenu === child.label ? 'rotate-180' : ''
+                                      }`}
+                                    />
+                                  </button>
+                                  <div
+                                    className={`overflow-hidden transition-all duration-300 ${
+                                      mobileSubSubMenu === child.label
+                                        ? 'max-h-[300px] opacity-100'
+                                        : 'max-h-0 opacity-0'
+                                    }`}
+                                  >
+                                    {child.children.map((grandchild) => (
+                                      <button
+                                        key={grandchild.page}
+                                        onClick={() => handleNav(grandchild.page)}
+                                        className={`w-full text-left pl-16 pr-6 py-2 text-sm font-medium transition-all duration-200 ${
+                                          currentPage === grandchild.page
+                                            ? 'text-[#D4AF37] bg-[#D4AF37]/5'
+                                            : 'text-white/50 hover:text-[#D4AF37] hover:bg-white/5'
+                                        }`}
+                                      >
+                                        {grandchild.label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : (
+                                /* Mobile: regular child item */
+                                <button
+                                  key={child.page}
+                                  onClick={() => handleNav(child.page)}
+                                  className={`w-full text-left pl-10 pr-6 py-2.5 text-sm font-medium transition-all duration-200 ${
+                                    currentPage === child.page
+                                      ? 'text-[#D4AF37] bg-[#D4AF37]/5'
+                                      : 'text-white/60 hover:text-[#D4AF37] hover:bg-white/5'
+                                  }`}
+                                >
+                                  {child.label}
+                                </button>
+                              )
+                            )}
                           </div>
                         </div>
                       ) : (
