@@ -648,10 +648,14 @@ export default function HomePage() {
               <div className="space-y-4 mb-6">
                 <div>
                   <div className="flex items-center gap-3 text-white/90 mb-1.5">
-                    <Radio className="h-4 w-4 text-[#D4AF37]" />
+                    <img
+                      src="/fafaa-fm-logo.jpg"
+                      alt="Fafaa 100.3 FM Logo"
+                      className="h-8 w-8 rounded-full object-cover ring-2 ring-[#D4AF37]/50"
+                    />
                     <span className="font-medium">Fafaa 100.3 FM</span>
                   </div>
-                  <div className="ml-7 space-y-0.5 text-white/70 text-sm">
+                  <div className="ml-11 space-y-0.5 text-white/70 text-sm">
                     <p>— Sundays 7-10 PM</p>
                     <p>— Tuesdays 11 AM-2 PM</p>
                     <p>— Thursdays 11 AM-2 PM</p>
@@ -659,10 +663,10 @@ export default function HomePage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-3 text-white/90 mb-1.5">
-                    <Radio className="h-4 w-4 text-[#D4AF37]" />
+                    <Radio className="h-6 w-6 text-[#D4AF37]" />
                     <span className="font-medium">Messiah TV Amos 17</span>
                   </div>
-                  <div className="ml-7 space-y-0.5 text-white/70 text-sm">
+                  <div className="ml-9 space-y-0.5 text-white/70 text-sm">
                     <p>— Sundays 7-10 PM</p>
                     <p>— Tuesdays 11 AM-2 PM</p>
                     <p>— Thursdays 11 AM-2 PM</p>
