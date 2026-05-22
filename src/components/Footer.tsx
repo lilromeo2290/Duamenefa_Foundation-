@@ -20,23 +20,9 @@ import {
 const quickLinks: { label: string; page: PageName }[] = [
   { label: 'About Us', page: 'about' },
   { label: 'Who We Are', page: 'whowear' },
-  { label: 'Executives', page: 'executives' },
-  { label: 'Associates', page: 'associates' },
-  { label: 'Community Reporters / Leaders', page: 'reporters' },
   { label: 'Forms', page: 'forms' },
-  { label: 'Volunteer Membership Form', page: 'volunteerform' },
-  { label: 'Costheta Education Support Fund', page: 'costheta' },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Activities', page: 'activities' },
-  { label: 'Regional Tournaments', page: 'tournaments' },
-  { label: 'Tournament 2015', page: 'tournament2015' },
-  { label: 'Tournament 2017', page: 'tournament2017' },
-  { label: 'Tournament 2018', page: 'tournament2018' },
-  { label: 'Tournament 2019', page: 'tournament2019' },
-  { label: 'Tournament 2023', page: 'tournament2023' },
-  { label: 'Tournament 2024', page: 'tournament2024' },
-  { label: 'Trokosi', page: 'trokosi' },
-  { label: 'Vocational School', page: 'vocationalschool' },
   { label: 'Contact Us', page: 'contact' },
 ];
 
