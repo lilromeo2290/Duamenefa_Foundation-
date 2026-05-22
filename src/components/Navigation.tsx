@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePage, PageName } from '@/context/PageContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { Menu, Heart, Phone, ChevronDown, ChevronRight } from 'lucide-react';
+import { Menu, Heart, Phone, ChevronDown, ChevronRight, Radio } from 'lucide-react';
 
 interface SubNavItem {
   label: string;
@@ -288,7 +288,17 @@ export default function Navigation() {
           </div>
 
           {/* CTA + Mobile */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="https://fafaafm.radiostream321.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:flex items-center gap-2 bg-[#4C9A2A] hover:bg-[#3d8523] text-white font-semibold px-4 py-2 rounded-md transition-colors"
+            >
+              <Radio className="h-4 w-4" />
+              <span className="hidden lg:inline">Online Radio</span>
+              <span className="lg:hidden">Radio</span>
+            </a>
             <Button
               onClick={() => handleNav('forms')}
               className="hidden md:flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-5"
@@ -434,7 +444,16 @@ export default function Navigation() {
                       )
                     )}
                   </div>
-                  <div className="p-6 border-t border-white/10">
+                  <div className="p-6 border-t border-white/10 space-y-3">
+                    <a
+                      href="https://fafaafm.radiostream321.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 bg-[#4C9A2A] hover:bg-[#3d8523] text-white font-semibold px-4 py-2.5 rounded-md transition-colors w-full"
+                    >
+                      <Radio className="h-4 w-4" />
+                      Online Radio
+                    </a>
                     <Button
                       onClick={() => handleNav('forms')}
                       className="w-full bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold"
