@@ -15,6 +15,9 @@ import {
   Mail,
   Heart,
   ExternalLink,
+  MessageCircle,
+  Globe,
+  FileText,
 } from 'lucide-react';
 
 const quickLinks: { label: string; page: PageName }[] = [
@@ -133,17 +136,44 @@ export default function Footer() {
               Contact Info
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-white/70 text-sm">
-                <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>FAFAA 100.3 FM Premises, PO BOX DZ125, Dzodze, Volta Region</span>
+              {/* Ghana Office */}
+              <li>
+                <p className="text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-1.5">Ghana Office</p>
+                <div className="flex items-start gap-3 text-white/70 text-sm">
+                  <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
+                  <span>FAFAA 100.3 FM Premises, PO BOX DZ125, Dzodze, Volta Region</span>
+                </div>
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Phone className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>+233 242 313 766</span>
+                <a href="tel:+233242313766" className="hover:text-[#D4AF37] transition-colors">+233 242 313 766</a>
+              </li>
+              {/* U.S. Office */}
+              <li>
+                <p className="text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-1.5 mt-2">U.S. Office</p>
+                <div className="flex items-start gap-3 text-white/70 text-sm">
+                  <Globe className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
+                  <span>PO BOX 2717, Albertville, Alabama, USA</span>
+                </div>
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
+                <Phone className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
+                <a href="tel:+12033051152" className="hover:text-[#D4AF37] transition-colors">+1 203 305 1152</a>
+              </li>
+              {/* Email */}
+              <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Mail className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>duamenefafoundation@yahoo.com</span>
+                <a href="mailto:duamenefafoundation@yahoo.com" className="hover:text-[#D4AF37] transition-colors">duamenefafoundation@yahoo.com</a>
+              </li>
+              {/* WhatsApp */}
+              <li className="flex items-start gap-3 text-white/70 text-sm">
+                <MessageCircle className="h-4 w-4 mt-0.5 shrink-0 text-[#25D366]" />
+                <a href="https://wa.me/233247124917" target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366] transition-colors">WhatsApp: +233 247 124 917</a>
+              </li>
+              {/* Tax ID */}
+              <li className="flex items-start gap-3 text-white/70 text-sm">
+                <FileText className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
+                <span>Tax ID: 83-1336344</span>
               </li>
             </ul>
           </div>
