@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 export type PageName =
   | 'home'
   | 'about'
+  | 'whowear'
   | 'forms'
   | 'newsletters'
   | 'reporters'

@@ -8,6 +8,7 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import HomePage from '@/components/pages/HomePage';
 import AboutPage from '@/components/pages/AboutPage';
+import WhoWeArePage from '@/components/pages/WhoWeArePage';
 import FormsPage from '@/components/pages/FormsPage';
 import NewslettersPage from '@/components/pages/NewslettersPage';
 import ReportersPage from '@/components/pages/ReportersPage';
@@ -27,6 +28,7 @@ function PageContent() {
   const pages: Record<string, React.ReactNode> = {
     home: <HomePage />,
     about: <AboutPage />,
+    whowear: <WhoWeArePage />,
     forms: <FormsPage />,
     newsletters: <NewslettersPage />,
     reporters: <ReportersPage />,

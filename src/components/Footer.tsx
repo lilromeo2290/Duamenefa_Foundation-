@@ -19,7 +19,7 @@ import {
 
 const quickLinks: { label: string; page: PageName }[] = [
   { label: 'About Us', page: 'about' },
-  { label: 'Who We Are', page: 'about' },
+  { label: 'Who We Are', page: 'whowear' },
   { label: 'Forms', page: 'forms' },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
@@ -115,7 +115,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.page}>
                   <button
                     onClick={() => navigateTo(link.page)}
                     className="text-white/70 hover:text-[#D4AF37] text-sm transition-colors duration-200 flex items-center gap-2"

@@ -8,7 +8,7 @@ import { Menu, Heart, Phone } from 'lucide-react';
 
 const navItems: { label: string; page: PageName }[] = [
   { label: 'About Us', page: 'about' },
-  { label: 'Who We Are', page: 'about' },
+  { label: 'Who We Are', page: 'whowear' },
   { label: 'Forms', page: 'forms' },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
@@ -85,7 +85,7 @@ export default function Navigation() {
           <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <button
-                key={item.label}
+                key={item.page}
                 onClick={() => handleNav(item.page)}
                 className={`px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md relative ${
                   currentPage === item.page
@@ -144,7 +144,7 @@ export default function Navigation() {
                   <div className="flex-1 py-4 overflow-y-auto">
                     {navItems.map((item) => (
                       <button
-                        key={item.label}
+                        key={item.page}
                         onClick={() => handleNav(item.page)}
                         className={`w-full text-left px-6 py-3 text-base font-medium transition-all duration-200 ${
                           currentPage === item.page
