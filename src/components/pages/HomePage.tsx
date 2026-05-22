@@ -674,39 +674,44 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                {/* Video placeholder */}
-                <div className="relative aspect-video bg-black/40 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-                  <img
-                    src="/radio-broadcast.jpg"
-                    alt="Live broadcast"
-                    className="absolute inset-0 w-full h-full object-cover opacity-60 brightness-110"
+              <div className="bg-white/5 rounded-2xl p-4 md:p-6 border border-white/10">
+                {/* Facebook Page Embed */}
+                <div className="relative rounded-xl overflow-hidden mb-4">
+                  <iframe
+                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FFafaa100.3fm&tabs=timeline&width=500&height=450&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+                    width="500"
+                    height="450"
+                    style={{ border: 'none', overflow: 'hidden', width: '100%' }}
+                    scrolling="no"
+                    frameBorder="0"
+                    allowFullScreen={true}
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    title="Fafaa 100.3 FM Facebook Page"
                   />
-                  <div className="relative z-10 text-center">
-                    <div className="w-16 h-16 rounded-full bg-[#D4AF37] flex items-center justify-center mx-auto mb-2 cursor-pointer hover:bg-[#c9a22e] transition-colors">
-                      <Play className="h-8 w-8 text-[#0B3C5D] ml-1" />
-                    </div>
-                    <p className="text-white/80 text-sm">Messiah TV – Amos 17</p>
-                  </div>
-                  <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-red-500 px-2 py-1 rounded text-xs font-bold">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    LIVE
-                  </div>
                 </div>
 
                 {/* Audio Player */}
                 <div className="bg-white/5 rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 cursor-pointer">
+                    <a
+                      href="https://fafaafm.radiostream321.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 cursor-pointer hover:bg-[#c9a22e] transition-colors"
+                    >
                       <Play className="h-5 w-5 text-[#0B3C5D] ml-0.5" />
-                    </div>
+                    </a>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Peace Hour Radio</p>
-                      <p className="text-xs text-white/50">Fafaa 100.3 FM</p>
+                      <p className="text-sm font-medium">Fafaa 100.3 FM Live</p>
+                      <p className="text-xs text-white/50">Click to listen live</p>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-red-500 px-2 py-1 rounded text-xs font-bold">
+                      <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                      LIVE
                     </div>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-1.5">
-                    <div className="bg-[#D4AF37] h-1.5 rounded-full w-1/3" />
+                    <div className="bg-[#D4AF37] h-1.5 rounded-full w-1/3 animate-pulse" />
                   </div>
                 </div>
               </div>
