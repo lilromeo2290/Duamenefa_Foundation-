@@ -48,7 +48,7 @@ const podcasts = [
 ];
 
 const photos = [
-  { src: '/duamenefa-4.jpg', caption: 'Community leaders united for peace' },
+  { src: '/duamenafa-4.jpg', caption: 'Community leaders united for peace' },
   { src: '/duamenafa-10.jpg', caption: 'Duamenefa outreach in rural communities' },
   { src: '/duamenafa-27.jpg', caption: 'Peace and reconciliation dialogue' },
   { src: '/duamenafa-176.jpg', caption: 'Transforming lives through advocacy' },
@@ -155,7 +155,7 @@ export default function MediaPage() {
                                 : 'bg-gray-200'
                             }`}
                             style={{
-                              height: isPlaying ? undefined : `${4 + Math.random() * 20}px`,
+                              height: isPlaying ? undefined : `${4 + ((i * 5 + 7) % 20)}px`,
                               animationDelay: `${i * 0.03}s`,
                             }}
                           />

@@ -16,7 +16,7 @@ const sliderImages = [
     alt: 'Duamenefa Foundation outreach program',
   },
   {
-    src: '/duamenefa-27.jpg',
+    src: '/duamenafa-27.jpg',
     alt: 'Duamenefa Foundation peacebuilding initiative',
   },
   {

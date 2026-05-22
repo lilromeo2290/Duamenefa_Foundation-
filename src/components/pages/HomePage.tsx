@@ -111,7 +111,7 @@ const newsItems = [
 ];
 
 const aboutSliderImages = [
-  { src: '/duamenefa-4.jpg', alt: 'Community peace gathering' },
+  { src: '/duamenafa-4.jpg', alt: 'Community peace gathering' },
   { src: '/duamenafa-10.jpg', alt: 'Outreach program activities' },
   { src: '/duamenafa-27.jpg', alt: 'Peacebuilding workshop' },
   { src: '/duamenafa-176.jpg', alt: 'Community transformation project' },

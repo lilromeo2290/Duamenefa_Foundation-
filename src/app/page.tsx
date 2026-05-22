@@ -5,6 +5,7 @@ import { PageProvider, usePage } from '@/context/PageContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import HomePage from '@/components/pages/HomePage';
 import AboutPage from '@/components/pages/AboutPage';
 import ProgramsPage from '@/components/pages/ProgramsPage';
@@ -35,17 +36,19 @@ function PageContent() {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       <main className="flex-1">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentPage}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {pages[currentPage]}
-          </motion.div>
-        </AnimatePresence>
+        <ErrorBoundary>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {pages[currentPage]}
+            </motion.div>
+          </AnimatePresence>
+        </ErrorBoundary>
       </main>
       <Footer />
       <WhatsAppButton />

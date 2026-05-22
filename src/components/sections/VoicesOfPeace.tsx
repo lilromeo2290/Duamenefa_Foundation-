@@ -88,7 +88,7 @@ export default function VoicesOfPeace() {
                       : 'bg-white/20'
                   }`}
                   style={{
-                    height: isPlaying ? undefined : `${8 + Math.random() * 24}px`,
+                    height: isPlaying ? undefined : `${8 + ((i * 7 + 13) % 24)}px`,
                     animationDelay: `${i * 0.05}s`,
                   }}
                 />
