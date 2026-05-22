@@ -6,6 +6,8 @@ export type PageName =
   | 'home'
   | 'about'
   | 'whowear'
+  | 'executives'
+  | 'associates'
   | 'forms'
   | 'newsletters'
   | 'reporters'

@@ -9,6 +9,8 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import HomePage from '@/components/pages/HomePage';
 import AboutPage from '@/components/pages/AboutPage';
 import WhoWeArePage from '@/components/pages/WhoWeArePage';
+import ExecutivesPage from '@/components/pages/ExecutivesPage';
+import AssociatesPage from '@/components/pages/AssociatesPage';
 import FormsPage from '@/components/pages/FormsPage';
 import NewslettersPage from '@/components/pages/NewslettersPage';
 import ReportersPage from '@/components/pages/ReportersPage';
@@ -29,6 +31,8 @@ function PageContent() {
     home: <HomePage />,
     about: <AboutPage />,
     whowear: <WhoWeArePage />,
+    executives: <ExecutivesPage />,
+    associates: <AssociatesPage />,
     forms: <FormsPage />,
     newsletters: <NewslettersPage />,
     reporters: <ReportersPage />,

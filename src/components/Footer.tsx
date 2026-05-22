@@ -20,6 +20,8 @@ import {
 const quickLinks: { label: string; page: PageName }[] = [
   { label: 'About Us', page: 'about' },
   { label: 'Who We Are', page: 'whowear' },
+  { label: 'Executives', page: 'executives' },
+  { label: 'Associates', page: 'associates' },
   { label: 'Forms', page: 'forms' },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },

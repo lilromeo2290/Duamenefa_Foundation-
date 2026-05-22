@@ -1,14 +1,27 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { usePage, PageName } from '@/context/PageContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { Menu, Heart, Phone } from 'lucide-react';
+import { Menu, Heart, Phone, ChevronDown } from 'lucide-react';
 
-const navItems: { label: string; page: PageName }[] = [
+interface NavItem {
+  label: string;
+  page: PageName;
+  children?: { label: string; page: PageName }[];
+}
+
+const navItems: NavItem[] = [
   { label: 'About Us', page: 'about' },
-  { label: 'Who We Are', page: 'whowear' },
+  {
+    label: 'Who We Are',
+    page: 'whowear',
+    children: [
+      { label: 'Executives', page: 'executives' },
+      { label: 'Associates', page: 'associates' },
+    ],
+  },
   { label: 'Forms', page: 'forms' },
   { label: 'Newsletters', page: 'newsletters' },
   { label: 'Reporters', page: 'reporters' },
@@ -20,6 +33,9 @@ export default function Navigation() {
   const { currentPage, navigateTo } = usePage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSubMenu, setMobileSubMenu] = useState<string | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,9 +45,40 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenDropdown(null);
+    };
+    if (openDropdown) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [openDropdown]);
+
   const handleNav = (page: PageName) => {
     navigateTo(page);
     setMobileOpen(false);
+    setMobileSubMenu(null);
+    setOpenDropdown(null);
+  };
+
+  const handleDropdownEnter = (label: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setOpenDropdown(label);
+  };
+
+  const handleDropdownLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 200);
+  };
+
+  const isSubActive = (item: NavItem) => {
+    if (!item.children) return currentPage === item.page;
+    return currentPage === item.page || item.children.some((c) => c.page === currentPage);
   };
 
   return (
@@ -83,22 +130,73 @@ export default function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.page}
-                onClick={() => handleNav(item.page)}
-                className={`px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md relative ${
-                  currentPage === item.page
-                    ? 'text-[#D4AF37]'
-                    : 'text-white/90 hover:text-[#D4AF37] hover:bg-white/5'
-                }`}
-              >
-                {item.label}
-                {currentPage === item.page && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#D4AF37] rounded-full" />
-                )}
-              </button>
-            ))}
+            {navItems.map((item) =>
+              item.children ? (
+                <div
+                  key={item.page}
+                  className="relative"
+                  onMouseEnter={() => handleDropdownEnter(item.label)}
+                  onMouseLeave={handleDropdownLeave}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    onClick={() => handleNav(item.page)}
+                    className={`px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md relative flex items-center gap-1 ${
+                      isSubActive(item)
+                        ? 'text-[#D4AF37]'
+                        : 'text-white/90 hover:text-[#D4AF37] hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                        openDropdown === item.label ? 'rotate-180' : ''
+                      }`}
+                    />
+                    {isSubActive(item) && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#D4AF37] rounded-full" />
+                    )}
+                  </button>
+                  {/* Dropdown */}
+                  <div
+                    className={`absolute top-full left-0 mt-1 w-48 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-200 ${
+                      openDropdown === item.label
+                        ? 'opacity-100 visible translate-y-0'
+                        : 'opacity-0 invisible -translate-y-2'
+                    }`}
+                  >
+                    {item.children.map((child) => (
+                      <button
+                        key={child.page}
+                        onClick={() => handleNav(child.page)}
+                        className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                          currentPage === child.page
+                            ? 'text-[#D4AF37] bg-[#D4AF37]/10'
+                            : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5'
+                        }`}
+                      >
+                        {child.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <button
+                  key={item.page}
+                  onClick={() => handleNav(item.page)}
+                  className={`px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md relative ${
+                    currentPage === item.page
+                      ? 'text-[#D4AF37]'
+                      : 'text-white/90 hover:text-[#D4AF37] hover:bg-white/5'
+                  }`}
+                >
+                  {item.label}
+                  {currentPage === item.page && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#D4AF37] rounded-full" />
+                  )}
+                </button>
+              )
+            )}
           </div>
 
           {/* CTA + Mobile */}
@@ -142,19 +240,64 @@ export default function Navigation() {
                     </div>
                   </div>
                   <div className="flex-1 py-4 overflow-y-auto">
-                    {navItems.map((item) => (
-                      <button
-                        key={item.page}
-                        onClick={() => handleNav(item.page)}
-                        className={`w-full text-left px-6 py-3 text-base font-medium transition-all duration-200 ${
-                          currentPage === item.page
-                            ? 'text-[#D4AF37] bg-white/5 border-l-4 border-[#D4AF37]'
-                            : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5 border-l-4 border-transparent'
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
+                    {navItems.map((item) =>
+                      item.children ? (
+                        <div key={item.page}>
+                          <button
+                            onClick={() =>
+                              setMobileSubMenu(
+                                mobileSubMenu === item.label ? null : item.label
+                              )
+                            }
+                            className={`w-full text-left px-6 py-3 text-base font-medium transition-all duration-200 flex items-center justify-between ${
+                              isSubActive(item)
+                                ? 'text-[#D4AF37] bg-white/5 border-l-4 border-[#D4AF37]'
+                                : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5 border-l-4 border-transparent'
+                            }`}
+                          >
+                            {item.label}
+                            <ChevronDown
+                              className={`h-4 w-4 transition-transform duration-200 ${
+                                mobileSubMenu === item.label ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+                          <div
+                            className={`overflow-hidden transition-all duration-300 ${
+                              mobileSubMenu === item.label
+                                ? 'max-h-40 opacity-100'
+                                : 'max-h-0 opacity-0'
+                            }`}
+                          >
+                            {item.children.map((child) => (
+                              <button
+                                key={child.page}
+                                onClick={() => handleNav(child.page)}
+                                className={`w-full text-left pl-10 pr-6 py-2.5 text-sm font-medium transition-all duration-200 ${
+                                  currentPage === child.page
+                                    ? 'text-[#D4AF37] bg-[#D4AF37]/5'
+                                    : 'text-white/60 hover:text-[#D4AF37] hover:bg-white/5'
+                                }`}
+                              >
+                                {child.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          key={item.page}
+                          onClick={() => handleNav(item.page)}
+                          className={`w-full text-left px-6 py-3 text-base font-medium transition-all duration-200 ${
+                            currentPage === item.page
+                              ? 'text-[#D4AF37] bg-white/5 border-l-4 border-[#D4AF37]'
+                              : 'text-white/80 hover:text-[#D4AF37] hover:bg-white/5 border-l-4 border-transparent'
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      )
+                    )}
                   </div>
                   <div className="p-6 border-t border-white/10">
                     <Button
