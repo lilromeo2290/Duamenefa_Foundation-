@@ -1,30 +1,25 @@
 ---
-Task ID: 1
+Task ID: 2
 Agent: Main Agent
-Task: Build complete Duamenefa Foundation NGO website
+Task: Fix "Unable to load news" error - rewrite news API route
 
 Work Log:
-- Initialized Next.js 16 fullstack project environment
-- Generated 7 AI images for the website (hero, children education, women empowerment, radio broadcast, reconciliation, vocational training, community outreach, logo, favicon)
-- Built complete single-page application with client-side routing using React Context (PageContext)
-- Created 9 page components: HomePage, AboutPage, ProgramsPage, MediaPage, StoriesPage, DonatePage, VolunteerPage, NewsPage, ContactPage
-- Created shared components: Navigation (sticky with mobile hamburger), Footer (comprehensive with newsletter), WhatsAppButton (floating), NewsletterForm
-- Created section components: HeroSection, StatsCounter (animated), VoicesOfPeace (with audio waveform animation)
-- Applied brand colors: Deep Blue (#0B3C5D), Gold (#D4AF37), Earth Brown (#6B4F3A), Soft Green (#4C9A2A)
-- Set up Poppins + Open Sans typography via Google Fonts
-- Implemented Framer Motion animations throughout (page transitions, scroll animations, counters)
-- Added responsive design with mobile-first approach
-- ESLint: 0 errors, 0 warnings
-- Dev server compiling successfully
+- Diagnosed that the old API route used z-ai-web-dev-sdk page_reader which was unreliable
+- Confirmed WordPress REST API at fafaafmonline.com/wp-json/wp/v2/posts works correctly
+- Discovered Next.js fetch caching was causing stale/failed responses (cache: "no-store" fix)
+- Discovered WordPress site has intermittent Imunify360 bot protection blocking API requests
+- Rewrote /api/news/route.ts with three fallback methods:
+  1. WP REST API with _embed (primary - includes featured images)
+  2. WP REST API without _embed + separate media fetch (secondary)
+  3. RSS feed (most resilient fallback)
+- Added retry logic with exponential backoff for bot protection issues
+- Added persistent image URL cache (survives across news refreshes)
+- Added image fallback error handler in HomePage.tsx (onError -> /radio-broadcast.jpg)
+- Tested in both dev and standalone production builds - both return 9 news items with images
 
 Stage Summary:
-- Complete 9-page NGO website built with Next.js 16, TypeScript, Tailwind CSS 4, shadcn/ui
-- All pages feature rich, authentic content about the organization
-- Brand identity fully implemented with custom colors, fonts, and imagery
-- Mobile-responsive with hamburger menu navigation
-- Animated stats counters, waveform visualizations, and page transitions
-- WhatsApp floating chat button, newsletter forms, contact forms
-- Donation page with amount selection, impact calculator, financial transparency
-- Volunteer registration with skills/interest multi-select
-- News page with search and category filtering
-- Media page with live radio player, video gallery, podcast archive, photo gallery
+- News API now reliably returns 9 items with featured images
+- Three fallback methods ensure maximum reliability
+- Image URL cache persists across requests so images survive even if _embed is blocked
+- Production build verified working
+

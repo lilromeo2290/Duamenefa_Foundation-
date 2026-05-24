@@ -570,6 +570,12 @@ export default function HomePage() {
                           src={item.image}
                           alt={item.title}
                           className="w-full h-full object-cover brightness-105 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            if (target.src !== '/radio-broadcast.jpg') {
+                              target.src = '/radio-broadcast.jpg';
+                            }
+                          }}
                         />
                       </div>
                       <CardContent className="p-5">
