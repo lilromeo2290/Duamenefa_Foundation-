@@ -65,10 +65,11 @@ const featuredCauses = [
 const testimonials = [
   {
     quote:
-      'Duamenefa Foundation saved my community from a devastating conflict. Their peace mediation approach brought us together when everything seemed lost.',
-    name: 'Torgbui Kofi',
-    role: 'Community Chief, Volta Region',
-    initials: 'TK',
+      'The Foundation\u2019s work is commendable and encouraged its leadership to continue promoting peace and supporting communities through their social intervention mechanisms.',
+    name: 'Torgbi Avorkliya V',
+    role: 'Chief of Dzodze Kuli, Ketu North, Volta Region',
+    initials: 'TA',
+    avatar: '/torgbi-avorkliya.jpg',
   },
   {
     quote:
@@ -469,8 +470,8 @@ export default function HomePage() {
                       {testimonial.quote}
                     </p>
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-10 w-10 border-2 border-[#D4AF37]">
-                        <AvatarImage src="" alt={testimonial.name} />
+                      <Avatar className="h-12 w-12 border-2 border-[#D4AF37]">
+                        <AvatarImage src={testimonial.avatar || ''} alt={testimonial.name} className="object-cover" />
                         <AvatarFallback className="bg-[#0B3C5D] text-white text-xs font-heading">
                           {testimonial.initials}
                         </AvatarFallback>
