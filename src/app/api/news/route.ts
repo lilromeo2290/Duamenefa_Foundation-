@@ -29,6 +29,7 @@ function categorize(title: string): string {
 function formatDate(dateStr: string): string {
   try {
     const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr;
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -47,145 +48,121 @@ function stripHtml(html: string): string {
     .trim();
 }
 
+// In-memory cache for news (refreshed every 30 min)
+let cachedNews: NewsItem[] = [];
+let lastFetchTime = 0;
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+
+function parseNewsFromHtml(html: string): NewsItem[] {
+  const items: NewsItem[] = [];
+
+  // Split HTML by post blocks - each article starts with class="post-XXXXX
+  const postBlocks = html.split(/class="post-\d+\s/);
+
+  for (let i = 1; i < postBlocks.length && items.length < 9; i++) {
+    const block = postBlocks[i];
+
+    // Extract background-image URL
+    const bgImgMatch = block.match(/background-image:\s*url\(['"]([^'"]+)['"]\)/i);
+    const image = bgImgMatch ? bgImgMatch[1] : "/radio-broadcast.jpg";
+
+    // Extract title and link from entry-title
+    const titleMatch = block.match(
+      /<h[12][^>]*class="entry-title"[^>]*>\s*<a[^>]+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>\s*<\/h[12]>/i
+    );
+    if (!titleMatch) continue;
+
+    const link = titleMatch[1];
+    const title = stripHtml(titleMatch[2]).trim();
+
+    if (!title || title.length < 5) continue;
+
+    // Extract date from date div
+    const dateMatch = block.match(/<div\s+class="date"[^>]*>\s*<a[^>]*>([\s\S]*?)<\/a>/i);
+    const dateStr = dateMatch ? stripHtml(dateMatch[1]).trim() : "";
+    const date = dateStr ? formatDate(dateStr) : "";
+
+    // Extract excerpt from entry-content
+    const excerptMatch = block.match(
+      /<div[^>]*class="entry-content"[^>]*>\s*<p>([\s\S]*?)<\/p>/i
+    );
+    const excerpt = excerptMatch ? stripHtml(excerptMatch[1]).trim() : "";
+
+    items.push({
+      title,
+      link,
+      excerpt: excerpt.length > 200 ? excerpt.substring(0, 197) + "..." : (excerpt || title.substring(0, 100) + "..."),
+      date,
+      image,
+      category: categorize(title),
+    });
+  }
+
+  return items;
+}
+
+async function fetchNewsViaPageReader(): Promise<NewsItem[]> {
+  const ZAI = (await import("z-ai-web-dev-sdk")).default;
+  const zai = await ZAI.create();
+
+  const pageResult = await zai.functions.invoke("page_reader", {
+    url: "https://fafaafmonline.com/category/duamenefa-news/",
+  });
+
+  if (pageResult.code !== 200 || !pageResult.data?.html) {
+    throw new Error(`Page reader failed with code ${pageResult.code}`);
+  }
+
+  return parseNewsFromHtml(pageResult.data.html);
+}
+
 export async function GET() {
   try {
-    // Use WordPress REST API to get posts with featured images
-    const postsUrl = "https://fafaafmonline.com/wp-json/wp/v2/posts?categories=9&per_page=9&_embed";
-
-    const postsResponse = await fetch(postsUrl, {
-      next: { revalidate: 1800 }, // Cache for 30 minutes
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-      },
-    });
-
-    if (!postsResponse.ok) {
-      throw new Error(`Failed to fetch posts: ${postsResponse.status}`);
-    }
-
-    const posts = await postsResponse.json();
-
-    // Collect featured media IDs that need fetching
-    const mediaIds: number[] = [];
-    const mediaMap: Record<number, string> = {};
-
-    for (const post of posts as Record<string, unknown>[]) {
-      const fm = post.featured_media;
-      if (fm && typeof fm === "number" && !mediaMap[fm]) {
-        mediaIds.push(fm);
-      }
-    }
-
-    // Fetch all featured media in parallel
-    if (mediaIds.length > 0) {
-      const mediaPromises = mediaIds.map(async (id) => {
-        try {
-          const mediaRes = await fetch(
-            `https://fafaafmonline.com/wp-json/wp/v2/media/${id}`,
-            {
-              next: { revalidate: 3600 },
-              headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Accept": "application/json",
-              },
-            }
-          );
-          if (mediaRes.ok) {
-            const mediaData = await mediaRes.json();
-            mediaMap[id] = (mediaData as Record<string, unknown>).source_url as string || "/radio-broadcast.jpg";
-          }
-        } catch {
-          // Silently skip failed media fetches
-        }
+    // Check cache first
+    const now = Date.now();
+    if (cachedNews.length > 0 && (now - lastFetchTime) < CACHE_DURATION) {
+      return NextResponse.json({
+        news: cachedNews,
+        updated: new Date(lastFetchTime).toISOString(),
+        cached: true,
       });
-
-      await Promise.all(mediaPromises);
     }
 
-    // Build news items
-    const items: NewsItem[] = (posts as Record<string, unknown>[]).map((post) => {
-      const titleObj = post.title as Record<string, string> | undefined;
-      const excerptObj = post.excerpt as Record<string, string> | undefined;
-      const title = stripHtml(titleObj?.rendered || "");
-      const excerpt = stripHtml(excerptObj?.rendered || "");
-      const featuredMedia = post.featured_media as number;
+    const items = await fetchNewsViaPageReader();
+    console.log("[News API] Fetched items:", items.length);
 
-      return {
-        title,
-        link: post.link as string,
-        excerpt: excerpt.length > 200 ? excerpt.substring(0, 197) + "..." : excerpt,
-        date: formatDate(post.date as string),
-        image: featuredMedia ? (mediaMap[featuredMedia] || "/radio-broadcast.jpg") : "/radio-broadcast.jpg",
-        category: categorize(title),
-      };
-    });
+    if (items.length > 0) {
+      cachedNews = items;
+      lastFetchTime = now;
+      return NextResponse.json({ news: items, updated: new Date().toISOString() });
+    }
 
-    return NextResponse.json({ news: items, updated: new Date().toISOString() });
+    // Return cached news even if stale
+    if (cachedNews.length > 0) {
+      return NextResponse.json({
+        news: cachedNews,
+        updated: new Date(lastFetchTime).toISOString(),
+        cached: true,
+      });
+    }
+
+    return NextResponse.json({ news: [], updated: new Date().toISOString() });
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error("News fetch error:", errorMessage);
+    console.error("[News API] Error:", errorMessage);
 
-    // Fallback: try RSS feed
-    try {
-      const feedUrl = "https://fafaafmonline.com/category/duamenefa-news/feed/";
-      const feedResponse = await fetch(feedUrl, {
-        next: { revalidate: 1800 },
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        },
+    // Return cached news if available
+    if (cachedNews.length > 0) {
+      return NextResponse.json({
+        news: cachedNews,
+        updated: new Date(lastFetchTime).toISOString(),
+        cached: true,
       });
-
-      if (!feedResponse.ok) {
-        throw new Error(`RSS fallback also failed: ${feedResponse.status}`);
-      }
-
-      const xml = await feedResponse.text();
-      const items: NewsItem[] = [];
-      const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
-      let match;
-
-      while ((match = itemRegex.exec(xml)) !== null) {
-        const itemXml = match[1];
-        const titleMatch = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>|<title>(.*?)<\/title>/i);
-        const linkMatch = itemXml.match(/<link>(.*?)<\/link>/i);
-        const pubDateMatch = itemXml.match(/<pubDate>(.*?)<\/pubDate>/i);
-        const descMatch = itemXml.match(
-          /<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>|<description>([\s\S]*?)<\/description>/i
-        );
-
-        const title = titleMatch ? (titleMatch[1] || titleMatch[2] || "").trim() : "";
-        const link = linkMatch ? linkMatch[1].trim() : "";
-        const pubDate = pubDateMatch ? pubDateMatch[1].trim() : "";
-        const description = descMatch ? (descMatch[1] || descMatch[2] || "").trim() : "";
-
-        if (title && link) {
-          const cleanExcerpt = stripHtml(description);
-          const postIdx = cleanExcerpt.indexOf("The post ");
-          const finalExcerpt = postIdx > 0 ? cleanExcerpt.substring(0, postIdx).trim() : cleanExcerpt;
-
-          items.push({
-            title,
-            link,
-            excerpt: finalExcerpt.length > 200 ? finalExcerpt.substring(0, 197) + "..." : finalExcerpt,
-            date: formatDate(pubDate),
-            image: "/radio-broadcast.jpg",
-            category: categorize(title),
-          });
-        }
-
-        if (items.length >= 9) break;
-      }
-
-      return NextResponse.json({ news: items, updated: new Date().toISOString() });
-    } catch (fallbackError: unknown) {
-      const fallbackMessage = fallbackError instanceof Error ? fallbackError.message : "Unknown fallback error";
-      console.error("News fallback error:", fallbackMessage);
-      return NextResponse.json(
-        { news: [], error: errorMessage, updated: new Date().toISOString() },
-        { status: 200 }
-      );
     }
+
+    return NextResponse.json(
+      { news: [], error: errorMessage, updated: new Date().toISOString() },
+      { status: 200 }
+    );
   }
 }
