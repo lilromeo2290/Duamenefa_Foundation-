@@ -86,62 +86,14 @@ const testimonials = [
   },
 ];
 
-const newsItems = [
-  {
-    date: 'May 21, 2026',
-    category: 'Press Release',
-    title: 'Duamenefa Foundation Expresses Heartfelt Displeasure Over Persistent Power Outages ("Dumsor")',
-    excerpt:
-      'The Executive President of the Duamenefa Foundation expresses heartfelt displeasure over persistent power outages affecting communities, households, and businesses — demanding immediate action from government.',
-    image: 'https://fafaafmonline.com/wp-content/uploads/2026/05/New-Microsoft-PowerPoint-Presentation.jpg',
-    link: 'https://fafaafmonline.com/duamenefa-news/press-release-duamenefa-foundation-expresses-heartfelt-displeasure-over-persistent-power-outages-dumsor-affecting-communities-households-and-businesses-we-demand-immediate-ac/',
-  },
-  {
-    date: 'May 19, 2026',
-    category: 'Advocacy',
-    title: 'Duamenefa Foundation Cautions Public Against Invoking Gods in Disputes',
-    excerpt:
-      'The Duamenefa Foundation has cautioned the public against invoking the wrath of the gods in settling disputes, urging peaceful resolution instead.',
-    image: 'https://fafaafmonline.com/wp-content/uploads/2026/05/images-3.jpg',
-    link: 'https://fafaafmonline.com/duamenefa-news/duamenefa-foundation-cautions-public-against-invoking-gods-in-disputes/',
-  },
-  {
-    date: 'May 17, 2026',
-    category: 'Investigation',
-    title: 'Duamenefa Foundation Questions Voodoo Practitioners on Economic Value of Harmful Juju Practices',
-    excerpt:
-      'The Duamenefa Foundation has raised concerns about the activities of some voodoo practitioners, questioning the economic value of harmful juju practices.',
-    image: 'https://fafaafmonline.com/wp-content/uploads/2026/05/sddefault.jpg',
-    link: 'https://fafaafmonline.com/duamenefa-news/duamenefa-foundation-questions-voodoo-practitioners-on-the-economic-value-of-harmful-juju-practices/',
-  },
-  {
-    date: 'May 17, 2026',
-    category: 'Sports',
-    title: 'Duamenefa Foundation Distributes 2025 Regional Tournament Report to Traditional Leaders',
-    excerpt:
-      'The Duamenefa Foundation has distributed copies of its 2025 Duamenefa Regional Tournament report to traditional leaders and stakeholders across the region.',
-    image: 'https://fafaafmonline.com/wp-content/uploads/2026/05/Report.jpg',
-    link: 'https://fafaafmonline.com/duamenefa-news/duamenefa-foundation-distributes-2025-duamenefa-regional-tournament-report-to-traditional-leaders-and-stakeholders/',
-  },
-  {
-    date: 'May 16, 2026',
-    category: 'Award',
-    title: 'Hutor Dziwornu Macbeth Honored with Prestigious Award by Duamenefa Foundation and Fafaa 100.3 FM',
-    excerpt:
-      'The birthday celebration of Mr. Macbeth Dziwornu Hutor, a freelance journalist and writer for Duamenefa Social Intervention, was marked with a prestigious award.',
-    image: 'https://fafaafmonline.com/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-16-at-7.27.13-AM.jpeg',
-    link: 'https://fafaafmonline.com/duamenefa-news/double-celebration-hutor-dziwornu-macbeth-honored-with-prestigious-award-by-duamenefa-foundation-and-fafaa-100-3-fm/',
-  },
-  {
-    date: 'May 14, 2026',
-    category: 'Human Rights',
-    title: 'Trokosi Practice Is Unconstitutional — CHRAJ Reaffirms',
-    excerpt:
-      'The Commission on Human Rights and Administrative Justice (CHRAJ) has reaffirmed that the Trokosi practice is unconstitutional and violates fundamental human rights.',
-    image: 'https://fafaafmonline.com/wp-content/uploads/2026/05/images-1.jpg',
-    link: 'https://fafaafmonline.com/duamenefa-news/trokosi-practice-is-unconstitutional-chraj-reaffirms/',
-  },
-];
+interface NewsItem {
+  title: string;
+  link: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  category: string;
+}
 
 const aboutSliderImages = [
   { src: '/duamenafa-4.jpg', alt: 'Community peace gathering' },
@@ -345,6 +297,22 @@ const fadeInUp = {
 
 export default function HomePage() {
   const { navigateTo } = usePage();
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/news')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.news && data.news.length > 0) {
+          setNewsItems(data.news);
+        }
+        setNewsLoading(false);
+      })
+      .catch(() => {
+        setNewsLoading(false);
+      });
+  }, []);
 
   return (
     <div>
@@ -568,47 +536,79 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {newsItems.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
-                  <Card className="group h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer overflow-hidden">
-                    <div className="relative h-48 bg-[#0B3C5D]/5 overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover brightness-105 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500"
-                      />
-                    </div>
+            {newsLoading ? (
+              // Loading skeleton
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <Card className="h-full border-0 shadow-md overflow-hidden">
+                    <div className="h-48 bg-gray-200" />
                     <CardContent className="p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <Badge
-                          variant="secondary"
-                          className="bg-[#D4AF37]/10 text-[#D4AF37] text-xs"
-                        >
-                          {item.category}
-                        </Badge>
-                        <span className="text-xs text-[#6B4F3A]/60 flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {item.date}
-                        </span>
+                        <div className="h-5 w-20 bg-gray-200 rounded" />
+                        <div className="h-4 w-24 bg-gray-200 rounded" />
                       </div>
-                      <h3 className="font-heading font-semibold text-[#0B3C5D] mb-2 line-clamp-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-[#6B4F3A] text-sm leading-relaxed line-clamp-3">
-                        {item.excerpt}
-                      </p>
+                      <div className="h-5 bg-gray-200 rounded mb-2" />
+                      <div className="h-4 bg-gray-200 rounded mb-1" />
+                      <div className="h-4 bg-gray-200 rounded w-3/4" />
                     </CardContent>
                   </Card>
+                </div>
+              ))
+            ) : newsItems.length > 0 ? (
+              newsItems.map((item, index) => (
+                <motion.div
+                  key={item.link}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
+                    <Card className="group h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer overflow-hidden">
+                      <div className="relative h-48 bg-[#0B3C5D]/5 overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover brightness-105 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500"
+                        />
+                      </div>
+                      <CardContent className="p-5">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Badge
+                            variant="secondary"
+                            className="bg-[#D4AF37]/10 text-[#D4AF37] text-xs"
+                          >
+                            {item.category}
+                          </Badge>
+                          <span className="text-xs text-[#6B4F3A]/60 flex items-center gap-1">
+                            <Calendar className="h-3 w-3" />
+                            {item.date}
+                          </span>
+                        </div>
+                        <h3 className="font-heading font-semibold text-[#0B3C5D] mb-2 line-clamp-2">
+                          {item.title}
+                        </h3>
+                        <p className="text-[#6B4F3A] text-sm leading-relaxed line-clamp-3">
+                          {item.excerpt}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </a>
+                </motion.div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-[#6B4F3A]/60">Unable to load news at this time. Please check back later.</p>
+                <a
+                  href="https://fafaafmonline.com/category/duamenefa-news/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-[#D4AF37] hover:underline mt-2 font-medium"
+                >
+                  Visit Fafaa FM News <ArrowRight className="h-4 w-4" />
                 </a>
-              </motion.div>
-            ))}
+              </div>
+            )}
           </div>
 
           <div className="mt-8 text-center md:hidden">
