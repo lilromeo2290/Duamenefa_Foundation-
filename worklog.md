@@ -1,25 +1,23 @@
 ---
-Task ID: 2
+Task ID: 3
 Agent: Main Agent
-Task: Fix "Unable to load news" error - rewrite news API route
+Task: Fix "PreconditionFailed - function is pending state" error showing raw JSON on deployed page
 
 Work Log:
-- Diagnosed that the old API route used z-ai-web-dev-sdk page_reader which was unreliable
-- Confirmed WordPress REST API at fafaafmonline.com/wp-json/wp/v2/posts works correctly
-- Discovered Next.js fetch caching was causing stale/failed responses (cache: "no-store" fix)
-- Discovered WordPress site has intermittent Imunify360 bot protection blocking API requests
-- Rewrote /api/news/route.ts with three fallback methods:
-  1. WP REST API with _embed (primary - includes featured images)
-  2. WP REST API without _embed + separate media fetch (secondary)
-  3. RSS feed (most resilient fallback)
-- Added retry logic with exponential backoff for bot protection issues
-- Added persistent image URL cache (survives across news refreshes)
-- Added image fallback error handler in HomePage.tsx (onError -> /radio-broadcast.jpg)
-- Tested in both dev and standalone production builds - both return 9 news items with images
+- Identified the error as a platform-level cold-start issue where serverless function hasn't initialized
+- The error {"Code":"PreconditionFailed","Message":"function is pending state, please try later"} replaces entire page
+- Added inline script in layout.tsx <head> to detect PreconditionFailed JSON and auto-retry (up to 5 times with backoff)
+- Added branded fallback page when retries exhausted (shows "Server is Starting Up" with retry button)
+- Updated Caddyfile to intercept backend HTTP errors (500/502/503/504) and serve branded retry page
+- Added Next.js error.tsx for graceful React-level error handling
+- Added frontend retry logic in HomePage.tsx for news API (handles platform errors, non-JSON responses, up to 3 retries)
+- Created static fallback HTML page at public/index-fallback.html
+- Rebuilt and verified production build passes
 
 Stage Summary:
-- News API now reliably returns 9 items with featured images
-- Three fallback methods ensure maximum reliability
-- Image URL cache persists across requests so images survive even if _embed is blocked
-- Production build verified working
+- Platform-level cold start errors now handled gracefully with auto-retry
+- Users see branded "Server is Starting Up" message instead of raw JSON
+- Auto-reload after 5 seconds on error page, with manual "Try Again" button
+- Caddy intercepts backend failures with branded HTML fallback
+- News API fetch has robust retry logic with error detection
 

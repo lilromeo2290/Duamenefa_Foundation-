@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Duamenefa Foundation - Loading</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0B3C5D;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    .container { max-width: 500px; }
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #D4AF37;
+    }
+    p {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    button {
+      background: #D4AF37;
+      color: #0B3C5D;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #c9a22e; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="/logo.jpg" alt="Duamenefa Foundation" class="logo">
+    <div class="icon">&#9203;</div>
+    <h1>Server is Starting Up</h1>
+    <p>The Duamenefa Foundation website is initializing. This usually takes a few seconds after a new deployment. The page will reload automatically.</p>
+    <button onclick="location.reload()">Try Again</button>
+  </div>
+  <script>
+    // Auto-retry with exponential backoff
+    (function() {
+      var retryCount = parseInt(sessionStorage.getItem('__startup_retry') || '0', 10);
+      if (retryCount < 10) {
+        sessionStorage.setItem('__startup_retry', String(retryCount + 1));
+        var delay = Math.min(3000 * (retryCount + 1), 15000);
+        setTimeout(function() { location.reload(); }, delay);
+      } else {
+        sessionStorage.removeItem('__startup_retry');
+      }
+    })();
+  </script>
+</body>
+</html>
