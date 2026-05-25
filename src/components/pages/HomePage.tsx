@@ -302,17 +302,51 @@ export default function HomePage() {
   const [newsLoading, setNewsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/news')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.news && data.news.length > 0) {
-          setNewsItems(data.news);
-        }
-        setNewsLoading(false);
-      })
-      .catch(() => {
-        setNewsLoading(false);
-      });
+    let retries = 3;
+    let attempt = 0;
+
+    function fetchNews() {
+      attempt++;
+      fetch('/api/news')
+        .then((res) => {
+          // Handle non-JSON or platform-level errors (e.g. "function is pending state")
+          const contentType = res.headers.get('content-type') || '';
+          if (!contentType.includes('application/json')) {
+            throw new Error('Non-JSON response');
+          }
+          return res.text().then((text) => {
+            try {
+              return JSON.parse(text);
+            } catch {
+              throw new Error('Invalid JSON');
+            }
+          });
+        })
+        .then((data) => {
+          // Check for platform-level error responses like {"Code":"PreconditionFailed",...}
+          if (data.Code || data.error) {
+            if (attempt < retries) {
+              setTimeout(fetchNews, 2000 * attempt);
+              return;
+            }
+            setNewsLoading(false);
+            return;
+          }
+          if (data.news && data.news.length > 0) {
+            setNewsItems(data.news);
+          }
+          setNewsLoading(false);
+        })
+        .catch(() => {
+          if (attempt < retries) {
+            setTimeout(fetchNews, 2000 * attempt);
+            return;
+          }
+          setNewsLoading(false);
+        });
+    }
+
+    fetchNews();
   }, []);
 
   return (
