@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePage, PageName } from '@/context/PageContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { Menu, Heart, Phone, ChevronDown, ChevronRight, Radio } from 'lucide-react';
+import { Menu, Heart, Phone, ChevronDown, ChevronRight, Radio, Shield } from 'lucide-react';
 
 interface SubNavItem {
   label: string;
@@ -142,8 +142,16 @@ export default function Navigation() {
             </span>
             <span>duamenefafoundation@yahoo.com</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className="text-[#D4AF37] font-medium">Duamenefa — &quot;Let Us Co-Exist in Peace&quot;</span>
+            <button
+              onClick={() => handleNav('admin')}
+              className="flex items-center gap-1 text-white/50 hover:text-[#D4AF37] transition-colors text-xs"
+              title="Admin Dashboard"
+            >
+              <Shield className="h-3 w-3" />
+              <span>Admin</span>
+            </button>
           </div>
         </div>
       </div>
@@ -445,6 +453,13 @@ export default function Navigation() {
                     )}
                   </div>
                   <div className="p-6 border-t border-white/10 space-y-3">
+                    <button
+                      onClick={() => handleNav('admin')}
+                      className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white/70 hover:text-white font-medium px-4 py-2.5 rounded-md transition-colors w-full text-sm"
+                    >
+                      <Shield className="h-4 w-4" />
+                      Admin Dashboard
+                    </button>
                     <a
                       href="https://fafaafm.radiostream321.com/"
                       target="_blank"
