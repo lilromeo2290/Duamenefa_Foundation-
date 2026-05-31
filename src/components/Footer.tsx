@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { usePage, PageName } from '@/context/PageContext';
+import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -31,6 +32,21 @@ const quickLinks: { label: string; page: PageName }[] = [
 
 export default function Footer() {
   const { navigateTo } = usePage();
+  const { siteSettings } = useCMS();
+
+  const phone = siteSettings?.phone || '+233 242 313 766';
+  const email = siteSettings?.email || 'duamenefafoundation@yahoo.com';
+  const whatsapp = siteSettings?.whatsapp || '+233 247 124 917';
+  const address = siteSettings?.address || 'FAFAA 100.3 FM Premises, PO BOX DZ125, Dzodze, Volta Region';
+  const usAddress = siteSettings?.usAddress || 'PO BOX 2717, Albertville, Alabama, USA';
+  const usPhone = siteSettings?.usPhone || '+1 203 305 1152';
+  const taxId = siteSettings?.taxId || '83-1336344';
+  const facebookUrl = siteSettings?.facebookUrl || '#';
+  const youtubeUrl = siteSettings?.youtubeUrl || '#';
+  const twitterUrl = siteSettings?.twitterUrl || '#';
+  const instagramUrl = siteSettings?.instagramUrl || '#';
+  const developerName = siteSettings?.developerName || 'Clipe233 Engineers';
+  const developerUrl = siteSettings?.developerUrl || 'https://clipe233eng.net/';
 
   return (
     <footer className="bg-[#0B3C5D] text-white">
@@ -80,28 +96,28 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <a
-                href="#"
+                href={facebookUrl}
                 className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0B3C5D] transition-all duration-200"
                 aria-label="Facebook"
               >
                 <Facebook className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href={youtubeUrl}
                 className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0B3C5D] transition-all duration-200"
                 aria-label="YouTube"
               >
                 <Youtube className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href={twitterUrl}
                 className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0B3C5D] transition-all duration-200"
                 aria-label="Twitter"
               >
                 <Twitter className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href={instagramUrl}
                 className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#0B3C5D] transition-all duration-200"
                 aria-label="Instagram"
               >
@@ -141,39 +157,39 @@ export default function Footer() {
                 <p className="text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-1.5">Ghana Office</p>
                 <div className="flex items-start gap-3 text-white/70 text-sm">
                   <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                  <span>FAFAA 100.3 FM Premises, PO BOX DZ125, Dzodze, Volta Region</span>
+                  <span>{address}</span>
                 </div>
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Phone className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <a href="tel:+233242313766" className="hover:text-[#D4AF37] transition-colors">+233 242 313 766</a>
+                <a href={`tel:${phone.replace(/\s/g, '')}`} className="hover:text-[#D4AF37] transition-colors">{phone}</a>
               </li>
               {/* U.S. Office */}
               <li>
                 <p className="text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-1.5 mt-2">U.S. Office</p>
                 <div className="flex items-start gap-3 text-white/70 text-sm">
                   <Globe className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                  <span>PO BOX 2717, Albertville, Alabama, USA</span>
+                  <span>{usAddress}</span>
                 </div>
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Phone className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <a href="tel:+12033051152" className="hover:text-[#D4AF37] transition-colors">+1 203 305 1152</a>
+                <a href={`tel:${usPhone.replace(/\s/g, '')}`} className="hover:text-[#D4AF37] transition-colors">{usPhone}</a>
               </li>
               {/* Email */}
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <Mail className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <a href="mailto:duamenefafoundation@yahoo.com" className="hover:text-[#D4AF37] transition-colors">duamenefafoundation@yahoo.com</a>
+                <a href={`mailto:${email}`} className="hover:text-[#D4AF37] transition-colors">{email}</a>
               </li>
               {/* WhatsApp */}
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <MessageCircle className="h-4 w-4 mt-0.5 shrink-0 text-[#25D366]" />
-                <a href="https://wa.me/233247124917" target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366] transition-colors">WhatsApp: +233 247 124 917</a>
+                <a href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366] transition-colors">WhatsApp: {whatsapp}</a>
               </li>
               {/* Tax ID */}
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <FileText className="h-4 w-4 mt-0.5 shrink-0 text-[#D4AF37]" />
-                <span>Tax ID: 83-1336344</span>
+                <span>Tax ID: {taxId}</span>
               </li>
             </ul>
           </div>
@@ -216,12 +232,12 @@ export default function Footer() {
           <p className="font-bold text-white/70">
             Powered and Developed by{' '}
             <a
-              href="https://clipe233eng.net/"
+              href={developerUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors"
             >
-              Clipe233 Engineers
+              {developerName}
             </a>
           </p>
         </div>

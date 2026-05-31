@@ -10,24 +10,36 @@ import { Badge } from '@/components/ui/badge';
 import {
   LayoutDashboard, Users, FileText, Image, Calendar, DollarSign,
   ClipboardList, Building, Plane, Heart, BarChart3, Settings,
-  Bell, Search, Menu, X, ChevronLeft, LogOut, User
+  Bell, Search, Menu, X, ChevronLeft, LogOut, User,
+  MessageSquare, Camera, FileStack, Newspaper, LayoutGrid,
+  ChevronDown
 } from 'lucide-react';
 
 // Lazy-load all admin sub-pages
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const UsersPage = lazy(() => import('./pages/UsersPage'));
-const ContentPage = lazy(() => import('./pages/ContentPage'));
-const MediaPage = lazy(() => import('./pages/MediaPage'));
-const EventsPage = lazy(() => import('./pages/EventsPage'));
-const DonationsPage = lazy(() => import('./pages/DonationsPage'));
 const PlacementsPage = lazy(() => import('./pages/PlacementsPage'));
 const AccommodationPage = lazy(() => import('./pages/AccommodationPage'));
 const AirportPickupPage = lazy(() => import('./pages/AirportPickupPage'));
 const VolunteersPage = lazy(() => import('./pages/VolunteersPage'));
 const ReportsPage = lazy(() => import('./pages/ReportsPage'));
-const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const NotificationsPage = lazy(() => import('./pages/NotificationsPage'));
+
+// CMS pages
+const CMSSiteSettingsPage = lazy(() => import('./pages/CMSSiteSettingsPage'));
+const CMSHeroPage = lazy(() => import('./pages/CMSHeroPage'));
+const CMSStatsPage = lazy(() => import('./pages/CMSStatsPage'));
+const CMSAboutPage = lazy(() => import('./pages/CMSAboutPage'));
+const CMSCausesPage = lazy(() => import('./pages/CMSCausesPage'));
+const CMSTestimonialsPage = lazy(() => import('./pages/CMSTestimonialsPage'));
+const CMSTeamPage = lazy(() => import('./pages/CMSTeamPage'));
+const CMSEventsPage = lazy(() => import('./pages/CMSEventsPage'));
+const CMSNewsPage = lazy(() => import('./pages/CMSNewsPage'));
+const CMSProgramsPage = lazy(() => import('./pages/CMSProgramsPage'));
+const CMSDonationsPage = lazy(() => import('./pages/CMSDonationsPage'));
+const CMSGalleryPage = lazy(() => import('./pages/CMSGalleryPage'));
+const CMSPagesPage = lazy(() => import('./pages/CMSPagesPage'));
 
 interface NavItem {
   id: AdminSubPage;
@@ -35,19 +47,32 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-const navItems: NavItem[] = [
+const dashboardItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'users', label: 'Users', icon: Users },
-  { id: 'content', label: 'Content', icon: FileText },
-  { id: 'media', label: 'Media', icon: Image },
-  { id: 'events', label: 'Events', icon: Calendar },
-  { id: 'donations', label: 'Donations', icon: DollarSign },
   { id: 'placements', label: 'Placements', icon: ClipboardList },
   { id: 'accommodation', label: 'Accommodation', icon: Building },
   { id: 'airport-pickup', label: 'Airport Pickup', icon: Plane },
   { id: 'volunteers', label: 'Volunteers', icon: Heart },
   { id: 'reports', label: 'Reports', icon: BarChart3 },
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'notifications', label: 'Notifications', icon: Bell },
+  { id: 'profile', label: 'Profile', icon: User },
+];
+
+const cmsItems: NavItem[] = [
+  { id: 'cms-site', label: 'Site Settings', icon: Settings },
+  { id: 'cms-hero', label: 'Hero Section', icon: Image },
+  { id: 'cms-stats', label: 'Stats Counter', icon: BarChart3 },
+  { id: 'cms-about', label: 'About Section', icon: FileText },
+  { id: 'cms-causes', label: 'Causes', icon: Heart },
+  { id: 'cms-testimonials', label: 'Testimonials', icon: MessageSquare },
+  { id: 'cms-team', label: 'Team Members', icon: Users },
+  { id: 'cms-events', label: 'Events', icon: Calendar },
+  { id: 'cms-news', label: 'News / Blog', icon: Newspaper },
+  { id: 'cms-programs', label: 'Programs', icon: LayoutGrid },
+  { id: 'cms-donations', label: 'Donations', icon: DollarSign },
+  { id: 'cms-gallery', label: 'Gallery', icon: Camera },
+  { id: 'cms-pages', label: 'Pages', icon: FileStack },
 ];
 
 const pageTitles: Record<AdminSubPage, string> = {
@@ -65,6 +90,19 @@ const pageTitles: Record<AdminSubPage, string> = {
   settings: 'Settings',
   profile: 'My Profile',
   notifications: 'Notifications',
+  'cms-site': 'CMS — Site Settings',
+  'cms-hero': 'CMS — Hero Section',
+  'cms-stats': 'CMS — Stats Counter',
+  'cms-about': 'CMS — About Section',
+  'cms-causes': 'CMS — Causes',
+  'cms-testimonials': 'CMS — Testimonials',
+  'cms-team': 'CMS — Team Members',
+  'cms-events': 'CMS — Events',
+  'cms-news': 'CMS — News / Blog',
+  'cms-programs': 'CMS — Programs',
+  'cms-donations': 'CMS — Donations',
+  'cms-gallery': 'CMS — Gallery',
+  'cms-pages': 'CMS — Pages',
 };
 
 function AdminLoader() {
@@ -75,34 +113,49 @@ function AdminLoader() {
   );
 }
 
+const cmsPageIds = new Set(cmsItems.map((i) => i.id));
+
 export default function AdminShell() {
   const { currentAdminPage, navigateAdmin } = useAdmin();
   const { navigateTo } = usePage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [cmsExpanded, setCmsExpanded] = useState(true);
+
+  const isCmsActive = cmsPageIds.has(currentAdminPage);
 
   const renderPage = () => {
-    const page = (
+    return (
       <Suspense fallback={<AdminLoader />}>
         {currentAdminPage === 'dashboard' && <DashboardPage />}
         {currentAdminPage === 'users' && <UsersPage />}
-        {currentAdminPage === 'content' && <ContentPage />}
-        {currentAdminPage === 'media' && <MediaPage />}
-        {currentAdminPage === 'events' && <EventsPage />}
-        {currentAdminPage === 'donations' && <DonationsPage />}
         {currentAdminPage === 'placements' && <PlacementsPage />}
         {currentAdminPage === 'accommodation' && <AccommodationPage />}
         {currentAdminPage === 'airport-pickup' && <AirportPickupPage />}
         {currentAdminPage === 'volunteers' && <VolunteersPage />}
         {currentAdminPage === 'reports' && <ReportsPage />}
-        {currentAdminPage === 'settings' && <SettingsPage />}
         {currentAdminPage === 'profile' && <ProfilePage />}
         {currentAdminPage === 'notifications' && <NotificationsPage />}
+        {/* CMS Pages */}
+        {currentAdminPage === 'cms-site' && <CMSSiteSettingsPage />}
+        {currentAdminPage === 'cms-hero' && <CMSHeroPage />}
+        {currentAdminPage === 'cms-stats' && <CMSStatsPage />}
+        {currentAdminPage === 'cms-about' && <CMSAboutPage />}
+        {currentAdminPage === 'cms-causes' && <CMSCausesPage />}
+        {currentAdminPage === 'cms-testimonials' && <CMSTestimonialsPage />}
+        {currentAdminPage === 'cms-team' && <CMSTeamPage />}
+        {currentAdminPage === 'cms-events' && <CMSEventsPage />}
+        {currentAdminPage === 'cms-news' && <CMSNewsPage />}
+        {currentAdminPage === 'cms-programs' && <CMSProgramsPage />}
+        {currentAdminPage === 'cms-donations' && <CMSDonationsPage />}
+        {currentAdminPage === 'cms-gallery' && <CMSGalleryPage />}
+        {currentAdminPage === 'cms-pages' && <CMSPagesPage />}
       </Suspense>
     );
-    return page;
   };
+
+  const sidebarWidth = sidebarCollapsed ? 'lg:w-20' : 'lg:w-64';
 
   return (
     <div className="h-screen flex overflow-hidden bg-[#F5F5F5]">
@@ -118,7 +171,7 @@ export default function AdminShell() {
       <aside
         className={`fixed inset-y-0 left-0 z-50 bg-[#8E0000] text-white transform transition-all duration-300 lg:relative lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'
-        } ${sidebarCollapsed ? 'lg:w-20' : 'lg:w-64'}`}
+        } ${sidebarWidth}`}
       >
         {/* Logo Area */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-white/10">
@@ -149,7 +202,11 @@ export default function AdminShell() {
 
         {/* Navigation Items */}
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-          {navItems.map((item) => {
+          {/* Dashboard Group */}
+          {!sidebarCollapsed && (
+            <p className="text-[10px] text-white/40 uppercase tracking-wider font-semibold px-3 mb-2">Dashboard</p>
+          )}
+          {dashboardItems.map((item) => {
             const isActive = currentAdminPage === item.id;
             const Icon = item.icon;
             return (
@@ -168,6 +225,48 @@ export default function AdminShell() {
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 {!sidebarCollapsed && <span>{item.label}</span>}
+              </button>
+            );
+          })}
+
+          {/* CMS Group */}
+          {!sidebarCollapsed && (
+            <div className="mt-4">
+              <button
+                onClick={() => setCmsExpanded(!cmsExpanded)}
+                className="w-full flex items-center justify-between px-3 py-2 text-[10px] text-white/40 uppercase tracking-wider font-semibold hover:text-white/60 transition-colors"
+              >
+                <span>Content Management</span>
+                <ChevronDown className={`w-3 h-3 transition-transform ${cmsExpanded ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
+          )}
+
+          {sidebarCollapsed && (
+            <div className="my-3 border-t border-white/10" />
+          )}
+
+          {(cmsExpanded || sidebarCollapsed) && cmsItems.map((item) => {
+            const isActive = currentAdminPage === item.id;
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  navigateAdmin(item.id);
+                  setSidebarOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  isActive
+                    ? 'bg-[#C62828] text-white shadow-md'
+                    : isCmsActive
+                    ? 'text-white/80 hover:bg-white/10 hover:text-white'
+                    : 'text-white/50 hover:bg-white/10 hover:text-white'
+                } ${sidebarCollapsed ? 'justify-center' : 'pl-6'}`}
+                title={sidebarCollapsed ? item.label : undefined}
+              >
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                {!sidebarCollapsed && <span className="text-[13px]">{item.label}</span>}
               </button>
             );
           })}
@@ -249,12 +348,12 @@ export default function AdminShell() {
                     </button>
                     <button
                       onClick={() => {
-                        navigateAdmin('settings');
+                        navigateAdmin('cms-site');
                         setProfileDropdownOpen(false);
                       }}
                       className="w-full flex items-center gap-2 px-4 py-2 text-sm text-[#333333] hover:bg-gray-50"
                     >
-                      <Settings className="w-4 h-4" /> Settings
+                      <Settings className="w-4 h-4" /> CMS Settings
                     </button>
                     <div className="border-t border-gray-100 mt-1 pt-1">
                       <button
@@ -264,7 +363,7 @@ export default function AdminShell() {
                         }}
                         className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                       >
-                        <LogOut className="w-4 h-4" /> Exit Admin
+                        <LogOut className="w-4 w-4" /> Exit Admin
                       </button>
                     </div>
                   </div>

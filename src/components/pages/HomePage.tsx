@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePage } from '@/context/PageContext';
+import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -28,9 +29,16 @@ import {
   Camera,
 } from 'lucide-react';
 
-const featuredCauses = [
+const iconMap: Record<string, React.ReactNode> = {
+  heart: <Heart className="h-6 w-6" />,
+  shield: <ShieldCheck className="h-6 w-6" />,
+  unlock: <Unlock className="h-6 w-6" />,
+  graduation: <GraduationCap className="h-6 w-6" />,
+};
+
+const defaultCauses = [
   {
-    icon: <Heart className="h-6 w-6" />,
+    icon: 'heart' as const,
     title: 'Peace & Reconciliation',
     description:
       'Mediating conflicts and fostering dialogue between divided communities through traditional and modern conflict resolution approaches.',
@@ -38,7 +46,7 @@ const featuredCauses = [
     color: 'bg-[#0B3C5D]',
   },
   {
-    icon: <ShieldCheck className="h-6 w-6" />,
+    icon: 'shield' as const,
     title: 'Child Rights Advocacy',
     description:
       'Protecting children from spiritual manipulation, abuse, and exploitation. Ensuring every child has the right to safety and education.',
@@ -46,7 +54,7 @@ const featuredCauses = [
     color: 'bg-[#6B4F3A]',
   },
   {
-    icon: <Unlock className="h-6 w-6" />,
+    icon: 'unlock' as const,
     title: 'Trokosi Liberation',
     description:
       'Advocating against shrine servitude and rehabilitating victims. Restoring dignity and freedom to those held in bondage.',
@@ -54,7 +62,7 @@ const featuredCauses = [
     color: 'bg-[#4C9A2A]',
   },
   {
-    icon: <GraduationCap className="h-6 w-6" />,
+    icon: 'graduation' as const,
     title: 'Education Support',
     description:
       'Providing scholarships, school supplies, and literacy programs to underserved communities. Building futures through learning.',
@@ -63,10 +71,10 @@ const featuredCauses = [
   },
 ];
 
-const testimonials = [
+const defaultTestimonials = [
   {
     quote:
-      'The Foundation\u2019s work is commendable and encouraged its leadership to continue promoting peace and supporting communities through their social intervention mechanisms.',
+      "The Foundation\u2019s work is commendable and encouraged its leadership to continue promoting peace and supporting communities through their social intervention mechanisms.",
     name: 'Torgbi Avorkliya V',
     role: 'Chief of Dzodze Kuli, Ketu North, Volta Region',
     initials: 'TA',
@@ -88,7 +96,7 @@ const testimonials = [
   },
 ];
 
-const aboutSliderImages = [
+const defaultAboutImages = [
   { src: '/duamenafa-4.jpg', alt: 'Community peace gathering' },
   { src: '/duamenafa-10.jpg', alt: 'Outreach program activities' },
   { src: '/duamenafa-27.jpg', alt: 'Peacebuilding workshop' },
@@ -98,7 +106,7 @@ const aboutSliderImages = [
   { src: '/marathon-13.jpg', alt: 'Peace marathon event' },
 ];
 
-const galleryImages = [
+const defaultGalleryImages = [
   { src: '/duamenafa-4.jpg', caption: 'Community leaders united for peace' },
   { src: '/duamenafa-10.jpg', caption: 'Duamenefa outreach in rural communities' },
   { src: '/duamenafa-27.jpg', caption: 'Peace and reconciliation dialogue' },
@@ -108,16 +116,17 @@ const galleryImages = [
   { src: '/marathon-13.jpg', caption: 'Annual peace marathon for unity' },
 ];
 
-function AboutImageSlider() {
+function AboutImageSlider({ images }: { images: { src: string; alt: string }[] }) {
   const [current, setCurrent] = useState(0);
+  const sliderImages = images.length > 0 ? images : defaultAboutImages;
 
   const next = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % aboutSliderImages.length);
-  }, []);
+    setCurrent((prev) => (prev + 1) % sliderImages.length);
+  }, [sliderImages.length]);
 
   const prev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + aboutSliderImages.length) % aboutSliderImages.length);
-  }, []);
+    setCurrent((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
+  }, [sliderImages.length]);
 
   useEffect(() => {
     const interval = setInterval(next, 4000);
@@ -129,8 +138,8 @@ function AboutImageSlider() {
       <AnimatePresence mode="wait">
         <motion.img
           key={current}
-          src={aboutSliderImages[current].src}
-          alt={aboutSliderImages[current].alt}
+          src={sliderImages[current].src}
+          alt={sliderImages[current].alt}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -147,7 +156,6 @@ function AboutImageSlider() {
           Across Ghana and West Africa
         </p>
       </div>
-      {/* Navigation arrows */}
       <button
         onClick={prev}
         className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
@@ -162,9 +170,8 @@ function AboutImageSlider() {
       >
         <ChevronRight className="h-4 w-4 text-white" />
       </button>
-      {/* Dots */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-        {aboutSliderImages.map((_, index) => (
+        {sliderImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
@@ -181,8 +188,9 @@ function AboutImageSlider() {
   );
 }
 
-function GallerySlider() {
+function GallerySlider({ images }: { images: { src: string; caption: string }[] }) {
   const [current, setCurrent] = useState(0);
+  const galleryImages = images.length > 0 ? images : defaultGalleryImages;
   const itemsPerView = 3;
   const maxIndex = Math.max(0, galleryImages.length - itemsPerView);
 
@@ -201,7 +209,6 @@ function GallerySlider() {
 
   return (
     <div className="relative">
-      {/* Main slider */}
       <div className="overflow-hidden rounded-2xl">
         <motion.div
           className="flex gap-4"
@@ -210,7 +217,7 @@ function GallerySlider() {
         >
           {galleryImages.map((image, index) => (
             <div
-              key={image.src}
+              key={image.src + index}
               className="flex-shrink-0"
               style={{ width: `calc(${100 / itemsPerView}% - 12px)` }}
             >
@@ -226,7 +233,6 @@ function GallerySlider() {
         </motion.div>
       </div>
 
-      {/* Navigation */}
       <div className="flex items-center justify-between mt-6">
         <div className="flex items-center gap-2">
           {galleryImages.map((_, index) => (
@@ -260,7 +266,6 @@ function GallerySlider() {
         </div>
       </div>
 
-      {/* Mobile: single image view */}
       <div className="md:hidden mt-4">
         <div className="flex gap-2 justify-center">
           {galleryImages.map((_, index) => (
@@ -290,6 +295,38 @@ const fadeInUp = {
 
 export default function HomePage() {
   const { navigateTo } = usePage();
+  const { aboutPreview, causes, testimonials, gallery } = useCMS();
+
+  // Get CMS data with fallbacks
+  const ap = aboutPreview;
+  const aboutBadgeText = ap?.badgeText || 'Who We Are';
+  const aboutHeading = ap?.heading || 'Building Peace,';
+  const aboutHeadingHighlight = ap?.headingHighlight || 'Transforming Lives';
+  const aboutP1 = ap?.paragraph1 || 'Duamenefa Foundation is a Ghana-based Non-Governmental Organization (NGO) with a membership of over 47,758 as of July 2025, committed to promoting peace and reconciliation. The name "Duamenefa" means "Let Us Co-Exist in Peace" in the Ewe language — a powerful reminder of our core mission.';
+  const aboutP2 = ap?.paragraph2 || 'Through radio intervention programs on Fafaa 100.3 FM, Justice FM 98.5, Swiss FM 93.7, and Messiah TV, community mediation, advocacy campaigns, and vocational training, we have resolved over 610 spiritual and diabolical conflicts and transformed thousands of lives across 550 communities.';
+  const aboutButtonText = ap?.buttonText || 'Learn More About Us';
+  const aboutStatCardValue = ap?.statCard?.value || '610+';
+  const aboutStatCardLabel = ap?.statCard?.label || 'Conflicts Resolved';
+  const aboutImages = ap?.images?.length ? ap.images : defaultAboutImages;
+
+  const displayCauses = causes?.length > 0
+    ? causes.map((c) => ({
+        ...c,
+        iconEl: iconMap[c.icon] || <Heart className="h-6 w-6" />,
+      }))
+    : defaultCauses.map((c) => ({
+        ...c,
+        iconEl: iconMap[c.icon] || <Heart className="h-6 w-6" />,
+      }));
+
+  const displayTestimonials = testimonials?.length > 0
+    ? testimonials.map((t) => ({ quote: t.quote, name: t.name, role: t.role, initials: t.initials, avatar: t.avatar || '' }))
+    : defaultTestimonials;
+
+  const displayGallery = gallery?.length > 0
+    ? gallery.map((g) => ({ src: g.src, caption: g.caption }))
+    : defaultGalleryImages;
+
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [newsLoading, setNewsLoading] = useState(true);
 
@@ -320,29 +357,23 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div {...fadeInUp}>
               <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-                Who We Are
+                {aboutBadgeText}
               </span>
               <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-6">
-                Building Peace,{' '}
-                <span className="text-[#D4AF37]">Transforming Lives</span>
+                {aboutHeading}{' '}
+                <span className="text-[#D4AF37]">{aboutHeadingHighlight}</span>
               </h2>
               <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                Duamenefa Foundation is a Ghana-based Non-Governmental Organization (NGO)
-                with a membership of over 47,758 as of July 2025, committed to promoting
-                peace and reconciliation. The name &ldquo;Duamenefa&rdquo; means &ldquo;Let Us Co-Exist
-                in Peace&rdquo; in the Ewe language — a powerful reminder of our core mission.
+                {aboutP1}
               </p>
               <p className="text-[#6B4F3A] leading-relaxed mb-6">
-                Through radio intervention programs on Fafaa 100.3 FM, Justice FM 98.5,
-                Swiss FM 93.7, and Messiah TV, community mediation, advocacy campaigns,
-                and vocational training, we have resolved over 610 spiritual and diabolical
-                conflicts and transformed thousands of lives across 550 communities.
+                {aboutP2}
               </p>
               <Button
                 onClick={() => navigateTo('about')}
                 className="bg-[#0B3C5D] hover:bg-[#0a2e47] text-white font-semibold"
               >
-                Learn More About Us
+                {aboutButtonText}
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             </motion.div>
@@ -354,11 +385,11 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <AboutImageSlider />
+              <AboutImageSlider images={aboutImages} />
               {/* Floating stat card */}
               <div className="absolute -bottom-6 -right-4 md:-right-6 bg-[#D4AF37] text-[#0B3C5D] rounded-xl p-4 shadow-lg z-10">
-                <p className="font-heading font-bold text-2xl">610+</p>
-                <p className="text-xs font-medium">Conflicts Resolved</p>
+                <p className="font-heading font-bold text-2xl">{aboutStatCardValue}</p>
+                <p className="text-xs font-medium">{aboutStatCardLabel}</p>
               </div>
             </motion.div>
           </div>
@@ -382,7 +413,7 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredCauses.map((cause, index) => (
+            {displayCauses.map((cause, index) => (
               <motion.div
                 key={cause.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -400,7 +431,7 @@ export default function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <div className="absolute top-4 left-4">
                       <div className={`${cause.color} text-white p-2 rounded-lg`}>
-                        {cause.icon}
+                        {cause.iconEl}
                       </div>
                     </div>
                   </div>
@@ -444,7 +475,7 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
+            {displayTestimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.name}
                 initial={{ opacity: 0, y: 20 }}
@@ -500,7 +531,7 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <GallerySlider />
+          <GallerySlider images={displayGallery} />
         </div>
       </section>
 
@@ -529,7 +560,6 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {newsLoading ? (
-              // Loading skeleton
               Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className="animate-pulse">
                   <Card className="h-full border-0 shadow-md overflow-hidden">

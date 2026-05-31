@@ -2,52 +2,41 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePage } from '@/context/PageContext';
+import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
 import { Heart, Users, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const sliderImages = [
-  {
-    src: '/duamenafa-4.jpg',
-    alt: 'Duamenefa Foundation community gathering for peace',
-  },
-  {
-    src: '/duamenafa-10.jpg',
-    alt: 'Duamenefa Foundation outreach program',
-  },
-  {
-    src: '/duamenafa-27.jpg',
-    alt: 'Duamenefa Foundation peacebuilding initiative',
-  },
-  {
-    src: '/duamenafa-176.jpg',
-    alt: 'Duamenefa Foundation community transformation',
-  },
-  {
-    src: '/duamenafa-196.jpg',
-    alt: 'Duamenefa Foundation advocacy campaign',
-  },
-  {
-    src: '/duamenafa-198.jpg',
-    alt: 'Duamenefa Foundation volunteers in action',
-  },
-  {
-    src: '/marathon-13.jpg',
-    alt: 'Duamenefa Foundation marathon for peace',
-  },
-];
-
 export default function HeroSection() {
   const { navigateTo } = usePage();
+  const { hero } = useCMS();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const sliderImages = hero?.sliderImages?.length ? hero.sliderImages : [
+    { src: '/duamenafa-4.jpg', alt: 'Duamenefa Foundation community gathering for peace' },
+    { src: '/duamenafa-10.jpg', alt: 'Duamenefa Foundation outreach program' },
+    { src: '/duamenafa-27.jpg', alt: 'Duamenefa Foundation peacebuilding initiative' },
+    { src: '/duamenafa-176.jpg', alt: 'Duamenefa Foundation community transformation' },
+    { src: '/duamenafa-196.jpg', alt: 'Duamenefa Foundation advocacy campaign' },
+    { src: '/duamenafa-198.jpg', alt: 'Duamenefa Foundation volunteers in action' },
+    { src: '/marathon-13.jpg', alt: 'Duamenefa Foundation marathon for peace' },
+  ];
+
+  const badgeText = hero?.badgeText || '★ Promoting Peace & Human Dignity Since Inception';
+  const heading = hero?.heading || 'LET US';
+  const headingHighlight = hero?.headingHighlight || 'CO-EXIST';
+  const headingLine2 = hero?.headingLine2 || 'IN PEACE';
+  const subheading = hero?.subheading || 'Promoting Peace, Justice, Reconciliation, and Human Dignity Across Communities. Together, we can transform lives and build a harmonious society.';
+  const primaryButtonText = hero?.primaryButtonText || 'Learn About Us';
+  const secondaryButtonText = hero?.secondaryButtonText || 'Our Operations';
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
-  }, []);
+  }, [sliderImages.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
-  }, []);
+  }, [sliderImages.length]);
 
   // Auto-advance slider every 5 seconds
   useEffect(() => {
@@ -66,7 +55,7 @@ export default function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: 'easeInOut' }}
           className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-110"
-          style={{ backgroundImage: `url('${sliderImages[currentSlide].src}')` }}
+          style={{ backgroundImage: `url('${sliderImages[currentSlide]?.src || '/duamenafa-4.jpg'}')` }}
         />
       </AnimatePresence>
 
@@ -117,7 +106,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <span className="inline-block bg-[#D4AF37]/30 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-6 border border-[#D4AF37]/40 backdrop-blur-sm drop-shadow-lg">
-            ★ Promoting Peace &amp; Human Dignity Since Inception
+            {badgeText}
           </span>
         </motion.div>
 
@@ -127,10 +116,10 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
         >
-          LET US{' '}
-          <span className="text-[#D4AF37]">CO-EXIST</span>
+          {heading}{' '}
+          <span className="text-[#D4AF37]">{headingHighlight}</span>
           <br />
-          IN PEACE
+          {headingLine2}
         </motion.h1>
 
         <motion.p
@@ -139,8 +128,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
         >
-          Promoting Peace, Justice, Reconciliation, and Human Dignity Across Communities.
-          Together, we can transform lives and build a harmonious society.
+          {subheading}
         </motion.p>
 
         <motion.div
@@ -155,7 +143,7 @@ export default function HeroSection() {
             className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg"
           >
             <Heart className="h-5 w-5 mr-2" />
-            Learn About Us
+            {primaryButtonText}
           </Button>
           <Button
             onClick={() => navigateTo('about')}
@@ -164,7 +152,7 @@ export default function HeroSection() {
             className="border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-8 py-6 text-lg"
           >
             <Users className="h-5 w-5 mr-2" />
-            Our Operations
+            {secondaryButtonText}
           </Button>
         </motion.div>
 

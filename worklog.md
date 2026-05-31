@@ -167,3 +167,69 @@ Stage Summary:
 - Admin accessible via 'admin' page in PageContext
 - Navigation links added for easy access (top bar + mobile menu)
 - GitHub push: 2 commits (6a10263, 4bb9262)
+
+---
+Task ID: 2-3
+Agent: CMS Builder
+Task: Build Complete Admin CMS (Content Management System) for Duamenefa Foundation
+
+Work Log:
+- Created CMS store (src/lib/cms-store.ts) using zustand with persist middleware:
+  - Full TypeScript interface for all editable site data (SiteSettings, Hero, Stats, About, Causes, Testimonials, Gallery, Team, Events, Posts, Programs, Donations, Pages)
+  - localStorage persistence under key 'df-cms'
+  - All current hardcoded data as default/initial values
+  - Helper functions: updateSiteSettings(), updateHero(), updateStats(), updateAboutPreview(), addCause/updateCause/removeCause, addTestimonial/updateTestimonial/removeTestimonial, addTeamMember/updateTeamMember/removeTeamMember, addEvent/updateEvent/removeEvent, addPost/updatePost/removePost, addProgram/updateProgram/removeProgram, addDonation/updateDonation/removeDonation, addGalleryImage/updateGalleryImage/removeGalleryImage, updatePage(), resetToDefaults()
+
+- Created 13 CMS editor pages in src/components/admin/pages/:
+  - CMSSiteSettingsPage: Site name, tagline, phone, email, WhatsApp, addresses, social media URLs, radio stream URL, developer credit
+  - CMSHeroPage: Badge text, heading, highlight, subheading, button texts, slider images management with live preview
+  - CMSStatsPage: Stats CRUD with icon selector (users/handshake/radio/tv), value, suffix, label
+  - CMSAboutPage: About preview text, stat card, section images
+  - CMSCausesPage: Causes CRUD with dialog for add/edit, icon and color selectors
+  - CMSTestimonialsPage: Testimonials CRUD with quote, name, role, initials, avatar
+  - CMSTeamPage: Team members CRUD with category filter (executive/associate/reporter)
+  - CMSEventsPage: Events CRUD with status management (upcoming/ongoing/completed)
+  - CMSNewsPage: Blog post editor with title, excerpt, content, image, category, draft/published toggle
+  - CMSProgramsPage: Programs CRUD with icon, title, description, image, details
+  - CMSDonationsPage: Donations CRUD with summary stats (total, this month, average)
+  - CMSGalleryPage: Gallery images with grid preview, add/edit/delete with caption
+  - CMSPagesPage: Page content editor with dropdown selector for 18 pages
+
+- Updated AdminContext.tsx:
+  - Added 13 new CMS sub-page types to AdminSubPage union
+  - All existing types preserved for backward compatibility
+
+- Updated AdminShell.tsx:
+  - Added lazy imports for all 13 CMS pages
+  - Added CMS section in sidebar with expandable "Content Management" group
+  - Dashboard group separated from CMS group with section headers
+  - CMS sub-menu uses slightly indented items with smaller text
+  - Collapsible CMS section with ChevronDown toggle
+  - Added pageTitles for all new CMS sub-pages
+  - Profile dropdown now includes "CMS Settings" quick link
+  - Removed old page imports (ContentPage, MediaPage, EventsPage, DonationsPage, SettingsPage)
+
+- Updated public-facing components to read from CMS store:
+  - HeroSection.tsx: Reads hero data (badge, heading, highlight, subheading, buttons, slider images) from useCMS() with fallbacks
+  - StatsCounter.tsx: Reads stats from store with icon mapping (users→Users, handshake→Handshake, radio→Radio, tv→Tv)
+  - HomePage.tsx: Reads aboutPreview, causes, testimonials, gallery from store with full fallback to hardcoded values
+  - Footer.tsx: Reads siteSettings for phone, email, WhatsApp, addresses, social URLs, developer credit
+  - Navigation.tsx: Reads siteSettings for phone, email, radio stream URL
+
+- Deleted 5 old admin pages replaced by CMS versions:
+  - ContentPage.tsx, MediaPage.tsx, EventsPage.tsx, DonationsPage.tsx, SettingsPage.tsx
+
+- Build verified: `npx next build` compiles successfully
+- All CMS editors use shadcn/ui components (Card, Button, Input, Label, Textarea, Select, Dialog, Switch, Badge, Avatar)
+- Admin color scheme maintained: Red #C62828, Dark Red #8E0000
+- All components use 'use client' directive for static export compatibility
+- All CMS pages lazy-loaded for code splitting
+- Responsive design on all editor pages
+
+Stage Summary:
+- Complete CMS with 13 editor pages for managing ALL website content
+- Zustand store with localStorage persistence ensures data survives page refreshes
+- Public pages dynamically read from CMS store, falling back to hardcoded defaults
+- Admin sidebar reorganized into Dashboard + Content Management sections
+- Changes saved via CMS are immediately reflected on public site
+- Production build passes successfully

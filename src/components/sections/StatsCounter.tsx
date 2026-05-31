@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { useCMS } from '@/lib/cms-store';
 import { motion, useInView } from 'framer-motion';
 import { Users, Handshake, Radio, Tv } from 'lucide-react';
 
@@ -11,31 +12,18 @@ interface StatItem {
   label: string;
 }
 
-const stats: StatItem[] = [
-  {
-    icon: <Users className="h-8 w-8" />,
-    value: 47758,
-    suffix: '+',
-    label: 'Community Members',
-  },
-  {
-    icon: <Handshake className="h-8 w-8" />,
-    value: 610,
-    suffix: '+',
-    label: 'Conflicts Resolved',
-  },
-  {
-    icon: <Radio className="h-8 w-8" />,
-    value: 4,
-    suffix: '+',
-    label: 'Radio & TV Stations',
-  },
-  {
-    icon: <Tv className="h-8 w-8" />,
-    value: 1000,
-    suffix: '+',
-    label: 'Broadcasts Delivered',
-  },
+const iconMap: Record<string, React.ReactNode> = {
+  users: <Users className="h-8 w-8" />,
+  handshake: <Handshake className="h-8 w-8" />,
+  radio: <Radio className="h-8 w-8" />,
+  tv: <Tv className="h-8 w-8" />,
+};
+
+const defaultStats: StatItem[] = [
+  { icon: <Users className="h-8 w-8" />, value: 47758, suffix: '+', label: 'Community Members' },
+  { icon: <Handshake className="h-8 w-8" />, value: 610, suffix: '+', label: 'Conflicts Resolved' },
+  { icon: <Radio className="h-8 w-8" />, value: 4, suffix: '+', label: 'Radio & TV Stations' },
+  { icon: <Tv className="h-8 w-8" />, value: 1000, suffix: '+', label: 'Broadcasts Delivered' },
 ];
 
 function AnimatedCounter({ value, suffix, duration = 2 }: { value: number; suffix: string; duration?: number }) {
@@ -73,11 +61,22 @@ function AnimatedCounter({ value, suffix, duration = 2 }: { value: number; suffi
 }
 
 export default function StatsCounter() {
+  const { stats } = useCMS();
+
+  const displayStats: StatItem[] = stats?.length > 0
+    ? stats.map((s) => ({
+        icon: iconMap[s.icon] || <Users className="h-8 w-8" />,
+        value: s.value,
+        suffix: s.suffix,
+        label: s.label,
+      }))
+    : defaultStats;
+
   return (
     <section className="relative -mt-16 z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {stats.map((stat, index) => (
+          {displayStats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { usePage, PageName } from '@/context/PageContext';
+import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { Menu, Heart, Phone, ChevronDown, ChevronRight, Radio, Shield } from 'lucide-react';
@@ -54,6 +55,7 @@ const navItems: NavItem[] = [
 
 export default function Navigation() {
   const { currentPage, navigateTo } = usePage();
+  const { siteSettings } = useCMS();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSubMenu, setMobileSubMenu] = useState<string | null>(null);
@@ -62,6 +64,10 @@ export default function Navigation() {
   const [openSubDropdown, setOpenSubDropdown] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subDropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const phone = siteSettings?.phone || '+233 242 313 766';
+  const email = siteSettings?.email || 'duamenefafoundation@yahoo.com';
+  const radioStreamUrl = siteSettings?.radioStreamUrl || 'https://fafaafm.radiostream321.com/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,9 +144,9 @@ export default function Navigation() {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <Phone className="h-3 w-3" />
-              +233 242 313 766
+              {phone}
             </span>
-            <span>duamenefafoundation@yahoo.com</span>
+            <span>{email}</span>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-[#D4AF37] font-medium">Duamenefa — &quot;Let Us Co-Exist in Peace&quot;</span>
@@ -218,7 +224,7 @@ export default function Navigation() {
                   >
                     {item.children.map((child) =>
                       child.children ? (
-                        /* Child with nested submenu (e.g. Regional Tournaments) */
+                        /* Child with nested submenu */
                         <div
                           key={child.page}
                           className="relative"
@@ -236,7 +242,7 @@ export default function Navigation() {
                             {child.label}
                             <ChevronRight className="h-3.5 w-3.5" />
                           </button>
-                          {/* Second-level Dropdown (flyout) */}
+                          {/* Second-level Dropdown */}
                           <div
                             className={`absolute top-0 left-full ml-1 w-40 bg-[#0a2e47] border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-200 ${
                               openSubDropdown === child.label
@@ -298,7 +304,7 @@ export default function Navigation() {
           {/* CTA + Mobile */}
           <div className="flex items-center gap-2 sm:gap-3">
             <a
-              href="https://fafaafm.radiostream321.com/"
+              href={radioStreamUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 bg-[#4C9A2A] hover:bg-[#3d8523] text-white font-semibold px-4 py-2 rounded-md transition-colors"
@@ -377,7 +383,6 @@ export default function Navigation() {
                           >
                             {item.children.map((child) =>
                               child.children ? (
-                                /* Mobile: child with nested submenu */
                                 <div key={child.page}>
                                   <button
                                     onClick={() =>
@@ -421,7 +426,6 @@ export default function Navigation() {
                                   </div>
                                 </div>
                               ) : (
-                                /* Mobile: regular child item */
                                 <button
                                   key={child.page}
                                   onClick={() => handleNav(child.page)}
@@ -461,7 +465,7 @@ export default function Navigation() {
                       Admin Dashboard
                     </button>
                     <a
-                      href="https://fafaafm.radiostream321.com/"
+                      href={radioStreamUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 bg-[#4C9A2A] hover:bg-[#3d8523] text-white font-semibold px-4 py-2.5 rounded-md transition-colors w-full"

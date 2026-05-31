@@ -16,7 +16,20 @@ export type AdminSubPage =
   | 'placements'
   | 'accommodation'
   | 'airport-pickup'
-  | 'volunteers';
+  | 'volunteers'
+  | 'cms-site'
+  | 'cms-hero'
+  | 'cms-stats'
+  | 'cms-about'
+  | 'cms-causes'
+  | 'cms-testimonials'
+  | 'cms-team'
+  | 'cms-events'
+  | 'cms-news'
+  | 'cms-programs'
+  | 'cms-donations'
+  | 'cms-gallery'
+  | 'cms-pages';
 
 interface AdminContextType {
   currentAdminPage: AdminSubPage;
