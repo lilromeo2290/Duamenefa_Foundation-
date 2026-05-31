@@ -29,7 +29,8 @@ export type PageName =
   | 'stories'
   | 'donate'
   | 'volunteer'
-  | 'news';
+  | 'news'
+  | 'admin';
 
 interface PageContextType {
   currentPage: PageName;

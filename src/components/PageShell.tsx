@@ -37,6 +37,7 @@ const StoriesPage = lazy(() => import('@/components/pages/StoriesPage'));
 const DonatePage = lazy(() => import('@/components/pages/DonatePage'));
 const VolunteerPage = lazy(() => import('@/components/pages/VolunteerPage'));
 const NewsPage = lazy(() => import('@/components/pages/NewsPage'));
+const AdminPage = lazy(() => import('@/components/admin/AdminPage'));
 
 // Loading fallback for lazy-loaded pages
 function PageLoader() {
@@ -52,6 +53,17 @@ function PageLoader() {
 
 function PageContent() {
   const { currentPage } = usePage();
+
+  // Admin page has its own layout (sidebar, header) - no regular Navigation/Footer
+  if (currentPage === 'admin') {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<PageLoader />}>
+          <AdminPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
 
   const pages: Record<string, React.ReactNode> = {
     home: <HomePage />,
