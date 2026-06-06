@@ -62,14 +62,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Minimal loading indicator - only visible during initial paint */}
         <style dangerouslySetInnerHTML={{__html: `
-          #app-loader{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0B3C5D;position:fixed;inset:0;z-index:9999;transition:opacity .4s ease}
+          #app-loader{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0B3C5D;position:fixed;inset:0;z-index:9999;transition:opacity .3s ease}
           #app-loader.loaded{opacity:0;pointer-events:none}
           #app-loader-inner{text-align:center;color:#fff;font-family:system-ui,-apple-system,sans-serif}
-          #app-loader-inner .logo{width:56px;height:56px;border-radius:50%;margin:0 auto 1rem;object-fit:cover}
-          #app-loader-inner h2{font-size:1.1rem;color:#D4AF37;margin:0 0 .3rem}
-          #app-loader-inner p{font-size:.75rem;color:rgba(255,255,255,.5);margin:0}
-          #app-loader-inner .spinner{width:24px;height:24px;border:3px solid rgba(212,175,55,.3);border-top-color:#D4AF37;border-radius:50%;animation:als .7s linear infinite;margin:1rem auto 0}
+          #app-loader-inner .spinner{width:28px;height:28px;border:3px solid rgba(212,175,55,.3);border-top-color:#D4AF37;border-radius:50%;animation:als .7s linear infinite;margin:0 auto}
           @keyframes als{to{transform:rotate(360deg)}}
         `}} />
       </head>
@@ -78,54 +76,55 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
-        {/* Loading skeleton - shows instantly then hides when React hydrates */}
+        {/* Lightweight loading indicator - shows spinner, hides when content renders */}
         <div id="app-loader">
           <div id="app-loader-inner">
-            <img src="/logo.jpg" alt="Duamenefa Foundation" className="logo" />
-            <h2>Duamenefa Foundation</h2>
-            <p>Let Us Co-Exist in Peace</p>
             <div className="spinner" />
           </div>
         </div>
         <script dangerouslySetInnerHTML={{__html: `
 (function(){
+  // 1. Hide the loading spinner as soon as content is available
   var loader = document.getElementById('app-loader');
-  if(!loader) return;
-  
   function hideLoader(){
     if(!loader) return;
     loader.classList.add('loaded');
-    setTimeout(function(){ if(loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 500);
+    setTimeout(function(){ if(loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 400);
   }
-  
-  // Method 1: Wait for body content to be hydrated (React mounts)
-  // The loader is AFTER children in DOM, so when React renders content,
-  // the body will have meaningful elements before the loader
+
+  // Check if body has real content (React has hydrated)
   var checkCount = 0;
   var t = setInterval(function(){
     checkCount++;
-    // Check if body has real content (not just the loader)
     var body = document.body;
     if(body){
-      var children = body.children;
-      // If there are elements before the loader, React has hydrated
-      for(var i=0;i<children.length;i++){
-        if(children[i].id !== 'app-loader' && children[i].children.length > 0){
+      var ch = body.children;
+      for(var i=0;i<ch.length;i++){
+        if(ch[i].id !== 'app-loader' && ch[i].children.length > 0){
           clearInterval(t);
           hideLoader();
           return;
         }
       }
     }
-    // Also check if it's been too long
-    if(checkCount > 30){ // ~3 seconds
-      clearInterval(t);
-      hideLoader();
-    }
-  }, 100);
-  
-  // Method 2: Fallback - always hide after 3 seconds
-  setTimeout(hideLoader, 3000);
+    if(checkCount > 20){ clearInterval(t); hideLoader(); }
+  }, 50);
+  setTimeout(hideLoader, 2000);
+
+  // 2. Enable Framer Motion animations after hydration
+  // The CSS override (globals.css) makes content visible before JS loads.
+  // After React hydrates and Framer Motion initializes, we add 'fm-ready'
+  // which removes the CSS override and lets Framer Motion control animations.
+  function enableFM(){
+    document.documentElement.classList.add('fm-ready');
+  }
+  if(document.readyState === 'complete'){
+    setTimeout(enableFM, 500);
+  } else {
+    window.addEventListener('load', function(){
+      setTimeout(enableFM, 500);
+    });
+  }
 })();
         `}} />
       </body>

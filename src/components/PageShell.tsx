@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useRef, useEffect } from 'react';
 import { PageProvider, usePage } from '@/context/PageContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -53,6 +53,16 @@ function PageLoader() {
 
 function PageContent() {
   const { currentPage } = usePage();
+  const isFirstRender = useRef(true);
+
+  // After first render, mark that we're ready for page transitions
+  useEffect(() => {
+    // Small delay to ensure the first page is fully rendered
+    const timer = setTimeout(() => {
+      isFirstRender.current = false;
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Admin page has its own layout (sidebar, header) - no regular Navigation/Footer
   if (currentPage === 'admin') {
@@ -103,7 +113,9 @@ function PageContent() {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentPage}
-              initial={{ opacity: 0, y: 20 }}
+              // Skip the initial fade-in animation on first page load
+              // This prevents the entire page from being invisible during SSR
+              initial={isFirstRender.current ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}

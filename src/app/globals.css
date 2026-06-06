@@ -175,3 +175,22 @@
   transform: translateY(0);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
+
+/* ============================================
+   FRAMER MOTION SSR FIX
+   Before JavaScript hydrates, Framer Motion sets
+   opacity:0 on animated elements via inline styles.
+   This CSS override ensures content is visible
+   during the critical initial paint.
+   ============================================ */
+html:not(.fm-ready) [style*="opacity: 0"],
+html:not(.fm-ready) [style*="opacity:0"] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* After hydration, smoothly transition control to Framer Motion */
+html.fm-ready [style*="opacity: 0"],
+html.fm-ready [style*="opacity:0"] {
+  /* Framer Motion inline styles take over */
+}
