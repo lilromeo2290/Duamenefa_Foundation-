@@ -6,15 +6,17 @@ import { Toaster } from "@/components/ui/toaster";
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "600", "700"],
   display: "swap",
+  preload: true,
 });
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "600"],
   display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -60,107 +62,49 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/*
-          CRITICAL: This script runs BEFORE React hydrates.
-          It detects serverless platform "function is pending state" errors
-          that return raw JSON instead of HTML. When detected, it auto-retries
-          with exponential backoff, then shows a branded loading page.
-
-          The Service Worker (sw.js) handles this more robustly for returning
-          visitors, but this script is the first line of defense.
-        */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        <style dangerouslySetInnerHTML={{__html: `
+          #app-loader{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0B3C5D;position:fixed;inset:0;z-index:9999;transition:opacity .3s}
+          #app-loader.hide{opacity:0;pointer-events:none}
+          #app-loader-inner{text-align:center;color:#fff;font-family:system-ui,-apple-system,sans-serif}
+          #app-loader-inner .logo{width:56px;height:56px;border-radius:50%;margin:0 auto 1rem;object-fit:cover}
+          #app-loader-inner h2{font-size:1.1rem;color:#D4AF37;margin:0 0 .3rem}
+          #app-loader-inner p{font-size:.75rem;color:rgba(255,255,255,.5);margin:0}
+          #app-loader-inner .spinner{width:24px;height:24px;border:3px solid rgba(212,175,55,.3);border-top-color:#D4AF37;border-radius:50%;animation:als .7s linear infinite;margin:1rem auto 0}
+          @keyframes als{to{transform:rotate(360deg)}}
+        `}} />
+        <script dangerouslySetInnerHTML={{__html: `
 (function(){
-  try {
-    // Check if the page content is a raw platform error (not HTML)
-    var raw = document.documentElement && document.documentElement.innerText ||
-              document.body && document.body.innerText || '';
-
-    if (raw.indexOf('PreconditionFailed') !== -1 &&
-        (raw.indexOf('pending state') !== -1 || raw.indexOf('function is pending') !== -1)) {
-
-      var retryKey = '__pf_retry';
-      var retryCount = parseInt(sessionStorage.getItem(retryKey) || '0', 10);
-
-      if (retryCount < 8) {
-        sessionStorage.setItem(retryKey, String(retryCount + 1));
-        var delay = Math.min(1500 * Math.pow(1.6, retryCount), 20000);
-        setTimeout(function(){ location.reload(); }, delay);
-      } else {
-        sessionStorage.removeItem(retryKey);
-        // Replace the raw JSON with a branded error page
-        document.open();
-        document.write(
-          '<!DOCTYPE html><html><head><meta charset=\"utf-8\">' +
-          '<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">' +
-          '<title>Duamenefa Foundation - Starting Up</title>' +
-          '<style>*{margin:0;padding:0;box-sizing:border-box}body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui,sans-serif;background:#0B3C5D;color:#fff;text-align:center;padding:2rem}.container{max-width:500px}.icon{font-size:3rem;margin-bottom:1rem;animation:pulse 2s ease-in-out infinite}h1{font-size:1.5rem;margin-bottom:.5rem;color:#D4AF37}p{color:rgba(255,255,255,.7);margin-bottom:1.5rem;line-height:1.6}button{background:#D4AF37;color:#0B3C5D;border:none;padding:.75rem 2rem;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer}button:hover{background:#c9a22e}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}.logo{width:60px;height:60px;border-radius:50%;margin:0 auto 1.5rem;object-fit:cover}</style>' +
-          '</head><body><div class=\"container\">' +
-          '<img src=\"/logo.jpg\" alt=\"Duamenefa Foundation\" class=\"logo\">' +
-          '<div class=\"icon\">\\u23F3</div>' +
-          '<h1>Server is Starting Up</h1>' +
-          '<p>The Duamenefa Foundation website is initializing. This usually takes a few seconds after a new deployment. The page will reload automatically.</p>' +
-          '<button onclick=\"sessionStorage.removeItem(\\'' + retryKey + '\\');location.reload();\">Try Again</button>' +
-          '</div>' +
-          '<script>var c=parseInt(sessionStorage.getItem(\\'' + retryKey + '\\')||\\'0\\',10);if(c<8){sessionStorage.setItem(\\'' + retryKey + '\\',String(c+1));setTimeout(function(){location.reload()},3000)}else{sessionStorage.removeItem(\\'' + retryKey + '\\')}<\\/script>' +
-          '</body></html>'
-        );
-        document.close();
-      }
-    } else {
-      // Page loaded successfully, clear retry counter
-      sessionStorage.removeItem('__pf_retry');
-    }
-  } catch(e) {
-    // If anything goes wrong, just reload once
-    try {
-      if (!sessionStorage.getItem('__pf_emergency')) {
-        sessionStorage.setItem('__pf_emergency', '1');
-        setTimeout(function(){ location.reload(); }, 3000);
-      } else {
-        sessionStorage.removeItem('__pf_emergency');
-      }
-    } catch(e2) {}
+  // Hide loader once React mounts content
+  var done=false;
+  function hideLoader(){
+    if(done)return;done=true;
+    var el=document.getElementById('app-loader');
+    if(el){el.classList.add('hide');setTimeout(function(){el.remove()},400);}
   }
+  // Check periodically for React content
+  var t=setInterval(function(){
+    var root=document.getElementById('__next');
+    if(root&&root.children.length>0){clearInterval(t);hideLoader();}
+  },80);
+  // Fallback: hide after 2.5s regardless
+  setTimeout(function(){clearInterval(t);hideLoader();},2500);
 })();
-            `,
-          }}
-        />
+        `}} />
       </head>
       <body
         className={`${poppins.variable} ${openSans.variable} antialiased bg-background text-foreground`}
       >
+        {/* Instant loading skeleton - shows before React hydrates */}
+        <div id="app-loader">
+          <div id="app-loader-inner">
+            <img src="/logo.jpg" alt="Duamenefa Foundation" className="logo" />
+            <h2>Duamenefa Foundation</h2>
+            <p>Let Us Co-Exist in Peace</p>
+            <div className="spinner" />
+          </div>
+        </div>
         {children}
         <Toaster />
-
-        {/* Register Service Worker for platform error handling */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(function(registration) {
-        console.log('SW registered:', registration.scope);
-        // Force update check
-        registration.update();
-      })
-      .catch(function(error) {
-        console.log('SW registration failed:', error);
-      });
-  });
-
-  // Handle service worker updates
-  navigator.serviceWorker.addEventListener('controllerchange', function() {
-    // New service worker took control, page will be handled by new SW
-    console.log('SW controller changed');
-  });
-}
-            `,
-          }}
-        />
       </body>
     </html>
   );
