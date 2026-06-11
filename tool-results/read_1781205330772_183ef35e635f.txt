@@ -1,0 +1,817 @@
+     1→'use client';
+     2→
+     3→import React, { useState, useEffect, useCallback } from 'react';
+     4→import { usePage } from '@/context/PageContext';
+     5→import { useCMS } from '@/lib/cms-store';
+     6→import { Button } from '@/components/ui/button';
+     7→import { Card, CardContent } from '@/components/ui/card';
+     8→import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+     9→import { Badge } from '@/components/ui/badge';
+    10→import HeroSection from '@/components/sections/HeroSection';
+    11→import StatsCounter from '@/components/sections/StatsCounter';
+    12→import VoicesOfPeace from '@/components/sections/VoicesOfPeace';
+    13→import NewsletterForm from '@/components/NewsletterForm';
+    14→import { fetchNews, type NewsItem } from '@/lib/news-client';
+    15→import { motion, AnimatePresence } from 'framer-motion';
+    16→import {
+    17→  Heart,
+    18→  ShieldCheck,
+    19→  Unlock,
+    20→  GraduationCap,
+    21→  ArrowRight,
+    22→  Calendar,
+    23→  Play,
+    24→  Users,
+    25→  Radio,
+    26→  HandHeart,
+    27→  ChevronLeft,
+    28→  ChevronRight,
+    29→  Camera,
+    30→} from 'lucide-react';
+    31→
+    32→const iconMap: Record<string, React.ReactNode> = {
+    33→  heart: <Heart className="h-6 w-6" />,
+    34→  shield: <ShieldCheck className="h-6 w-6" />,
+    35→  unlock: <Unlock className="h-6 w-6" />,
+    36→  graduation: <GraduationCap className="h-6 w-6" />,
+    37→};
+    38→
+    39→const defaultCauses = [
+    40→  {
+    41→    icon: 'heart' as const,
+    42→    title: 'Peace & Reconciliation',
+    43→    description:
+    44→      'Mediating conflicts and fostering dialogue between divided communities through traditional and modern conflict resolution approaches.',
+    45→    image: '/reconciliation.jpg',
+    46→    color: 'bg-[#0B3C5D]',
+    47→  },
+    48→  {
+    49→    icon: 'shield' as const,
+    50→    title: 'Child Rights Advocacy',
+    51→    description:
+    52→      'Protecting children from spiritual manipulation, abuse, and exploitation. Ensuring every child has the right to safety and education.',
+    53→    image: '/children-education.jpg',
+    54→    color: 'bg-[#6B4F3A]',
+    55→  },
+    56→  {
+    57→    icon: 'unlock' as const,
+    58→    title: 'Trokosi Liberation',
+    59→    description:
+    60→      'Advocating against shrine servitude and rehabilitating victims. Restoring dignity and freedom to those held in bondage.',
+    61→    image: '/women-empowerment.jpg',
+    62→    color: 'bg-[#4C9A2A]',
+    63→  },
+    64→  {
+    65→    icon: 'graduation' as const,
+    66→    title: 'Education Support',
+    67→    description:
+    68→      'Providing scholarships, school supplies, and literacy programs to underserved communities. Building futures through learning.',
+    69→    image: '/vocational-training.jpg',
+    70→    color: 'bg-[#D4AF37]',
+    71→  },
+    72→];
+    73→
+    74→const defaultTestimonials = [
+    75→  {
+    76→    quote:
+    77→      "The Foundation\u2019s work is commendable and encouraged its leadership to continue promoting peace and supporting communities through their social intervention mechanisms.",
+    78→    name: 'Torgbi Avorkliya V',
+    79→    role: 'Chief of Dzodze Kuli, Ketu North, Volta Region',
+    80→    initials: 'TA',
+    81→    avatar: '/torgbi-avorkliya.jpg',
+    82→  },
+    83→  {
+    84→    quote:
+    85→      'Through their vocational training program, I gained skills that transformed my life. I can now support my family and contribute to my community.',
+    86→    name: 'Ama Deku',
+    87→    role: 'Program Beneficiary',
+    88→    initials: 'AD',
+    89→  },
+    90→  {
+    91→    quote:
+    92→      'The radio programs gave me hope during my darkest moments. I learned that peace is possible, and I am now a peace ambassador in my community.',
+    93→    name: 'Emmanuel Agbeko',
+    94→    role: 'Peace Ambassador',
+    95→    initials: 'EA',
+    96→  },
+    97→];
+    98→
+    99→const defaultAboutImages = [
+   100→  { src: '/duamenafa-4.jpg', alt: 'Community peace gathering' },
+   101→  { src: '/duamenafa-10.jpg', alt: 'Outreach program activities' },
+   102→  { src: '/duamenafa-27.jpg', alt: 'Peacebuilding workshop' },
+   103→  { src: '/duamenafa-176.jpg', alt: 'Community transformation project' },
+   104→  { src: '/duamenafa-196.jpg', alt: 'Advocacy campaign rally' },
+   105→  { src: '/duamenafa-198.jpg', alt: 'Volunteers in action' },
+   106→  { src: '/marathon-13.jpg', alt: 'Peace marathon event' },
+   107→];
+   108→
+   109→const defaultGalleryImages = [
+   110→  { src: '/duamenafa-4.jpg', caption: 'Community leaders united for peace' },
+   111→  { src: '/duamenafa-10.jpg', caption: 'Duamenefa outreach in rural communities' },
+   112→  { src: '/duamenafa-27.jpg', caption: 'Peace and reconciliation dialogue' },
+   113→  { src: '/duamenafa-176.jpg', caption: 'Transforming lives through advocacy' },
+   114→  { src: '/duamenafa-196.jpg', caption: 'Campaign for human rights and dignity' },
+   115→  { src: '/duamenafa-198.jpg', caption: 'Our dedicated volunteers at work' },
+   116→  { src: '/marathon-13.jpg', caption: 'Annual peace marathon for unity' },
+   117→];
+   118→
+   119→function AboutImageSlider({ images }: { images: { src: string; alt: string }[] }) {
+   120→  const [current, setCurrent] = useState(0);
+   121→  const sliderImages = images.length > 0 ? images : defaultAboutImages;
+   122→
+   123→  const next = useCallback(() => {
+   124→    setCurrent((prev) => (prev + 1) % sliderImages.length);
+   125→  }, [sliderImages.length]);
+   126→
+   127→  const prev = useCallback(() => {
+   128→    setCurrent((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
+   129→  }, [sliderImages.length]);
+   130→
+   131→  useEffect(() => {
+   132→    const interval = setInterval(next, 4000);
+   133→    return () => clearInterval(interval);
+   134→  }, [next]);
+   135→
+   136→  return (
+   137→    <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+   138→      <AnimatePresence mode="wait">
+   139→        <motion.img
+   140→          key={current}
+   141→          src={sliderImages[current].src}
+   142→          alt={sliderImages[current].alt}
+   143→          initial={{ opacity: 0 }}
+   144→          animate={{ opacity: 1 }}
+   145→          exit={{ opacity: 0 }}
+   146→          transition={{ duration: 0.8 }}
+   147→          className="w-full h-80 md:h-96 object-cover brightness-110"
+   148→        />
+   149→      </AnimatePresence>
+   150→      <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/30 to-transparent" />
+   151→      <div className="absolute bottom-6 left-6 right-6 text-white">
+   152→        <p className="font-heading font-semibold text-lg drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
+   153→          Over 47,758 Lives Impacted
+   154→        </p>
+   155→        <p className="text-white/90 text-sm drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+   156→          Across Ghana and West Africa
+   157→        </p>
+   158→      </div>
+   159→      <button
+   160→        onClick={prev}
+   161→        className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+   162→        aria-label="Previous image"
+   163→      >
+   164→        <ChevronLeft className="h-4 w-4 text-white" />
+   165→      </button>
+   166→      <button
+   167→        onClick={next}
+   168→        className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+   169→        aria-label="Next image"
+   170→      >
+   171→        <ChevronRight className="h-4 w-4 text-white" />
+   172→      </button>
+   173→      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
+   174→        {sliderImages.map((_, index) => (
+   175→          <button
+   176→            key={index}
+   177→            onClick={() => setCurrent(index)}
+   178→            className={`rounded-full transition-all duration-300 ${
+   179→              current === index
+   180→                ? 'w-6 h-2 bg-[#D4AF37]'
+   181→                : 'w-2 h-2 bg-white/50 hover:bg-white/70'
+   182→            }`}
+   183→            aria-label={`Go to image ${index + 1}`}
+   184→          />
+   185→        ))}
+   186→      </div>
+   187→    </div>
+   188→  );
+   189→}
+   190→
+   191→function GallerySlider({ images }: { images: { src: string; caption: string }[] }) {
+   192→  const [current, setCurrent] = useState(0);
+   193→  const galleryImages = images.length > 0 ? images : defaultGalleryImages;
+   194→  const itemsPerView = 3;
+   195→  const maxIndex = Math.max(0, galleryImages.length - itemsPerView);
+   196→
+   197→  const next = useCallback(() => {
+   198→    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
+   199→  }, [maxIndex]);
+   200→
+   201→  const prev = useCallback(() => {
+   202→    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
+   203→  }, [maxIndex]);
+   204→
+   205→  useEffect(() => {
+   206→    const interval = setInterval(next, 5000);
+   207→    return () => clearInterval(interval);
+   208→  }, [next]);
+   209→
+   210→  return (
+   211→    <div className="relative">
+   212→      <div className="overflow-hidden rounded-2xl">
+   213→        <motion.div
+   214→          className="flex gap-4"
+   215→          animate={{ x: `-${current * (100 / itemsPerView + 1.2)}%` }}
+   216→          transition={{ duration: 0.6, ease: 'easeInOut' }}
+   217→        >
+   218→          {galleryImages.map((image, index) => (
+   219→            <div
+   220→              key={image.src + index}
+   221→              className="flex-shrink-0"
+   222→              style={{ width: `calc(${100 / itemsPerView}% - 12px)` }}
+   223→            >
+   224→              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+   225→                <img
+   226→                  src={image.src}
+   227→                  alt={image.caption}
+   228→                  className="w-full h-full object-cover brightness-105 group-hover:scale-110 group-hover:brightness-110 transition-all duration-700"
+   229→                />
+   230→              </div>
+   231→            </div>
+   232→          ))}
+   233→        </motion.div>
+   234→      </div>
+   235→
+   236→      <div className="flex items-center justify-between mt-6">
+   237→        <div className="flex items-center gap-2">
+   238→          {galleryImages.map((_, index) => (
+   239→            <button
+   240→              key={index}
+   241→              onClick={() => setCurrent(Math.min(index, maxIndex))}
+   242→              className={`rounded-full transition-all duration-300 ${
+   243→                current === index
+   244→                  ? 'w-6 h-2.5 bg-[#D4AF37]'
+   245→                  : 'w-2.5 h-2.5 bg-[#0B3C5D]/20 hover:bg-[#0B3C5D]/40'
+   246→              }`}
+   247→              aria-label={`Go to gallery image ${index + 1}`}
+   248→            />
+   249→          ))}
+   250→        </div>
+   251→        <div className="flex items-center gap-2">
+   252→          <button
+   253→            onClick={prev}
+   254→            className="w-10 h-10 rounded-full border-2 border-[#0B3C5D]/20 hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 flex items-center justify-center transition-all"
+   255→            aria-label="Previous gallery images"
+   256→          >
+   257→            <ChevronLeft className="h-5 w-5 text-[#0B3C5D]" />
+   258→          </button>
+   259→          <button
+   260→            onClick={next}
+   261→            className="w-10 h-10 rounded-full border-2 border-[#0B3C5D]/20 hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 flex items-center justify-center transition-all"
+   262→            aria-label="Next gallery images"
+   263→          >
+   264→            <ChevronRight className="h-5 w-5 text-[#0B3C5D]" />
+   265→          </button>
+   266→        </div>
+   267→      </div>
+   268→
+   269→      <div className="md:hidden mt-4">
+   270→        <div className="flex gap-2 justify-center">
+   271→          {galleryImages.map((_, index) => (
+   272→            <button
+   273→              key={index}
+   274→              onClick={() => setCurrent(index)}
+   275→              className={`rounded-full transition-all duration-300 ${
+   276→                current === index
+   277→                  ? 'w-6 h-2 bg-[#D4AF37]'
+   278→                  : 'w-2 h-2 bg-[#0B3C5D]/20'
+   279→              }`}
+   280→              aria-label={`Go to image ${index + 1}`}
+   281→            />
+   282→          ))}
+   283→        </div>
+   284→      </div>
+   285→    </div>
+   286→  );
+   287→}
+   288→
+   289→const fadeInUp = {
+   290→  initial: { opacity: 0, y: 30 },
+   291→  whileInView: { opacity: 1, y: 0 },
+   292→  viewport: { once: true },
+   293→  transition: { duration: 0.6 },
+   294→};
+   295→
+   296→export default function HomePage() {
+   297→  const { navigateTo } = usePage();
+   298→  const { aboutPreview, causes, testimonials, gallery } = useCMS();
+   299→
+   300→  // Get CMS data with fallbacks
+   301→  const ap = aboutPreview;
+   302→  const aboutBadgeText = ap?.badgeText || 'Who We Are';
+   303→  const aboutHeading = ap?.heading || 'Building Peace,';
+   304→  const aboutHeadingHighlight = ap?.headingHighlight || 'Transforming Lives';
+   305→  const aboutP1 = ap?.paragraph1 || 'Duamenefa Foundation is a Ghana-based Non-Governmental Organization (NGO) with a membership of over 47,758 as of July 2025, committed to promoting peace and reconciliation. The name "Duamenefa" means "Let Us Co-Exist in Peace" in the Ewe language — a powerful reminder of our core mission.';
+   306→  const aboutP2 = ap?.paragraph2 || 'Through radio intervention programs on Fafaa 100.3 FM, Justice FM 98.5, Swiss FM 93.7, and Messiah TV, community mediation, advocacy campaigns, and vocational training, we have resolved over 610 spiritual and diabolical conflicts and transformed thousands of lives across 550 communities.';
+   307→  const aboutButtonText = ap?.buttonText || 'Learn More About Us';
+   308→  const aboutStatCardValue = ap?.statCard?.value || '610+';
+   309→  const aboutStatCardLabel = ap?.statCard?.label || 'Conflicts Resolved';
+   310→  const aboutImages = ap?.images?.length ? ap.images : defaultAboutImages;
+   311→
+   312→  const displayCauses = causes?.length > 0
+   313→    ? causes.map((c) => ({
+   314→        ...c,
+   315→        iconEl: iconMap[c.icon] || <Heart className="h-6 w-6" />,
+   316→      }))
+   317→    : defaultCauses.map((c) => ({
+   318→        ...c,
+   319→        iconEl: iconMap[c.icon] || <Heart className="h-6 w-6" />,
+   320→      }));
+   321→
+   322→  const displayTestimonials = testimonials?.length > 0
+   323→    ? testimonials.map((t) => ({ quote: t.quote, name: t.name, role: t.role, initials: t.initials, avatar: t.avatar || '' }))
+   324→    : defaultTestimonials;
+   325→
+   326→  const displayGallery = gallery?.length > 0
+   327→    ? gallery.map((g) => ({ src: g.src, caption: g.caption }))
+   328→    : defaultGalleryImages;
+   329→
+   330→  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+   331→  const [newsLoading, setNewsLoading] = useState(true);
+   332→
+   333→  useEffect(() => {
+   334→    fetchNews()
+   335→      .then((items) => {
+   336→        if (items.length > 0) {
+   337→          setNewsItems(items);
+   338→        }
+   339→        setNewsLoading(false);
+   340→      })
+   341→      .catch(() => {
+   342→        setNewsLoading(false);
+   343→      });
+   344→  }, []);
+   345→
+   346→  return (
+   347→    <div>
+   348→      {/* Hero Section */}
+   349→      <HeroSection />
+   350→
+   351→      {/* Stats Counter */}
+   352→      <StatsCounter />
+   353→
+   354→      {/* About Preview */}
+   355→      <section className="py-16 md:py-24">
+   356→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   357→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+   358→            <motion.div {...fadeInUp}>
+   359→              <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+   360→                {aboutBadgeText}
+   361→              </span>
+   362→              <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-6">
+   363→                {aboutHeading}{' '}
+   364→                <span className="text-[#D4AF37]">{aboutHeadingHighlight}</span>
+   365→              </h2>
+   366→              <p className="text-[#6B4F3A] leading-relaxed mb-4">
+   367→                {aboutP1}
+   368→              </p>
+   369→              <p className="text-[#6B4F3A] leading-relaxed mb-6">
+   370→                {aboutP2}
+   371→              </p>
+   372→              <Button
+   373→                onClick={() => navigateTo('about')}
+   374→                className="bg-[#0B3C5D] hover:bg-[#0a2e47] text-white font-semibold"
+   375→              >
+   376→                {aboutButtonText}
+   377→                <ArrowRight className="h-4 w-4 ml-2" />
+   378→              </Button>
+   379→            </motion.div>
+   380→
+   381→            <motion.div
+   382→              initial={{ opacity: 0, x: 30 }}
+   383→              whileInView={{ opacity: 1, x: 0 }}
+   384→              viewport={{ once: true }}
+   385→              transition={{ duration: 0.6, delay: 0.2 }}
+   386→              className="relative"
+   387→            >
+   388→              <AboutImageSlider images={aboutImages} />
+   389→              {/* Floating stat card */}
+   390→              <div className="absolute -bottom-6 -right-4 md:-right-6 bg-[#D4AF37] text-[#0B3C5D] rounded-xl p-4 shadow-lg z-10">
+   391→                <p className="font-heading font-bold text-2xl">{aboutStatCardValue}</p>
+   392→                <p className="text-xs font-medium">{aboutStatCardLabel}</p>
+   393→              </div>
+   394→            </motion.div>
+   395→          </div>
+   396→        </div>
+   397→      </section>
+   398→
+   399→      {/* Featured Causes */}
+   400→      <section className="py-16 md:py-24 bg-gray-50">
+   401→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   402→          <motion.div className="text-center mb-12" {...fadeInUp}>
+   403→            <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+   404→              What We Do
+   405→            </span>
+   406→            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
+   407→              Our Featured <span className="text-[#D4AF37]">Causes</span>
+   408→            </h2>
+   409→            <p className="text-[#6B4F3A] max-w-2xl mx-auto">
+   410→              Every cause we champion brings us closer to a world where peace,
+   411→              justice, and human dignity prevail.
+   412→            </p>
+   413→          </motion.div>
+   414→
+   415→          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+   416→            {displayCauses.map((cause, index) => (
+   417→              <motion.div
+   418→                key={cause.title}
+   419→                initial={{ opacity: 0, y: 20 }}
+   420→                whileInView={{ opacity: 1, y: 0 }}
+   421→                viewport={{ once: true }}
+   422→                transition={{ duration: 0.5, delay: index * 0.1 }}
+   423→              >
+   424→                <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-0 h-full">
+   425→                  <div className="relative h-48 overflow-hidden">
+   426→                    <img
+   427→                      src={cause.image}
+   428→                      alt={cause.title}
+   429→                      className="w-full h-full object-cover brightness-105 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500"
+   430→                    />
+   431→                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+   432→                    <div className="absolute top-4 left-4">
+   433→                      <div className={`${cause.color} text-white p-2 rounded-lg`}>
+   434→                        {cause.iconEl}
+   435→                      </div>
+   436→                    </div>
+   437→                  </div>
+   438→                  <CardContent className="p-5">
+   439→                    <h3 className="font-heading font-semibold text-lg text-[#0B3C5D] mb-2">
+   440→                      {cause.title}
+   441→                    </h3>
+   442→                    <p className="text-[#6B4F3A] text-sm leading-relaxed mb-4">
+   443→                      {cause.description}
+   444→                    </p>
+   445→                    <button
+   446→                      onClick={() => navigateTo('about')}
+   447→                      className="text-[#D4AF37] font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all"
+   448→                    >
+   449→                      Learn More <ArrowRight className="h-3 w-3" />
+   450→                    </button>
+   451→                  </CardContent>
+   452→                </Card>
+   453→              </motion.div>
+   454→            ))}
+   455→          </div>
+   456→        </div>
+   457→      </section>
+   458→
+   459→      {/* Voices of Peace */}
+   460→      <VoicesOfPeace />
+   461→
+   462→      {/* Testimonials */}
+   463→      <section className="py-16 md:py-24">
+   464→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   465→          <motion.div className="text-center mb-12" {...fadeInUp}>
+   466→            <span className="inline-block bg-[#4C9A2A]/10 text-[#4C9A2A] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+   467→              Testimonials
+   468→            </span>
+   469→            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
+   470→              Stories of <span className="text-[#D4AF37]">Transformation</span>
+   471→            </h2>
+   472→            <p className="text-[#6B4F3A] max-w-2xl mx-auto">
+   473→              Real stories from real people whose lives have been touched by our work.
+   474→            </p>
+   475→          </motion.div>
+   476→
+   477→          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+   478→            {displayTestimonials.map((testimonial, index) => (
+   479→              <motion.div
+   480→                key={testimonial.name}
+   481→                initial={{ opacity: 0, y: 20 }}
+   482→                whileInView={{ opacity: 1, y: 0 }}
+   483→                viewport={{ once: true }}
+   484→                transition={{ duration: 0.5, delay: index * 0.1 }}
+   485→              >
+   486→                <Card className="h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300">
+   487→                  <CardContent className="p-6">
+   488→                    <div className="text-[#D4AF37] text-3xl font-heading mb-3">
+   489→                      &ldquo;
+   490→                    </div>
+   491→                    <p className="text-[#6B4F3A] text-sm leading-relaxed mb-6">
+   492→                      {testimonial.quote}
+   493→                    </p>
+   494→                    <div className="flex items-center gap-3">
+   495→                      <Avatar className="h-12 w-12 border-2 border-[#D4AF37]">
+   496→                        <AvatarImage src={testimonial.avatar || ''} alt={testimonial.name} className="object-cover" />
+   497→                        <AvatarFallback className="bg-[#0B3C5D] text-white text-xs font-heading">
+   498→                          {testimonial.initials}
+   499→                        </AvatarFallback>
+   500→                      </Avatar>
+   501→                      <div>
+   502→                        <p className="font-heading font-semibold text-sm text-[#0B3C5D]">
+   503→                          {testimonial.name}
+   504→                        </p>
+   505→                        <p className="text-xs text-[#6B4F3A]/70">
+   506→                          {testimonial.role}
+   507→                        </p>
+   508→                      </div>
+   509→                    </div>
+   510→                  </CardContent>
+   511→                </Card>
+   512→              </motion.div>
+   513→            ))}
+   514→          </div>
+   515→        </div>
+   516→      </section>
+   517→
+   518→      {/* Photo Gallery Slider */}
+   519→      <section className="py-16 md:py-24 bg-gray-50">
+   520→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   521→          <motion.div className="text-center mb-12" {...fadeInUp}>
+   522→            <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+   523→              <Camera className="h-4 w-4 inline mr-1" />
+   524→              Gallery
+   525→            </span>
+   526→            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
+   527→              Moments of <span className="text-[#D4AF37]">Impact</span>
+   528→            </h2>
+   529→            <p className="text-[#6B4F3A] max-w-2xl mx-auto">
+   530→              glimpses from our peacebuilding, advocacy, and community transformation programs across Ghana.
+   531→            </p>
+   532→          </motion.div>
+   533→
+   534→          <GallerySlider images={displayGallery} />
+   535→        </div>
+   536→      </section>
+   537→
+   538→      {/* Recent News */}
+   539→      <section className="py-16 md:py-24 bg-gray-50">
+   540→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   541→          <motion.div className="flex items-center justify-between mb-12" {...fadeInUp}>
+   542→            <div>
+   543→              <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+   544→                Latest Updates
+   545→              </span>
+   546→              <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D]">
+   547→                Recent <span className="text-[#D4AF37]">News</span>
+   548→              </h2>
+   549→            </div>
+   550→            <a
+   551→              href="https://fafaafmonline.com/category/duamenefa-news/"
+   552→              target="_blank"
+   553→              rel="noopener noreferrer"
+   554→              className="hidden md:flex items-center gap-2 border border-[#0B3C5D] text-[#0B3C5D] hover:bg-[#0B3C5D] hover:text-white font-medium px-4 py-2 rounded-md transition-colors text-sm"
+   555→            >
+   556→              More News
+   557→              <ArrowRight className="h-4 w-4" />
+   558→            </a>
+   559→          </motion.div>
+   560→
+   561→          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+   562→            {newsLoading ? (
+   563→              Array.from({ length: 6 }).map((_, index) => (
+   564→                <div key={index} className="animate-pulse">
+   565→                  <Card className="h-full border-0 shadow-md overflow-hidden">
+   566→                    <div className="h-48 bg-gray-200" />
+   567→                    <CardContent className="p-5">
+   568→                      <div className="flex items-center gap-3 mb-3">
+   569→                        <div className="h-5 w-20 bg-gray-200 rounded" />
+   570→                        <div className="h-4 w-24 bg-gray-200 rounded" />
+   571→                      </div>
+   572→                      <div className="h-5 bg-gray-200 rounded mb-2" />
+   573→                      <div className="h-4 bg-gray-200 rounded mb-1" />
+   574→                      <div className="h-4 bg-gray-200 rounded w-3/4" />
+   575→                    </CardContent>
+   576→                  </Card>
+   577→                </div>
+   578→              ))
+   579→            ) : newsItems.length > 0 ? (
+   580→              newsItems.map((item, index) => (
+   581→                <motion.div
+   582→                  key={item.link}
+   583→                  initial={{ opacity: 0, y: 20 }}
+   584→                  whileInView={{ opacity: 1, y: 0 }}
+   585→                  viewport={{ once: true }}
+   586→                  transition={{ duration: 0.5, delay: index * 0.1 }}
+   587→                >
+   588→                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
+   589→                    <Card className="group h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer overflow-hidden">
+   590→                      <div className="relative h-48 bg-[#0B3C5D]/5 overflow-hidden">
+   591→                        <img
+   592→                          src={item.image}
+   593→                          alt={item.title}
+   594→                          className="w-full h-full object-cover brightness-105 group-hover:scale-105 group-hover:brightness-110 transition-all duration-500"
+   595→                          onError={(e) => {
+   596→                            const target = e.target as HTMLImageElement;
+   597→                            if (target.src !== '/radio-broadcast.jpg') {
+   598→                              target.src = '/radio-broadcast.jpg';
+   599→                            }
+   600→                          }}
+   601→                        />
+   602→                      </div>
+   603→                      <CardContent className="p-5">
+   604→                        <div className="flex items-center gap-3 mb-3">
+   605→                          <Badge
+   606→                            variant="secondary"
+   607→                            className="bg-[#D4AF37]/10 text-[#D4AF37] text-xs"
+   608→                          >
+   609→                            {item.category}
+   610→                          </Badge>
+   611→                          <span className="text-xs text-[#6B4F3A]/60 flex items-center gap-1">
+   612→                            <Calendar className="h-3 w-3" />
+   613→                            {item.date}
+   614→                          </span>
+   615→                        </div>
+   616→                        <h3 className="font-heading font-semibold text-[#0B3C5D] mb-2 line-clamp-2">
+   617→                          {item.title}
+   618→                        </h3>
+   619→                        <p className="text-[#6B4F3A] text-sm leading-relaxed line-clamp-3">
+   620→                          {item.excerpt}
+   621→                        </p>
+   622→                      </CardContent>
+   623→                    </Card>
+   624→                  </a>
+   625→                </motion.div>
+   626→              ))
+   627→            ) : (
+   628→              <div className="col-span-full text-center py-12">
+   629→                <p className="text-[#6B4F3A]/60">Unable to load news at this time. Please check back later.</p>
+   630→                <a
+   631→                  href="https://fafaafmonline.com/category/duamenefa-news/"
+   632→                  target="_blank"
+   633→                  rel="noopener noreferrer"
+   634→                  className="inline-flex items-center gap-2 text-[#D4AF37] hover:underline mt-2 font-medium"
+   635→                >
+   636→                  Visit Fafaa FM News <ArrowRight className="h-4 w-4" />
+   637→                </a>
+   638→              </div>
+   639→            )}
+   640→          </div>
+   641→
+   642→          <div className="mt-8 text-center md:hidden">
+   643→            <a
+   644→              href="https://fafaafmonline.com/category/duamenefa-news/"
+   645→              target="_blank"
+   646→              rel="noopener noreferrer"
+   647→              className="inline-flex items-center gap-2 border border-[#0B3C5D] text-[#0B3C5D] hover:bg-[#0B3C5D] hover:text-white font-medium px-6 py-2 rounded-md transition-colors text-sm"
+   648→            >
+   649→              More News
+   650→              <ArrowRight className="h-4 w-4" />
+   651→            </a>
+   652→          </div>
+   653→        </div>
+   654→      </section>
+   655→
+   656→      {/* Live Stream Section */}
+   657→      <section className="py-16 md:py-24 bg-[#0B3C5D] text-white">
+   658→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   659→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+   660→            <motion.div {...fadeInUp}>
+   661→              <span className="inline-block bg-[#D4AF37]/20 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+   662→                📡 Live Broadcasts
+   663→              </span>
+   664→              <h2 className="font-heading font-bold text-3xl md:text-4xl mb-4">
+   665→                Watch & Listen <span className="text-[#D4AF37]">Live</span>
+   666→              </h2>
+   667→              <p className="text-white/70 leading-relaxed mb-6">
+   668→                Tune in to our live radio and television programs broadcasting across
+   669→                Ghana. Our programs reach millions with messages of peace,
+   670→                reconciliation, and community empowerment.
+   671→              </p>
+   672→              <div className="space-y-4 mb-6">
+   673→                <div>
+   674→                  <div className="flex items-center gap-3 text-white/90 mb-1.5">
+   675→                    <img
+   676→                      src="/fafaa-fm-logo.jpg"
+   677→                      alt="Fafaa 100.3 FM Logo"
+   678→                      className="h-8 w-8 rounded-full object-cover ring-2 ring-[#D4AF37]/50"
+   679→                    />
+   680→                    <span className="font-medium">Fafaa 100.3 FM</span>
+   681→                  </div>
+   682→                  <div className="ml-11 space-y-0.5 text-white/70 text-sm">
+   683→                    <p>— Sundays 7-10 PM</p>
+   684→                    <p>— Tuesdays 11 AM-2 PM</p>
+   685→                    <p>— Thursdays 11 AM-2 PM</p>
+   686→                  </div>
+   687→                </div>
+   688→                <div>
+   689→                  <div className="flex items-center gap-3 text-white/90 mb-1.5">
+   690→                    <Radio className="h-6 w-6 text-[#D4AF37]" />
+   691→                    <span className="font-medium">Messiah TV Amos 17</span>
+   692→                  </div>
+   693→                  <div className="ml-9 space-y-0.5 text-white/70 text-sm">
+   694→                    <p>— Sundays 7-10 PM</p>
+   695→                    <p>— Tuesdays 11 AM-2 PM</p>
+   696→                    <p>— Thursdays 11 AM-2 PM</p>
+   697→                  </div>
+   698→                </div>
+   699→              </div>
+   700→              <a
+   701→                href="https://fafaafm.radiostream321.com/"
+   702→                target="_blank"
+   703→                rel="noopener noreferrer"
+   704→                className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-4 py-2 rounded-md transition-colors"
+   705→              >
+   706→                <Radio className="h-4 w-4" />
+   707→                Online Radio
+   708→              </a>
+   709→            </motion.div>
+   710→
+   711→            <motion.div
+   712→              initial={{ opacity: 0, x: 30 }}
+   713→              whileInView={{ opacity: 1, x: 0 }}
+   714→              viewport={{ once: true }}
+   715→              transition={{ duration: 0.6, delay: 0.2 }}
+   716→            >
+   717→              <div className="bg-white/5 rounded-2xl p-4 md:p-6 border border-white/10">
+   718→                {/* Facebook Page Embed */}
+   719→                <div className="relative rounded-xl overflow-hidden mb-4">
+   720→                  <iframe
+   721→                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FFafaa100.3fm&tabs=timeline&width=500&height=450&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+   722→                    width="500"
+   723→                    height="450"
+   724→                    style={{ border: 'none', overflow: 'hidden', width: '100%' }}
+   725→                    scrolling="no"
+   726→                    frameBorder="0"
+   727→                    allowFullScreen={true}
+   728→                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+   729→                    title="Fafaa 100.3 FM Facebook Page"
+   730→                  />
+   731→                </div>
+   732→
+   733→                {/* Audio Player */}
+   734→                <div className="bg-white/5 rounded-xl p-4">
+   735→                  <div className="flex items-center gap-3 mb-3">
+   736→                    <a
+   737→                      href="https://fafaafm.radiostream321.com/"
+   738→                      target="_blank"
+   739→                      rel="noopener noreferrer"
+   740→                      className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0 cursor-pointer hover:bg-[#c9a22e] transition-colors"
+   741→                    >
+   742→                      <Play className="h-5 w-5 text-[#0B3C5D] ml-0.5" />
+   743→                    </a>
+   744→                    <div className="flex-1">
+   745→                      <p className="text-sm font-medium">Fafaa 100.3 FM Live</p>
+   746→                      <p className="text-xs text-white/50">Click to listen live</p>
+   747→                    </div>
+   748→                    <div className="flex items-center gap-1.5 bg-red-500 px-2 py-1 rounded text-xs font-bold">
+   749→                      <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+   750→                      LIVE
+   751→                    </div>
+   752→                  </div>
+   753→                  <div className="w-full bg-white/10 rounded-full h-1.5">
+   754→                    <div className="bg-[#D4AF37] h-1.5 rounded-full w-1/3 animate-pulse" />
+   755→                  </div>
+   756→                </div>
+   757→              </div>
+   758→            </motion.div>
+   759→          </div>
+   760→        </div>
+   761→      </section>
+   762→
+   763→      {/* CTA Section */}
+   764→      <section className="py-16 md:py-24 bg-gradient-to-br from-[#0B3C5D] to-[#0a2e47] text-white relative overflow-hidden">
+   765→        <div className="absolute inset-0 opacity-10">
+   766→          <div className="absolute top-10 left-10 w-40 h-40 rounded-full border-2 border-[#D4AF37]" />
+   767→          <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full border-2 border-[#D4AF37]" />
+   768→          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border border-[#D4AF37]" />
+   769→        </div>
+   770→
+   771→        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+   772→          <motion.div {...fadeInUp}>
+   773→            <span className="inline-block bg-[#D4AF37]/20 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+   774→              ✊ Join the Movement
+   775→            </span>
+   776→            <h2 className="font-heading font-bold text-3xl md:text-5xl mb-6">
+   777→              Together, We Can Build a{' '}
+   778→              <span className="text-[#D4AF37]">Peaceful World</span>
+   779→            </h2>
+   780→            <p className="text-white/70 text-lg mb-10 max-w-2xl mx-auto">
+   781→              Every act of kindness, every donation, every hour of volunteer work
+   782→              brings us closer to a society where all people co-exist in peace.
+   783→              Join the Duamenefa movement today.
+   784→            </p>
+   785→            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+   786→              <Button
+   787→                onClick={() => navigateTo('about')}
+   788→                size="lg"
+   789→                className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg"
+   790→              >
+   791→                <HandHeart className="h-5 w-5 mr-2" />
+   792→                Support Our Mission
+   793→              </Button>
+   794→              <Button
+   795→                onClick={() => navigateTo('about')}
+   796→                size="lg"
+   797→                variant="outline"
+   798→                className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
+   799→              >
+   800→                <Users className="h-5 w-5 mr-2" />
+   801→                Our Operations
+   802→              </Button>
+   803→            </div>
+   804→          </motion.div>
+   805→        </div>
+   806→      </section>
+   807→
+   808→      {/* Newsletter Section */}
+   809→      <section className="py-16 md:py-20">
+   810→        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+   811→          <NewsletterForm />
+   812→        </div>
+   813→      </section>
+   814→    </div>
+   815→  );
+   816→}
+   817→

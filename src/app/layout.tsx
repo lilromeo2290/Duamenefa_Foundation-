@@ -62,13 +62,25 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Minimal loading indicator - only visible during initial paint */}
+        {/* CRITICAL: Inline CSS to fix Framer Motion SSR opacity:0 issue.
+            Framer Motion sets opacity:0 on animated elements during SSR.
+            This CSS makes them visible immediately, BEFORE any JS loads.
+            The .fm-visible class is added per-element when Framer Motion successfully
+            animates it, or as a fallback after 3 seconds for stuck elements. */}
         <style dangerouslySetInnerHTML={{__html: `
-          #app-loader{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0B3C5D;position:fixed;inset:0;z-index:9999;transition:opacity .3s ease}
-          #app-loader.loaded{opacity:0;pointer-events:none}
-          #app-loader-inner{text-align:center;color:#fff;font-family:system-ui,-apple-system,sans-serif}
-          #app-loader-inner .spinner{width:28px;height:28px;border:3px solid rgba(212,175,55,.3);border-top-color:#D4AF37;border-radius:50%;animation:als .7s linear infinite;margin:0 auto}
-          @keyframes als{to{transform:rotate(360deg)}}
+          /* Force all Framer Motion elements visible before JS hydrates */
+          html:not(.fm-ready) [style*="opacity: 0"],
+          html:not(.fm-ready) [style*="opacity:0"] {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+          /* After fm-ready, force visible any elements that Framer Motion
+             hasn't animated yet (stuck whileInView elements) */
+          html.fm-ready :not(.fm-visible)[style*="opacity: 0"],
+          html.fm-ready :not(.fm-visible)[style*="opacity:0"] {
+            opacity: 1 !important;
+            transform: none !important;
+          }
         `}} />
       </head>
       <body
@@ -76,55 +88,50 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
-        {/* Lightweight loading indicator - shows spinner, hides when content renders */}
-        <div id="app-loader">
-          <div id="app-loader-inner">
-            <div className="spinner" />
-          </div>
-        </div>
+        {/* Framer Motion visibility management script:
+            1. After page load, add 'fm-ready' to hand animation control to Framer Motion
+            2. After 3 seconds, force any stuck opacity:0 elements visible as fallback
+            3. The CSS override in <head> keeps content visible until Framer Motion animates */}
         <script dangerouslySetInnerHTML={{__html: `
 (function(){
-  // 1. Hide the loading spinner as soon as content is available
-  var loader = document.getElementById('app-loader');
-  function hideLoader(){
-    if(!loader) return;
-    loader.classList.add('loaded');
-    setTimeout(function(){ if(loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 400);
+  // Mark elements that Framer Motion has successfully animated
+  function observeAnimations(){
+    var observer = new MutationObserver(function(mutations){
+      mutations.forEach(function(m){
+        if(m.type === 'attributes' && m.attributeName === 'style'){
+          var el = m.target;
+          if(el.style && el.style.opacity === '1'){
+            el.classList.add('fm-visible');
+          }
+        }
+      });
+    });
+    observer.observe(document.body, {attributes:true, subtree:true, attributeFilter:['style']});
   }
 
-  // Check if body has real content (React has hydrated)
-  var checkCount = 0;
-  var t = setInterval(function(){
-    checkCount++;
-    var body = document.body;
-    if(body){
-      var ch = body.children;
-      for(var i=0;i<ch.length;i++){
-        if(ch[i].id !== 'app-loader' && ch[i].children.length > 0){
-          clearInterval(t);
-          hideLoader();
-          return;
-        }
-      }
-    }
-    if(checkCount > 20){ clearInterval(t); hideLoader(); }
-  }, 50);
-  setTimeout(hideLoader, 2000);
-
-  // 2. Enable Framer Motion animations after hydration
-  // The CSS override (globals.css) makes content visible before JS loads.
-  // After React hydrates and Framer Motion initializes, we add 'fm-ready'
-  // which removes the CSS override and lets Framer Motion control animations.
+  // Add fm-ready after page load + delay for Framer Motion to initialize
   function enableFM(){
     document.documentElement.classList.add('fm-ready');
+    observeAnimations();
   }
+
   if(document.readyState === 'complete'){
-    setTimeout(enableFM, 500);
+    setTimeout(enableFM, 1500);
   } else {
     window.addEventListener('load', function(){
-      setTimeout(enableFM, 500);
+      setTimeout(enableFM, 1500);
     });
   }
+
+  // Fallback: after 4 seconds, force any remaining invisible elements visible
+  setTimeout(function(){
+    var stuck = document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]');
+    for(var i=0; i<stuck.length; i++){
+      stuck[i].classList.add('fm-visible');
+      stuck[i].style.opacity = '1';
+      stuck[i].style.transform = 'none';
+    }
+  }, 4000);
 })();
         `}} />
       </body>
