@@ -180,7 +180,7 @@ export default function StoriesPage() {
                 key={story.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.6 }}
               >
                 <Card className="border-0 shadow-lg overflow-hidden">

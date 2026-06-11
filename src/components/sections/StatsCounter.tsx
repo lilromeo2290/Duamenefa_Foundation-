@@ -82,7 +82,7 @@ export default function StatsCounter() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               className="text-center"
             >
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-[#0B3C5D]/10 text-[#0B3C5D] mb-3">

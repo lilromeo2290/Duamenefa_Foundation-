@@ -77,7 +77,7 @@ export default function VoicesOfPeace() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10"
           >
             {/* Waveform */}
@@ -151,7 +151,7 @@ export default function VoicesOfPeace() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="space-y-6"
           >
             <h3 className="font-heading font-semibold text-xl text-[#D4AF37]">

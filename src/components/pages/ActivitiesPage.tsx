@@ -360,7 +360,7 @@ export default function ActivitiesPage() {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
@@ -392,7 +392,7 @@ export default function ActivitiesPage() {
                 key={activity.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <button
@@ -519,7 +519,7 @@ export default function ActivitiesPage() {
                 key={event.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
               >
                 <Card className="h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300">
@@ -585,7 +585,7 @@ export default function ActivitiesPage() {
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center"
               >

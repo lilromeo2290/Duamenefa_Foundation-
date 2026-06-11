@@ -293,7 +293,7 @@ export default function NewslettersPage() {
                 key={edition.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
               >
                 <Card className="h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer group">

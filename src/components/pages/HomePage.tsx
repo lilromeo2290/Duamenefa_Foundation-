@@ -289,7 +289,7 @@ function GallerySlider({ images }: { images: { src: string; caption: string }[] 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
+  viewport: { once: true, amount: 0.1 },
   transition: { duration: 0.6 },
 };
 
@@ -334,7 +334,7 @@ export default function HomePage() {
     fetchNews()
       .then((items) => {
         if (items.length > 0) {
-          setNewsItems(items);
+          setNewsItems(items.slice(0, 3));
         }
         setNewsLoading(false);
       })
@@ -381,7 +381,7 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
@@ -418,24 +418,14 @@ export default function HomePage() {
                 key={cause.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-0 h-full">
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={cause.image}
-                      alt={cause.title}
-                      className="w-full h-full object-cover brightness-105 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <div className={`${cause.color} text-white p-2 rounded-lg`}>
-                        {cause.iconEl}
-                      </div>
+                <Card className="group hover:shadow-xl transition-all duration-300 border-0 h-full">
+                  <CardContent className="p-6">
+                    <div className={`${cause.color} text-white p-3 rounded-lg w-fit mb-4`}>
+                      {cause.iconEl}
                     </div>
-                  </div>
-                  <CardContent className="p-5">
                     <h3 className="font-heading font-semibold text-lg text-[#0B3C5D] mb-2">
                       {cause.title}
                     </h3>
@@ -480,7 +470,7 @@ export default function HomePage() {
                 key={testimonial.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Card className="h-full border-0 shadow-md hover:shadow-xl transition-shadow duration-300">
@@ -582,7 +572,7 @@ export default function HomePage() {
                   key={item.link}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
@@ -711,7 +701,7 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="bg-white/5 rounded-2xl p-4 md:p-6 border border-white/10">

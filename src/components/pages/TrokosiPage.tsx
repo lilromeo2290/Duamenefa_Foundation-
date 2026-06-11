@@ -52,7 +52,7 @@ export default function TrokosiPage() {
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6 }}
             >
               <Card className="border-0 shadow-lg overflow-hidden">
@@ -73,7 +73,7 @@ export default function TrokosiPage() {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <Card className="border-0 shadow-lg overflow-hidden">
