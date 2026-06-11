@@ -351,38 +351,6 @@ export default function HomePage() {
       {/* Stats Counter */}
       <StatsCounter />
 
-      {/* About Preview */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div {...fadeInUp}>
-              <span className="inline-block bg-[#0B3C5D]/10 text-[#0B3C5D] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-                {aboutBadgeText}
-              </span>
-              <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-6">
-                {aboutHeading}{' '}
-                <span className="text-[#D4AF37]">{aboutHeadingHighlight}</span>
-              </h2>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <AboutImageSlider images={aboutImages} />
-              {/* Floating stat card */}
-              <div className="absolute -bottom-6 -right-4 md:-right-6 bg-[#D4AF37] text-[#0B3C5D] rounded-xl p-4 shadow-lg z-10">
-                <p className="font-heading font-bold text-2xl">{aboutStatCardValue}</p>
-                <p className="text-xs font-medium">{aboutStatCardLabel}</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Featured Causes */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
