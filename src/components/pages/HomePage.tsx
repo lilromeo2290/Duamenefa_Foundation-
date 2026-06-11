@@ -363,19 +363,6 @@ export default function HomePage() {
                 {aboutHeading}{' '}
                 <span className="text-[#D4AF37]">{aboutHeadingHighlight}</span>
               </h2>
-              <p className="text-[#6B4F3A] leading-relaxed mb-4">
-                {aboutP1}
-              </p>
-              <p className="text-[#6B4F3A] leading-relaxed mb-6">
-                {aboutP2}
-              </p>
-              <Button
-                onClick={() => navigateTo('about')}
-                className="bg-[#0B3C5D] hover:bg-[#0a2e47] text-white font-semibold"
-              >
-                {aboutButtonText}
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
             </motion.div>
 
             <motion.div
