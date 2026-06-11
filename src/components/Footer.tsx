@@ -89,11 +89,6 @@ export default function Footer() {
                 <p className="text-white/60 text-xs">Foundation</p>
               </div>
             </div>
-            <p className="text-white/70 text-sm leading-relaxed mb-4">
-              Duamenefa Foundation is a Ghana-based NGO dedicated to promoting peace,
-              reconciliation, child rights advocacy, and community transformation.
-              &quot;Duamenefa&quot; means &quot;Let Us Co-Exist in Peace&quot; in the Ewe language.
-            </p>
             <div className="flex items-center gap-3">
               <a
                 href={facebookUrl}

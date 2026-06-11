@@ -295,19 +295,7 @@ const fadeInUp = {
 
 export default function HomePage() {
   const { navigateTo } = usePage();
-  const { aboutPreview, causes, testimonials, gallery } = useCMS();
-
-  // Get CMS data with fallbacks
-  const ap = aboutPreview;
-  const aboutBadgeText = ap?.badgeText || 'Who We Are';
-  const aboutHeading = ap?.heading || 'Building Peace,';
-  const aboutHeadingHighlight = ap?.headingHighlight || 'Transforming Lives';
-  const aboutP1 = ap?.paragraph1 || 'Duamenefa Foundation is a Ghana-based Non-Governmental Organization (NGO) with a membership of over 47,758 as of July 2025, committed to promoting peace and reconciliation. The name "Duamenefa" means "Let Us Co-Exist in Peace" in the Ewe language — a powerful reminder of our core mission.';
-  const aboutP2 = ap?.paragraph2 || 'Through radio intervention programs on Fafaa 100.3 FM, Justice FM 98.5, Swiss FM 93.7, and Messiah TV, community mediation, advocacy campaigns, and vocational training, we have resolved over 610 spiritual and diabolical conflicts and transformed thousands of lives across 550 communities.';
-  const aboutButtonText = ap?.buttonText || 'Learn More About Us';
-  const aboutStatCardValue = ap?.statCard?.value || '610+';
-  const aboutStatCardLabel = ap?.statCard?.label || 'Conflicts Resolved';
-  const aboutImages = ap?.images?.length ? ap.images : defaultAboutImages;
+  const { causes, testimonials, gallery } = useCMS();
 
   const displayCauses = causes?.length > 0
     ? causes.map((c) => ({
