@@ -215,13 +215,12 @@ const defaultAboutPreview: AboutPreviewData = {
   buttonText: 'Learn More About Us',
   statCard: { value: '610+', label: 'Conflicts Resolved' },
   images: [
-    { src: '/duamenafa-4.jpg', alt: 'Community peace gathering' },
-    { src: '/duamenafa-10.jpg', alt: 'Outreach program activities' },
-    { src: '/duamenafa-27.jpg', alt: 'Peacebuilding workshop' },
-    { src: '/duamenafa-176.jpg', alt: 'Community transformation project' },
-    { src: '/duamenafa-196.jpg', alt: 'Advocacy campaign rally' },
-    { src: '/duamenafa-198.jpg', alt: 'Volunteers in action' },
-    { src: '/marathon-13.jpg', alt: 'Peace marathon event' },
+    { src: '/slider-donations-single-parents.jpg', alt: 'Donations of equipment to single parents' },
+    { src: '/slider-donation-keta-hospital.jpg', alt: 'Donation to Keta Hospital' },
+    { src: '/slider-donations-childrens-village.jpg', alt: 'Donations to Children\'s Village' },
+    { src: '/slider-donations-male-ward-keta.jpg', alt: 'Donations for male ward at Keta Hospital' },
+    { src: '/slider-regional-tournament.jpg', alt: 'Duamenefa Regional Tournament' },
+    { src: '/slider-award-costheta.jpg', alt: 'Award at Costheta Educational Support Fund' },
   ],
 };
 
@@ -295,13 +294,12 @@ const defaultTestimonials: TestimonialItem[] = [
 ];
 
 const defaultGallery: GalleryItem[] = [
-  { id: 'gal-1', src: '/duamenafa-4.jpg', caption: 'Community leaders united for peace' },
-  { id: 'gal-2', src: '/duamenafa-10.jpg', caption: 'Duamenefa outreach in rural communities' },
-  { id: 'gal-3', src: '/duamenafa-27.jpg', caption: 'Peace and reconciliation dialogue' },
-  { id: 'gal-4', src: '/duamenafa-176.jpg', caption: 'Transforming lives through advocacy' },
-  { id: 'gal-5', src: '/duamenafa-196.jpg', caption: 'Campaign for human rights and dignity' },
-  { id: 'gal-6', src: '/duamenafa-198.jpg', caption: 'Our dedicated volunteers at work' },
-  { id: 'gal-7', src: '/marathon-13.jpg', caption: 'Annual peace marathon for unity' },
+  { id: 'gal-1', src: '/slider-donations-single-parents.jpg', caption: 'Donations of equipment to single parents' },
+  { id: 'gal-2', src: '/slider-donation-keta-hospital.jpg', caption: 'Donation to Keta Hospital' },
+  { id: 'gal-3', src: '/slider-donations-childrens-village.jpg', caption: 'Donations to Children\'s Village' },
+  { id: 'gal-4', src: '/slider-donations-male-ward-keta.jpg', caption: 'Donations for male ward at Keta Hospital' },
+  { id: 'gal-5', src: '/slider-regional-tournament.jpg', caption: 'Duamenefa Regional Tournament' },
+  { id: 'gal-6', src: '/slider-award-costheta.jpg', caption: 'Award at Costheta Educational Support Fund' },
 ];
 
 // ── Store Interface ────────────────────────────────────────────────
