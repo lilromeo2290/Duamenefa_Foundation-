@@ -96,37 +96,37 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B3C5D]/70 via-[#0B3C5D]/50 to-[#0B3C5D]/80" />
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Dark overlay for text readability — heavier for bolder text pop */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B3C5D]/75 via-black/45 to-[#0B3C5D]/85" />
+        <div className="absolute inset-0 bg-black/35" />
       </div>
 
       {/* Slider Navigation Arrows */}
       <button
         onClick={scrollPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 flex items-center justify-center"
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-black/30 backdrop-blur-md border-2 border-white/30 text-white hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#0B3C5D] transition-all duration-300 flex items-center justify-center shadow-xl"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="h-6 w-6" />
+        <ChevronLeft className="h-7 w-7" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 flex items-center justify-center"
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-black/30 backdrop-blur-md border-2 border-white/30 text-white hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#0B3C5D] transition-all duration-300 flex items-center justify-center shadow-xl"
         aria-label="Next slide"
       >
-        <ChevronRight className="h-6 w-6" />
+        <ChevronRight className="h-7 w-7" />
       </button>
 
       {/* Slider Dots Indicator */}
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
         {scrollSnaps.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollTo(index)}
             className={`transition-all duration-300 rounded-full ${
               index === selectedIndex
-                ? 'w-8 h-3 bg-[#D4AF37]'
-                : 'w-3 h-3 bg-white/40 hover:bg-white/60'
+                ? 'w-10 h-4 bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/40'
+                : 'w-4 h-4 bg-white/40 hover:bg-white/70'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -144,7 +144,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <span className="inline-block bg-[#D4AF37]/30 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-6 border border-[#D4AF37]/40 backdrop-blur-sm drop-shadow-lg">
+          <span className="inline-block bg-[#D4AF37]/40 text-[#D4AF37] text-base font-bold px-6 py-2 rounded-full mb-8 border-2 border-[#D4AF37]/60 backdrop-blur-md drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)] tracking-wide uppercase">
             {badgeText}
           </span>
         </motion.div>
@@ -153,10 +153,10 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+          className="font-heading font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 leading-[1.05] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)]"
         >
           {heading}{' '}
-          <span className="text-[#D4AF37]">{headingHighlight}</span>
+          <span className="text-[#D4AF37] drop-shadow-[0_0_30px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
           <br />
           {headingLine2}
         </motion.h1>
@@ -165,7 +165,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
+          className="text-white text-xl md:text-2xl max-w-3xl mx-auto mb-12 leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
         >
           {subheading}
         </motion.p>
@@ -179,7 +179,7 @@ export default function HeroSection() {
           <Button
             onClick={() => navigateTo('about')}
             size="lg"
-            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg shadow-lg"
+            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-bold px-10 py-7 text-xl shadow-xl shadow-[#D4AF37]/30 tracking-wide"
           >
             <Heart className="h-5 w-5 mr-2" />
             {primaryButtonText}
@@ -188,7 +188,7 @@ export default function HeroSection() {
             onClick={() => navigateTo('about')}
             size="lg"
             variant="outline"
-            className="border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-8 py-6 text-lg"
+            className="border-2 border-white/50 bg-white/15 backdrop-blur-md text-white hover:bg-white/25 px-10 py-7 text-xl font-bold tracking-wide shadow-lg"
           >
             <Users className="h-5 w-5 mr-2" />
             {secondaryButtonText}
