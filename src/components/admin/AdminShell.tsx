@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
   LayoutDashboard, Users, FileText, Image, Calendar, DollarSign,
-  ClipboardList, Building, Plane, Heart, BarChart3, Settings,
+  Heart, BarChart3, Settings,
   Bell, Search, Menu, X, ChevronLeft, LogOut, User,
   MessageSquare, Camera, FileStack, Newspaper, LayoutGrid,
   ChevronDown
@@ -18,10 +18,6 @@ import {
 // Lazy-load all admin sub-pages
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const UsersPage = lazy(() => import('./pages/UsersPage'));
-const PlacementsPage = lazy(() => import('./pages/PlacementsPage'));
-const AccommodationPage = lazy(() => import('./pages/AccommodationPage'));
-const AirportPickupPage = lazy(() => import('./pages/AirportPickupPage'));
-const VolunteersPage = lazy(() => import('./pages/VolunteersPage'));
 const ReportsPage = lazy(() => import('./pages/ReportsPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const NotificationsPage = lazy(() => import('./pages/NotificationsPage'));
@@ -50,10 +46,6 @@ interface NavItem {
 const dashboardItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'users', label: 'Users', icon: Users },
-  { id: 'placements', label: 'Placements', icon: ClipboardList },
-  { id: 'accommodation', label: 'Accommodation', icon: Building },
-  { id: 'airport-pickup', label: 'Airport Pickup', icon: Plane },
-  { id: 'volunteers', label: 'Volunteers', icon: Heart },
   { id: 'reports', label: 'Reports', icon: BarChart3 },
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'profile', label: 'Profile', icon: User },
@@ -82,10 +74,6 @@ const pageTitles: Record<AdminSubPage, string> = {
   media: 'Media Library',
   events: 'Events Management',
   donations: 'Donations',
-  placements: 'Placement Applications',
-  accommodation: 'Accommodation',
-  'airport-pickup': 'Airport Pickup',
-  volunteers: 'Volunteers',
   reports: 'Reports & Analytics',
   settings: 'Settings',
   profile: 'My Profile',
@@ -130,10 +118,6 @@ export default function AdminShell() {
       <Suspense fallback={<AdminLoader />}>
         {currentAdminPage === 'dashboard' && <DashboardPage />}
         {currentAdminPage === 'users' && <UsersPage />}
-        {currentAdminPage === 'placements' && <PlacementsPage />}
-        {currentAdminPage === 'accommodation' && <AccommodationPage />}
-        {currentAdminPage === 'airport-pickup' && <AirportPickupPage />}
-        {currentAdminPage === 'volunteers' && <VolunteersPage />}
         {currentAdminPage === 'reports' && <ReportsPage />}
         {currentAdminPage === 'profile' && <ProfilePage />}
         {currentAdminPage === 'notifications' && <NotificationsPage />}
