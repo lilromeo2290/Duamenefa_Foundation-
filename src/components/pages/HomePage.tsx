@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePage } from '@/context/PageContext';
 import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
@@ -24,9 +24,6 @@ import {
   Users,
   Radio,
   HandHeart,
-  ChevronLeft,
-  ChevronRight,
-  Camera,
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -96,196 +93,6 @@ const defaultTestimonials = [
   },
 ];
 
-const defaultAboutImages = [
-  { src: '/duamenafa-4.jpg', alt: 'Community peace gathering' },
-  { src: '/duamenafa-10.jpg', alt: 'Outreach program activities' },
-  { src: '/duamenafa-27.jpg', alt: 'Peacebuilding workshop' },
-  { src: '/duamenafa-176.jpg', alt: 'Community transformation project' },
-  { src: '/duamenafa-196.jpg', alt: 'Advocacy campaign rally' },
-  { src: '/duamenafa-198.jpg', alt: 'Volunteers in action' },
-  { src: '/marathon-13.jpg', alt: 'Peace marathon event' },
-];
-
-const defaultGalleryImages = [
-  { src: '/duamenafa-4.jpg', caption: 'Community leaders united for peace' },
-  { src: '/duamenafa-10.jpg', caption: 'Duamenefa outreach in rural communities' },
-  { src: '/duamenafa-27.jpg', caption: 'Peace and reconciliation dialogue' },
-  { src: '/duamenafa-176.jpg', caption: 'Transforming lives through advocacy' },
-  { src: '/duamenafa-196.jpg', caption: 'Campaign for human rights and dignity' },
-  { src: '/duamenafa-198.jpg', caption: 'Our dedicated volunteers at work' },
-  { src: '/marathon-13.jpg', caption: 'Annual peace marathon for unity' },
-];
-
-function AboutImageSlider({ images }: { images: { src: string; alt: string }[] }) {
-  const [current, setCurrent] = useState(0);
-  const sliderImages = images.length > 0 ? images : defaultAboutImages;
-
-  const next = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % sliderImages.length);
-  }, [sliderImages.length]);
-
-  const prev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
-  }, [sliderImages.length]);
-
-  useEffect(() => {
-    const interval = setInterval(next, 4000);
-    return () => clearInterval(interval);
-  }, [next]);
-
-  return (
-    <div className="relative rounded-2xl overflow-hidden shadow-xl group">
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={current}
-          src={sliderImages[current].src}
-          alt={sliderImages[current].alt}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="w-full h-80 md:h-96 object-cover brightness-110"
-        />
-      </AnimatePresence>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B3C5D]/30 to-transparent" />
-      <div className="absolute bottom-6 left-6 right-6 text-white">
-        <p className="font-heading font-semibold text-lg drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
-          Over 47,758 Lives Impacted
-        </p>
-        <p className="text-white/90 text-sm drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-          Across Ghana and West Africa
-        </p>
-      </div>
-      <button
-        onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-        aria-label="Previous image"
-      >
-        <ChevronLeft className="h-4 w-4 text-white" />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-        aria-label="Next image"
-      >
-        <ChevronRight className="h-4 w-4 text-white" />
-      </button>
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-        {sliderImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`rounded-full transition-all duration-300 ${
-              current === index
-                ? 'w-6 h-2 bg-[#D4AF37]'
-                : 'w-2 h-2 bg-white/50 hover:bg-white/70'
-            }`}
-            aria-label={`Go to image ${index + 1}`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function GallerySlider({ images }: { images: { src: string; caption: string }[] }) {
-  const [current, setCurrent] = useState(0);
-  const galleryImages = images.length > 0 ? images : defaultGalleryImages;
-  const itemsPerView = 3;
-  const maxIndex = Math.max(0, galleryImages.length - itemsPerView);
-
-  const next = useCallback(() => {
-    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, [maxIndex]);
-
-  const prev = useCallback(() => {
-    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  }, [maxIndex]);
-
-  useEffect(() => {
-    const interval = setInterval(next, 5000);
-    return () => clearInterval(interval);
-  }, [next]);
-
-  return (
-    <div className="relative">
-      <div className="overflow-hidden rounded-2xl">
-        <motion.div
-          className="flex gap-4"
-          animate={{ x: `-${current * (100 / itemsPerView + 1.2)}%` }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
-        >
-          {galleryImages.map((image, index) => (
-            <div
-              key={image.src + index}
-              className="flex-shrink-0"
-              style={{ width: `calc(${100 / itemsPerView}% - 12px)` }}
-            >
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
-                <img
-                  src={image.src}
-                  alt={image.caption}
-                  className="w-full h-full object-cover brightness-105 group-hover:scale-110 group-hover:brightness-110 transition-all duration-700"
-                />
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-
-      <div className="flex items-center justify-between mt-6">
-        <div className="flex items-center gap-2">
-          {galleryImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrent(Math.min(index, maxIndex))}
-              className={`rounded-full transition-all duration-300 ${
-                current === index
-                  ? 'w-6 h-2.5 bg-[#D4AF37]'
-                  : 'w-2.5 h-2.5 bg-[#0B3C5D]/20 hover:bg-[#0B3C5D]/40'
-              }`}
-              aria-label={`Go to gallery image ${index + 1}`}
-            />
-          ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={prev}
-            className="w-10 h-10 rounded-full border-2 border-[#0B3C5D]/20 hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 flex items-center justify-center transition-all"
-            aria-label="Previous gallery images"
-          >
-            <ChevronLeft className="h-5 w-5 text-[#0B3C5D]" />
-          </button>
-          <button
-            onClick={next}
-            className="w-10 h-10 rounded-full border-2 border-[#0B3C5D]/20 hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 flex items-center justify-center transition-all"
-            aria-label="Next gallery images"
-          >
-            <ChevronRight className="h-5 w-5 text-[#0B3C5D]" />
-          </button>
-        </div>
-      </div>
-
-      <div className="md:hidden mt-4">
-        <div className="flex gap-2 justify-center">
-          {galleryImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrent(index)}
-              className={`rounded-full transition-all duration-300 ${
-                current === index
-                  ? 'w-6 h-2 bg-[#D4AF37]'
-                  : 'w-2 h-2 bg-[#0B3C5D]/20'
-              }`}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
@@ -295,7 +102,7 @@ const fadeInUp = {
 
 export default function HomePage() {
   const { navigateTo } = usePage();
-  const { causes, testimonials, gallery } = useCMS();
+  const { causes, testimonials } = useCMS();
 
   const displayCauses = causes?.length > 0
     ? causes.map((c) => ({
@@ -310,10 +117,6 @@ export default function HomePage() {
   const displayTestimonials = testimonials?.length > 0
     ? testimonials.map((t) => ({ quote: t.quote, name: t.name, role: t.role, initials: t.initials, avatar: t.avatar || '' }))
     : defaultTestimonials;
-
-  const displayGallery = gallery?.length > 0
-    ? gallery.map((g) => ({ src: g.src, caption: g.caption }))
-    : defaultGalleryImages;
 
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [newsLoading, setNewsLoading] = useState(true);
@@ -445,26 +248,6 @@ export default function HomePage() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Photo Gallery Slider */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="text-center mb-12" {...fadeInUp}>
-            <span className="inline-block bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-              <Camera className="h-4 w-4 inline mr-1" />
-              Gallery
-            </span>
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-[#0B3C5D] mb-4">
-              Moments of <span className="text-[#D4AF37]">Impact</span>
-            </h2>
-            <p className="text-[#6B4F3A] max-w-2xl mx-auto">
-              glimpses from our peacebuilding, advocacy, and community transformation programs across Ghana.
-            </p>
-          </motion.div>
-
-          <GallerySlider images={displayGallery} />
         </div>
       </section>
 

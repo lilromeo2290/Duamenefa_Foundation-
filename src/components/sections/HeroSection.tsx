@@ -1,26 +1,15 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React from 'react';
 import { usePage } from '@/context/PageContext';
 import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
-import { Heart, Users, Play, ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   const { navigateTo } = usePage();
   const { hero } = useCMS();
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const sliderImages = hero?.sliderImages?.length ? hero.sliderImages : [
-    { src: '/duamenafa-4.jpg', alt: 'Duamenefa Foundation community gathering for peace' },
-    { src: '/duamenafa-10.jpg', alt: 'Duamenefa Foundation outreach program' },
-    { src: '/duamenafa-27.jpg', alt: 'Duamenefa Foundation peacebuilding initiative' },
-    { src: '/duamenafa-176.jpg', alt: 'Duamenefa Foundation community transformation' },
-    { src: '/duamenafa-196.jpg', alt: 'Duamenefa Foundation advocacy campaign' },
-    { src: '/duamenafa-198.jpg', alt: 'Duamenefa Foundation volunteers in action' },
-    { src: '/marathon-13.jpg', alt: 'Duamenefa Foundation marathon for peace' },
-  ];
 
   const badgeText = hero?.badgeText || '★ Promoting Peace & Human Dignity Since Inception';
   const heading = hero?.heading || 'LET US';
@@ -30,73 +19,15 @@ export default function HeroSection() {
   const primaryButtonText = hero?.primaryButtonText || 'Learn About Us';
   const secondaryButtonText = hero?.secondaryButtonText || 'Our Operations';
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
-  }, [sliderImages.length]);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
-  }, [sliderImages.length]);
-
-  // Auto-advance slider every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, [nextSlide]);
-
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background Image Slider */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: 'easeInOut' }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-110"
-          style={{ backgroundImage: `url('${sliderImages[currentSlide]?.src || '/duamenafa-4.jpg'}')` }}
-        />
-      </AnimatePresence>
-
-      {/* Overlay - lighter for brighter images */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0B3C5D]/65 via-[#0B3C5D]/40 to-[#0B3C5D]/25" />
-
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0B3C5D]">
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-[#D4AF37]/10 blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-[#D4AF37]/10 blur-3xl" />
+      <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-[#D4AF37]/10 blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-[#D4AF37]/8 blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#4C9A2A]/5 blur-3xl" />
 
-      {/* Slider Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 flex items-center justify-center transition-all duration-300 group"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="h-6 w-6 text-white group-hover:text-[#D4AF37] transition-colors drop-shadow-lg" />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 flex items-center justify-center transition-all duration-300 group"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="h-6 w-6 text-white group-hover:text-[#D4AF37] transition-colors drop-shadow-lg" />
-      </button>
-
-      {/* Slider Dots */}
-      <div className="absolute bottom-24 md:bottom-28 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-        {sliderImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`transition-all duration-300 rounded-full ${
-              currentSlide === index
-                ? 'w-8 h-2.5 bg-[#D4AF37]'
-                : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/60'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
