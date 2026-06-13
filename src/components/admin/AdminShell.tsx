@@ -12,7 +12,8 @@ import {
   Heart, BarChart3, Settings,
   Bell, Search, Menu, X, ChevronLeft, LogOut, User,
   MessageSquare, Camera, FileStack, Newspaper, LayoutGrid,
-  ChevronDown
+  ChevronDown, ShieldCheck, Globe, SlidersHorizontal, TrendingUp,
+  Info, HandHeart, PenSquare, FolderOpen
 } from 'lucide-react';
 
 // Lazy-load all admin sub-pages
@@ -43,33 +44,89 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-const dashboardItems: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'users', label: 'Users', icon: Users },
-  { id: 'reports', label: 'Reports', icon: BarChart3 },
-  { id: 'notifications', label: 'Notifications', icon: Bell },
-  { id: 'profile', label: 'Profile', icon: User },
+interface NavGroup {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+  items: NavItem[];
+}
+
+const navGroups: NavGroup[] = [
+  {
+    id: 'overview',
+    label: 'Overview',
+    icon: LayoutDashboard,
+    items: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    ],
+  },
+  {
+    id: 'account',
+    label: 'Account & Access',
+    icon: ShieldCheck,
+    items: [
+      { id: 'users', label: 'Super Admin', icon: ShieldCheck },
+      { id: 'profile', label: 'My Profile', icon: User },
+      { id: 'notifications', label: 'Notifications', icon: Bell },
+    ],
+  },
+  {
+    id: 'website',
+    label: 'Website Settings',
+    icon: Globe,
+    items: [
+      { id: 'cms-site', label: 'Site Settings', icon: Settings },
+      { id: 'cms-hero', label: 'Hero & Slider', icon: SlidersHorizontal },
+      { id: 'cms-stats', label: 'Statistics Counter', icon: TrendingUp },
+      { id: 'cms-about', label: 'About Section', icon: Info },
+    ],
+  },
+  {
+    id: 'programs-causes',
+    label: 'Programs & Causes',
+    icon: HandHeart,
+    items: [
+      { id: 'cms-causes', label: 'Causes', icon: Heart },
+      { id: 'cms-programs', label: 'Programs', icon: LayoutGrid },
+      { id: 'cms-events', label: 'Events', icon: Calendar },
+    ],
+  },
+  {
+    id: 'people',
+    label: 'People & Stories',
+    icon: Users,
+    items: [
+      { id: 'cms-team', label: 'Team Members', icon: Users },
+      { id: 'cms-testimonials', label: 'Testimonials', icon: MessageSquare },
+    ],
+  },
+  {
+    id: 'media-content',
+    label: 'Media & Content',
+    icon: Camera,
+    items: [
+      { id: 'cms-news', label: 'News & Blog', icon: Newspaper },
+      { id: 'cms-gallery', label: 'Photo Gallery', icon: Camera },
+      { id: 'cms-pages', label: 'Page Content', icon: PenSquare },
+    ],
+  },
+  {
+    id: 'finance',
+    label: 'Finance & Reports',
+    icon: DollarSign,
+    items: [
+      { id: 'cms-donations', label: 'Donations', icon: DollarSign },
+      { id: 'reports', label: 'Reports & Analytics', icon: BarChart3 },
+    ],
+  },
 ];
 
-const cmsItems: NavItem[] = [
-  { id: 'cms-site', label: 'Site Settings', icon: Settings },
-  { id: 'cms-hero', label: 'Hero Section', icon: Image },
-  { id: 'cms-stats', label: 'Stats Counter', icon: BarChart3 },
-  { id: 'cms-about', label: 'About Section', icon: FileText },
-  { id: 'cms-causes', label: 'Causes', icon: Heart },
-  { id: 'cms-testimonials', label: 'Testimonials', icon: MessageSquare },
-  { id: 'cms-team', label: 'Team Members', icon: Users },
-  { id: 'cms-events', label: 'Events', icon: Calendar },
-  { id: 'cms-news', label: 'News / Blog', icon: Newspaper },
-  { id: 'cms-programs', label: 'Programs', icon: LayoutGrid },
-  { id: 'cms-donations', label: 'Donations', icon: DollarSign },
-  { id: 'cms-gallery', label: 'Gallery', icon: Camera },
-  { id: 'cms-pages', label: 'Pages', icon: FileStack },
-];
+// Build a flat set of all nav item IDs for quick lookup
+const allNavIds = new Set(navGroups.flatMap((g) => g.items.map((i) => i.id)));
 
 const pageTitles: Record<AdminSubPage, string> = {
   dashboard: 'Dashboard',
-  users: 'User Management',
+  users: 'Super Admin',
   content: 'Content Management',
   media: 'Media Library',
   events: 'Events Management',
@@ -78,19 +135,19 @@ const pageTitles: Record<AdminSubPage, string> = {
   settings: 'Settings',
   profile: 'My Profile',
   notifications: 'Notifications',
-  'cms-site': 'CMS — Site Settings',
-  'cms-hero': 'CMS — Hero Section',
-  'cms-stats': 'CMS — Stats Counter',
-  'cms-about': 'CMS — About Section',
-  'cms-causes': 'CMS — Causes',
-  'cms-testimonials': 'CMS — Testimonials',
-  'cms-team': 'CMS — Team Members',
-  'cms-events': 'CMS — Events',
-  'cms-news': 'CMS — News / Blog',
-  'cms-programs': 'CMS — Programs',
-  'cms-donations': 'CMS — Donations',
-  'cms-gallery': 'CMS — Gallery',
-  'cms-pages': 'CMS — Pages',
+  'cms-site': 'Site Settings',
+  'cms-hero': 'Hero & Slider',
+  'cms-stats': 'Statistics Counter',
+  'cms-about': 'About Section',
+  'cms-causes': 'Causes',
+  'cms-testimonials': 'Testimonials',
+  'cms-team': 'Team Members',
+  'cms-events': 'Events',
+  'cms-news': 'News & Blog',
+  'cms-programs': 'Programs',
+  'cms-donations': 'Donations',
+  'cms-gallery': 'Photo Gallery',
+  'cms-pages': 'Page Content',
 };
 
 function AdminLoader() {
@@ -101,17 +158,29 @@ function AdminLoader() {
   );
 }
 
-const cmsPageIds = new Set(cmsItems.map((i) => i.id));
-
 export default function AdminShell() {
   const { currentAdminPage, navigateAdmin } = useAdmin();
   const { navigateTo } = usePage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [cmsExpanded, setCmsExpanded] = useState(true);
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
+    // Start with all groups expanded
+    const initial: Record<string, boolean> = {};
+    navGroups.forEach((g) => {
+      initial[g.id] = true;
+    });
+    return initial;
+  });
 
-  const isCmsActive = cmsPageIds.has(currentAdminPage);
+  const toggleGroup = (groupId: string) => {
+    setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
+
+  // Find which group is currently active
+  const activeGroup = navGroups.find((g) =>
+    g.items.some((i) => i.id === currentAdminPage)
+  );
 
   const renderPage = () => {
     return (
@@ -139,7 +208,7 @@ export default function AdminShell() {
     );
   };
 
-  const sidebarWidth = sidebarCollapsed ? 'lg:w-20' : 'lg:w-64';
+  const sidebarWidth = sidebarCollapsed ? 'lg:w-20' : 'lg:w-72';
 
   return (
     <div className="h-screen flex overflow-hidden bg-[#F5F5F5]">
@@ -154,7 +223,7 @@ export default function AdminShell() {
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 bg-[#8E0000] text-white transform transition-all duration-300 lg:relative lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'
+          sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:translate-x-0'
         } ${sidebarWidth}`}
       >
         {/* Logo Area */}
@@ -185,73 +254,62 @@ export default function AdminShell() {
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-          {/* Dashboard Group */}
-          {!sidebarCollapsed && (
-            <p className="text-[10px] text-white/40 uppercase tracking-wider font-semibold px-3 mb-2">Dashboard</p>
-          )}
-          {dashboardItems.map((item) => {
-            const isActive = currentAdminPage === item.id;
-            const Icon = item.icon;
+        <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
+          {navGroups.map((group) => {
+            const isGroupActive = group.id === activeGroup?.id;
+            const isExpanded = expandedGroups[group.id] ?? true;
+            const GroupIcon = group.icon;
+
             return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  navigateAdmin(item.id);
-                  setSidebarOpen(false);
-                }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                  isActive
-                    ? 'bg-[#C62828] text-white shadow-md'
-                    : 'text-white/70 hover:bg-white/10 hover:text-white'
-                } ${sidebarCollapsed ? 'justify-center' : ''}`}
-                title={sidebarCollapsed ? item.label : undefined}
-              >
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                {!sidebarCollapsed && <span>{item.label}</span>}
-              </button>
-            );
-          })}
+              <div key={group.id} className="mb-1">
+                {/* Group Header */}
+                {!sidebarCollapsed ? (
+                  <button
+                    onClick={() => toggleGroup(group.id)}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-[11px] uppercase tracking-wider font-bold transition-colors ${
+                      isGroupActive
+                        ? 'text-white bg-white/10'
+                        : 'text-white/50 hover:text-white/70 hover:bg-white/5'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <GroupIcon className="w-3.5 h-3.5" />
+                      <span>{group.label}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                ) : (
+                  <div className="my-2 border-t border-white/10" />
+                )}
 
-          {/* CMS Group */}
-          {!sidebarCollapsed && (
-            <div className="mt-4">
-              <button
-                onClick={() => setCmsExpanded(!cmsExpanded)}
-                className="w-full flex items-center justify-between px-3 py-2 text-[10px] text-white/40 uppercase tracking-wider font-semibold hover:text-white/60 transition-colors"
-              >
-                <span>Content Management</span>
-                <ChevronDown className={`w-3 h-3 transition-transform ${cmsExpanded ? 'rotate-180' : ''}`} />
-              </button>
-            </div>
-          )}
-
-          {sidebarCollapsed && (
-            <div className="my-3 border-t border-white/10" />
-          )}
-
-          {(cmsExpanded || sidebarCollapsed) && cmsItems.map((item) => {
-            const isActive = currentAdminPage === item.id;
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  navigateAdmin(item.id);
-                  setSidebarOpen(false);
-                }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                  isActive
-                    ? 'bg-[#C62828] text-white shadow-md'
-                    : isCmsActive
-                    ? 'text-white/80 hover:bg-white/10 hover:text-white'
-                    : 'text-white/50 hover:bg-white/10 hover:text-white'
-                } ${sidebarCollapsed ? 'justify-center' : 'pl-6'}`}
-                title={sidebarCollapsed ? item.label : undefined}
-              >
-                <Icon className="w-4 h-4 flex-shrink-0" />
-                {!sidebarCollapsed && <span className="text-[13px]">{item.label}</span>}
-              </button>
+                {/* Group Items */}
+                {isExpanded && group.items.map((item) => {
+                  const isActive = currentAdminPage === item.id;
+                  const ItemIcon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        navigateAdmin(item.id);
+                        setSidebarOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        isActive
+                          ? 'bg-[#C62828] text-white shadow-md'
+                          : isGroupActive
+                          ? 'text-white/80 hover:bg-white/10 hover:text-white'
+                          : 'text-white/60 hover:bg-white/10 hover:text-white'
+                      } ${sidebarCollapsed ? 'justify-center' : 'ml-1 pl-5'}`}
+                      title={sidebarCollapsed ? item.label : undefined}
+                    >
+                      <ItemIcon className="w-4 h-4 flex-shrink-0" />
+                      {!sidebarCollapsed && <span className="text-[13px]">{item.label}</span>}
+                    </button>
+                  );
+                })}
+              </div>
             );
           })}
         </nav>
@@ -263,7 +321,7 @@ export default function AdminShell() {
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 text-sm transition-colors"
           >
             <ChevronLeft className={`w-4 h-4 transition-transform ${sidebarCollapsed ? 'rotate-180' : ''}`} />
-            {!sidebarCollapsed && <span>Collapse</span>}
+            {!sidebarCollapsed && <span>Collapse Sidebar</span>}
           </button>
         </div>
       </aside>
