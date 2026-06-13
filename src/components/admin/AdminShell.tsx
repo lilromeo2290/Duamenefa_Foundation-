@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense, lazy } from 'react';
 import { useAdmin, AdminSubPage } from './AdminContext';
+import { useAdminAuth } from './AdminAuthContext';
 import { usePage } from '@/context/PageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -160,6 +161,7 @@ function AdminLoader() {
 
 export default function AdminShell() {
   const { currentAdminPage, navigateAdmin } = useAdmin();
+  const { logout } = useAdminAuth();
   const { navigateTo } = usePage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -400,8 +402,8 @@ export default function AdminShell() {
                     <div className="border-t border-gray-100 mt-1 pt-1">
                       <button
                         onClick={() => {
-                          navigateTo('home');
                           setProfileDropdownOpen(false);
+                          logout();
                         }}
                         className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                       >
