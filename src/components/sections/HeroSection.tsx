@@ -1,11 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { usePage } from '@/context/PageContext';
 import { useCMS } from '@/lib/cms-store';
 import { Button } from '@/components/ui/button';
-import { Heart, Users } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Heart, Users, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Autoplay from 'embla-carousel-autoplay';
+import useEmblaCarousel from 'embla-carousel-react';
+
+const sliderImages = [
+  {
+    src: '/slider-donations-single-parents.jpg',
+    alt: 'Donations of equipment to single parents',
+  },
+  {
+    src: '/slider-donation-keta-hospital.jpg',
+    alt: 'Donation to Keta Hospital',
+  },
+  {
+    src: '/slider-donations-childrens-village.jpg',
+    alt: 'Donations to Children\'s Village',
+  },
+  {
+    src: '/slider-donations-male-ward-keta.jpg',
+    alt: 'Donations for male ward at Keta Hospital',
+  },
+  {
+    src: '/slider-regional-tournament.jpg',
+    alt: 'Duamenefa Regional Tournament',
+  },
+  {
+    src: '/slider-award-costheta.jpg',
+    alt: 'Award at Costheta Educational Support Fund',
+  },
+];
 
 export default function HeroSection() {
   const { navigateTo } = usePage();
@@ -19,17 +48,96 @@ export default function HeroSection() {
   const primaryButtonText = hero?.primaryButtonText || 'Learn About Us';
   const secondaryButtonText = hero?.secondaryButtonText || 'Our Operations';
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 5000, stopOnInteraction: false }),
+  ]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const scrollTo = useCallback(
+    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0B3C5D]">
+      {/* Image Slider Background */}
+      <div className="absolute inset-0">
+        <div ref={emblaRef} className="h-full overflow-hidden">
+          <div className="flex h-full">
+            {sliderImages.map((image, index) => (
+              <div key={index} className="min-w-0 flex-[0_0_100%] h-full relative">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B3C5D]/70 via-[#0B3C5D]/50 to-[#0B3C5D]/80" />
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
+
+      {/* Slider Navigation Arrows */}
+      <button
+        onClick={scrollPrev}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 flex items-center justify-center"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-6 w-6" />
+      </button>
+      <button
+        onClick={scrollNext}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 flex items-center justify-center"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-6 w-6" />
+      </button>
+
+      {/* Slider Dots Indicator */}
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
+        {scrollSnaps.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => scrollTo(index)}
+            className={`transition-all duration-300 rounded-full ${
+              index === selectedIndex
+                ? 'w-8 h-3 bg-[#D4AF37]'
+                : 'w-3 h-3 bg-white/40 hover:bg-white/60'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-[#D4AF37]/10 blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-[#D4AF37]/8 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#4C9A2A]/5 blur-3xl" />
+      <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-[#D4AF37]/10 blur-3xl z-10" />
+      <div className="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-[#D4AF37]/8 blur-3xl z-10" />
 
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-
-      {/* Content */}
+      {/* Content Overlay */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -71,7 +179,7 @@ export default function HeroSection() {
           <Button
             onClick={() => navigateTo('about')}
             size="lg"
-            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg"
+            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-semibold px-8 py-6 text-lg shadow-lg"
           >
             <Heart className="h-5 w-5 mr-2" />
             {primaryButtonText}

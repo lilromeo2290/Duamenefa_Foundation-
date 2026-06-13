@@ -21,3 +21,21 @@ Stage Summary:
 - Static build serves in 4ms TTFB
 - CSS override ensures content visible before JS, fm-ready class hands control to Framer Motion after hydration
 - Page transitions still animate smoothly after first load
+---
+Task ID: slider-1
+Agent: main
+Task: Add uploaded images as hero slider/carousel on the homepage
+
+Work Log:
+- Copied 6 uploaded slider images to /public/ with URL-friendly filenames
+- Installed embla-carousel-autoplay plugin for auto-sliding functionality
+- Rewrote HeroSection.tsx to include image slider with text overlay
+- Slider features: auto-play (5s interval), loop, prev/next arrows, dot indicators
+- Dark gradient overlay ensures text readability over images
+- Build verified successfully
+
+Stage Summary:
+- 6 slider images deployed: slider-donations-single-parents.jpg, slider-donation-keta-hospital.jpg, slider-donations-childrens-village.jpg, slider-donations-male-ward-keta.jpg, slider-regional-tournament.jpg, slider-award-costheta.jpg
+- HeroSection now has full-screen image carousel with text overlay
+- Uses embla-carousel with autoplay plugin
+- Build passes successfully
