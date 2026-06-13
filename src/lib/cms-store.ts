@@ -188,13 +188,12 @@ const defaultHero: HeroData = {
   primaryButtonText: 'Learn About Us',
   secondaryButtonText: 'Our Operations',
   sliderImages: [
-    { src: '/duamenafa-4.jpg', alt: 'Duamenefa Foundation community gathering for peace' },
-    { src: '/duamenafa-10.jpg', alt: 'Duamenefa Foundation outreach program' },
-    { src: '/duamenafa-27.jpg', alt: 'Duamenefa Foundation peacebuilding initiative' },
-    { src: '/duamenafa-176.jpg', alt: 'Duamenefa Foundation community transformation' },
-    { src: '/duamenafa-196.jpg', alt: 'Duamenefa Foundation advocacy campaign' },
-    { src: '/duamenafa-198.jpg', alt: 'Duamenefa Foundation volunteers in action' },
-    { src: '/marathon-13.jpg', alt: 'Duamenefa Foundation marathon for peace' },
+    { src: '/slider-donations-single-parents.jpg', alt: 'Donations of equipment to single parents' },
+    { src: '/slider-donation-keta-hospital.jpg', alt: 'Donation to Keta Hospital' },
+    { src: '/slider-donations-childrens-village.jpg', alt: 'Donations to Children\'s Village' },
+    { src: '/slider-donations-male-ward-keta.jpg', alt: 'Donations for male ward at Keta Hospital' },
+    { src: '/slider-regional-tournament.jpg', alt: 'Duamenefa Regional Tournament' },
+    { src: '/slider-award-costheta.jpg', alt: 'Award at Costheta Educational Support Fund' },
   ],
 };
 
