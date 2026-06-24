@@ -134,44 +134,19 @@ export default function HeroSection() {
 
       {/* Content Overlay — bottom-aligned, heading on far left, subheading on far right */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-16 text-left flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
-        {/* Left side: heading + buttons */}
+        {/* Left side: heading only */}
         <div className="max-w-xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="font-heading font-black text-3xl sm:text-4xl md:text-5xl text-white mb-6 leading-[1.05] tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+            className="font-heading font-black text-3xl sm:text-4xl md:text-5xl text-white leading-[1.05] tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
           >
             {heading}{' '}
             <span className="text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
             <br />
             {headingLine2}
           </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.65 }}
-            className="flex flex-wrap items-center gap-3"
-          >
-            <Button
-              onClick={() => navigateTo('about')}
-              size="lg"
-              className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-bold px-5 py-3 text-sm shadow-xl shadow-[#D4AF37]/30 tracking-wide"
-            >
-              <Heart className="h-4 w-4 mr-2" />
-              {primaryButtonText}
-            </Button>
-            <Button
-              onClick={() => navigateTo('about')}
-              size="lg"
-              variant="outline"
-              className="border-2 border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-5 py-3 text-sm font-bold tracking-wide"
-            >
-              <Users className="h-4 w-4 mr-2" />
-              {secondaryButtonText}
-            </Button>
-          </motion.div>
         </div>
 
         {/* Right side: subheading anchored to far right */}
