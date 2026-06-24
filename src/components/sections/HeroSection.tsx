@@ -96,9 +96,9 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Dark overlay for text readability — heavier for bolder text pop */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B3C5D]/75 via-black/45 to-[#0B3C5D]/85" />
-        <div className="absolute inset-0 bg-black/35" />
+        {/* Dark overlay for text readability — lighter so images show more clearly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B3C5D]/55 via-black/25 to-[#0B3C5D]/65" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Slider Navigation Arrows */}
@@ -144,7 +144,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <span className="inline-block bg-[#D4AF37]/40 text-[#D4AF37] text-base font-bold px-6 py-2 rounded-full mb-8 border-2 border-[#D4AF37]/60 backdrop-blur-md drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)] tracking-wide uppercase">
+          <span className="inline-block bg-[#D4AF37]/40 text-[#D4AF37] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-5 border-2 border-[#D4AF37]/60 backdrop-blur-md drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)] tracking-wide uppercase">
             {badgeText}
           </span>
         </motion.div>
@@ -153,7 +153,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-heading font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 leading-[1.05] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)]"
+          className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-5 leading-[1.05] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]"
         >
           {heading}{' '}
           <span className="text-[#D4AF37] drop-shadow-[0_0_30px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
@@ -165,7 +165,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-white text-xl md:text-2xl max-w-3xl mx-auto mb-12 leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
+          className="text-white text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
         >
           {subheading}
         </motion.p>
@@ -179,18 +179,18 @@ export default function HeroSection() {
           <Button
             onClick={() => navigateTo('about')}
             size="lg"
-            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-bold px-10 py-7 text-xl shadow-xl shadow-[#D4AF37]/30 tracking-wide"
+            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-bold px-7 py-5 text-base shadow-xl shadow-[#D4AF37]/30 tracking-wide"
           >
-            <Heart className="h-5 w-5 mr-2" />
+            <Heart className="h-4 w-4 mr-2" />
             {primaryButtonText}
           </Button>
           <Button
             onClick={() => navigateTo('about')}
             size="lg"
             variant="outline"
-            className="border-2 border-white/50 bg-white/15 backdrop-blur-md text-white hover:bg-white/25 px-10 py-7 text-xl font-bold tracking-wide shadow-lg"
+            className="border-2 border-white/50 bg-white/15 backdrop-blur-md text-white hover:bg-white/25 px-7 py-5 text-base font-bold tracking-wide shadow-lg"
           >
-            <Users className="h-5 w-5 mr-2" />
+            <Users className="h-4 w-4 mr-2" />
             {secondaryButtonText}
           </Button>
         </motion.div>
