@@ -79,7 +79,7 @@ export default function HeroSection() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="relative min-h-[90vh] flex items-end justify-start overflow-hidden bg-[#0B3C5D]">
+    <section className="relative mt-16 md:mt-28 min-h-[calc(90vh-4rem)] md:min-h-[calc(90vh-7rem)] flex items-end justify-start overflow-hidden bg-[#0B3C5D]">
       {/* Image Slider Background */}
       <div className="absolute inset-0">
         <div ref={emblaRef} className="h-full overflow-hidden">
