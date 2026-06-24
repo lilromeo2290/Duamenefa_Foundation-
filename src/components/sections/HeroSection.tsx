@@ -79,7 +79,7 @@ export default function HeroSection() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0B3C5D]">
+    <section className="relative min-h-[90vh] flex items-end justify-start overflow-hidden bg-[#0B3C5D]">
       {/* Image Slider Background */}
       <div className="absolute inset-0">
         <div ref={emblaRef} className="h-full overflow-hidden">
@@ -96,9 +96,8 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Dark overlay for text readability — lighter so images show more clearly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B3C5D]/55 via-black/25 to-[#0B3C5D]/65" />
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Subtle bottom-only gradient for text legibility — images stay clearly visible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
       </div>
 
       {/* Slider Navigation Arrows */}
@@ -118,68 +117,64 @@ export default function HeroSection() {
       </button>
 
       {/* Slider Dots Indicator */}
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
         {scrollSnaps.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollTo(index)}
             className={`transition-all duration-300 rounded-full ${
               index === selectedIndex
-                ? 'w-10 h-4 bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/40'
-                : 'w-4 h-4 bg-white/40 hover:bg-white/70'
+                ? 'w-8 h-3 bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/40'
+                : 'w-3 h-3 bg-white/50 hover:bg-white/80'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-[#D4AF37]/10 blur-3xl z-10" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-[#D4AF37]/8 blur-3xl z-10" />
-
-      {/* Content Overlay */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* Content Overlay — bottom-left aligned, minimal footprint so images dominate */}
+      <div className="relative z-10 w-full max-w-3xl px-6 sm:px-10 lg:px-16 pb-16 text-left">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <span className="inline-block bg-[#D4AF37]/40 text-[#D4AF37] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-5 border-2 border-[#D4AF37]/60 backdrop-blur-md drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)] tracking-wide uppercase">
+          <span className="inline-block bg-[#D4AF37]/30 text-[#D4AF37] text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full mb-3 border border-[#D4AF37]/50 backdrop-blur-sm tracking-wide uppercase">
             {badgeText}
           </span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-5 leading-[1.05] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]"
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="font-heading font-black text-2xl sm:text-3xl md:text-4xl text-white mb-3 leading-[1.05] tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
         >
           {heading}{' '}
-          <span className="text-[#D4AF37] drop-shadow-[0_0_30px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
+          <span className="text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
           <br />
           {headingLine2}
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-white text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="hidden sm:block text-white/90 text-sm md:text-base max-w-xl mb-5 leading-relaxed font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
         >
           {subheading}
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          transition={{ duration: 0.6, delay: 0.65 }}
+          className="flex flex-wrap items-center gap-3"
         >
           <Button
             onClick={() => navigateTo('about')}
             size="lg"
-            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-bold px-7 py-5 text-base shadow-xl shadow-[#D4AF37]/30 tracking-wide"
+            className="bg-[#D4AF37] hover:bg-[#c9a22e] text-[#0B3C5D] font-bold px-5 py-3 text-sm shadow-xl shadow-[#D4AF37]/30 tracking-wide"
           >
             <Heart className="h-4 w-4 mr-2" />
             {primaryButtonText}
@@ -188,27 +183,11 @@ export default function HeroSection() {
             onClick={() => navigateTo('about')}
             size="lg"
             variant="outline"
-            className="border-2 border-white/50 bg-white/15 backdrop-blur-md text-white hover:bg-white/25 px-7 py-5 text-base font-bold tracking-wide shadow-lg"
+            className="border-2 border-white/40 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-5 py-3 text-sm font-bold tracking-wide"
           >
             <Users className="h-4 w-4 mr-2" />
             {secondaryButtonText}
           </Button>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-1">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: 'loop' }}
-              className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"
-            />
-          </div>
         </motion.div>
       </div>
     </section>
