@@ -36,7 +36,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Duamenefa Foundation" }],
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
   },
   openGraph: {
     title: "Duamenefa Foundation - Let Us Co-Exist in Peace",
