@@ -134,16 +134,6 @@ export default function HeroSection() {
 
       {/* Content Overlay — bottom-left aligned, minimal footprint so images dominate */}
       <div className="relative z-10 w-full max-w-3xl px-6 sm:px-10 lg:px-16 pb-16 text-left">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <span className="inline-block bg-[#D4AF37]/30 text-[#D4AF37] text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full mb-3 border border-[#D4AF37]/50 backdrop-blur-sm tracking-wide uppercase">
-            {badgeText}
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
