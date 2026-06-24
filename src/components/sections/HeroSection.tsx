@@ -133,33 +133,35 @@ export default function HeroSection() {
       </div>
 
       {/* Content Overlay — bottom-left aligned, minimal footprint so images dominate */}
-      <div className="relative z-10 w-full max-w-3xl px-6 sm:px-10 lg:px-16 pb-16 text-left">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="font-heading font-black text-2xl sm:text-3xl md:text-4xl text-white mb-3 leading-[1.05] tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
-        >
-          {heading}{' '}
-          <span className="text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
-          <br />
-          {headingLine2}
-        </motion.h1>
+      <div className="relative z-10 w-full max-w-5xl px-6 sm:px-10 lg:px-16 pb-16 text-left">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:gap-8 lg:gap-12">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="font-heading font-black text-3xl sm:text-4xl md:text-5xl text-white leading-[1.05] tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] sm:shrink-0"
+          >
+            {heading}{' '}
+            <span className="text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]">{headingHighlight}</span>
+            <br />
+            {headingLine2}
+          </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="hidden sm:block text-white/90 text-sm md:text-base max-w-xl mb-5 leading-relaxed font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
-        >
-          {subheading}
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-white/90 text-sm md:text-base max-w-md sm:mb-2 mt-4 sm:mt-0 leading-relaxed font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:border-l sm:border-white/30 sm:pl-6 lg:pl-8"
+          >
+            {subheading}
+          </motion.p>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65 }}
-          className="flex flex-wrap items-center gap-3"
+          className="flex flex-wrap items-center gap-3 mt-6"
         >
           <Button
             onClick={() => navigateTo('about')}
